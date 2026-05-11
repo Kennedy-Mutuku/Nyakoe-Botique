@@ -15,6 +15,7 @@ import {
 
 const InventoryPage = () => {
   const [showModal, setShowModal] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
 
   const inventory = [
     { id: 'PRD-001', name: 'Cotton Summer Dress', category: 'Dresses', buying: 1500, selling: 2500, stock: 15, supplier: 'Global Textiles' },
@@ -35,7 +36,10 @@ const InventoryPage = () => {
             <p className="text-slate-500 font-medium mt-1">Manage stock, prices, and suppliers professionally.</p>
           </div>
           <div className="flex gap-4">
-            <button className="px-5 py-3 bg-white border border-slate-200 text-slate-600 rounded-2xl font-bold flex items-center gap-2 hover:bg-slate-50 transition-all shadow-sm">
+            <button 
+              onClick={() => alert('Inventory CSV Export started...')}
+              className="px-5 py-3 bg-white border border-slate-200 text-slate-600 rounded-2xl font-bold flex items-center gap-2 hover:bg-slate-50 transition-all shadow-sm"
+            >
               <Download size={20} />
               <span>Export CSV</span>
             </button>
@@ -74,6 +78,8 @@ const InventoryPage = () => {
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-500 transition-colors" size={20} />
             <input 
               type="text" 
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
               placeholder="Search products by name, ID or category..."
               className="w-full pl-12 pr-4 py-3 bg-slate-50 border border-transparent rounded-2xl focus:bg-white focus:border-blue-500 focus:ring-4 focus:ring-blue-500/5 transition-all font-medium"
             />
@@ -104,7 +110,7 @@ const InventoryPage = () => {
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-50">
-                {inventory.map((row) => (
+                {inventory.filter(p => p.name.toLowerCase().includes(searchTerm.toLowerCase()) || p.id.toLowerCase().includes(searchTerm.toLowerCase())).map((row) => (
                   <tr key={row.id} className="hover:bg-slate-50/50 transition-colors group">
                     <td className="px-8 py-6">
                       <div className="flex items-center gap-4">
@@ -193,7 +199,12 @@ const InventoryPage = () => {
               </div>
               <div className="p-8 bg-slate-50 border-t border-slate-100 flex justify-end gap-4">
                 <button onClick={() => setShowModal(false)} className="px-8 py-3 bg-white border border-slate-200 text-slate-600 rounded-2xl font-bold hover:bg-white/80 transition-all">Cancel</button>
-                <button className="px-10 py-3 premium-gradient text-white rounded-2xl font-black shadow-xl shadow-blue-500/20 hover:shadow-blue-500/40 transition-all">Save Product</button>
+                <button 
+                  onClick={() => { alert('🎉 Product Saved Successfully!'); setShowModal(false); }}
+                  className="px-10 py-3 premium-gradient text-white rounded-2xl font-black shadow-xl shadow-blue-500/20 hover:shadow-blue-500/40 transition-all"
+                >
+                  Save Product
+                </button>
               </div>
             </div>
           </div>

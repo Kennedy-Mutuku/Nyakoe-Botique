@@ -17,6 +17,7 @@ import {
 const TailoringPage = () => {
   const [showModal, setShowModal] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
+  const [activeTab, setActiveTab] = useState('All');
 
   const orders = [
     { id: 'ORD-001', customer: 'Alice Johnson', phone: '0712345678', type: 'Wedding Dress', status: 'In-Progress', dueDate: '2023-11-15', amount: 15000 },
@@ -31,6 +32,18 @@ const TailoringPage = () => {
       case 'pending': return 'bg-amber-50 text-amber-600 border-amber-100';
       default: return 'bg-slate-50 text-slate-600 border-slate-100';
     }
+  };
+
+  const filteredOrders = orders.filter(order => {
+    const matchesSearch = order.customer.toLowerCase().includes(searchTerm.toLowerCase()) || 
+                         order.id.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesTab = activeTab === 'All' || order.status === activeTab;
+    return matchesSearch && matchesTab;
+  });
+
+  const handleCreateOrder = () => {
+    alert('🎉 Tailoring Order Created Successfully!');
+    setShowModal(false);
   };
 
   return (
@@ -58,15 +71,21 @@ const TailoringPage = () => {
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-500 transition-colors" size={20} />
             <input 
               type="text" 
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
               placeholder="Search by customer name or order ID..."
               className="w-full pl-12 pr-4 py-3 bg-slate-50 border border-transparent rounded-2xl focus:bg-white focus:border-blue-500 focus:ring-4 focus:ring-blue-500/5 transition-all font-medium"
             />
           </div>
           <div className="flex gap-2">
             {['All', 'Pending', 'In-Progress', 'Ready'].map((tab) => (
-              <button key={tab} className={`px-5 py-3 rounded-2xl font-bold text-sm transition-all ${
-                tab === 'All' ? 'bg-slate-900 text-white' : 'bg-white text-slate-500 hover:bg-slate-50'
-              }`}>
+              <button 
+                key={tab} 
+                onClick={() => setActiveTab(tab)}
+                className={`px-5 py-3 rounded-2xl font-bold text-sm transition-all ${
+                  activeTab === tab ? 'bg-slate-900 text-white shadow-lg' : 'bg-white text-slate-500 hover:bg-slate-50'
+                }`}
+              >
                 {tab}
               </button>
             ))}
@@ -75,7 +94,7 @@ const TailoringPage = () => {
 
         {/* Orders Grid */}
         <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
-          {orders.map((order) => (
+          {filteredOrders.map((order) => (
             <div key={order.id} className="bg-white rounded-[2.5rem] border border-slate-100 shadow-sm hover:shadow-xl transition-all group overflow-hidden">
               <div className="p-6 border-b border-slate-50 flex justify-between items-center">
                 <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{order.id}</span>
@@ -109,7 +128,10 @@ const TailoringPage = () => {
 
                 <div className="flex justify-between items-center pt-6 border-t border-slate-50">
                   <span className="text-2xl font-black text-slate-900">KSh {order.amount.toLocaleString()}</span>
-                  <button className="p-3 bg-slate-50 text-slate-400 rounded-xl hover:bg-blue-50 hover:text-blue-600 transition-all">
+                  <button 
+                    onClick={() => alert(`Viewing details for ${order.id}`)}
+                    className="p-3 bg-slate-50 text-slate-400 rounded-xl hover:bg-blue-50 hover:text-blue-600 transition-all"
+                  >
                     <ChevronRight size={20} />
                   </button>
                 </div>
@@ -208,7 +230,10 @@ const TailoringPage = () => {
                 >
                   Cancel
                 </button>
-                <button className="px-10 py-3 premium-gradient text-white rounded-2xl font-black shadow-xl shadow-blue-500/20 hover:shadow-blue-500/40 hover:-translate-y-0.5 transition-all">
+                <button 
+                  onClick={handleCreateOrder}
+                  className="px-10 py-3 premium-gradient text-white rounded-2xl font-black shadow-xl shadow-blue-500/20 hover:shadow-blue-500/40 hover:-translate-y-0.5 transition-all"
+                >
                   Create Order
                 </button>
               </div>

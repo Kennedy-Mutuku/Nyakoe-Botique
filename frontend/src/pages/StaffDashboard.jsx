@@ -15,6 +15,7 @@ import {
 const StaffDashboard = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [cart, setCart] = useState([]);
+  const [paymentMethod, setPaymentMethod] = useState('cash');
 
   const products = [
     { id: 1, name: 'Cotton Summer Dress', price: 2500, stock: 15, category: 'Dresses' },
@@ -34,6 +35,12 @@ const StaffDashboard = () => {
   };
 
   const total = cart.reduce((sum, item) => sum + item.price, 0);
+
+  const handleCheckout = () => {
+    if (cart.length === 0) return;
+    alert(`🎉 Sale Recorded Successfully!\nTotal: KSh ${total.toLocaleString()}\nMethod: ${paymentMethod.toUpperCase()}`);
+    setCart([]);
+  };
 
   return (
     <div className="flex bg-slate-50 min-h-screen">
@@ -59,7 +66,10 @@ const StaffDashboard = () => {
                 className="w-full pl-12 pr-4 py-4 bg-white border border-slate-200 rounded-[2rem] shadow-sm focus:outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all font-medium"
               />
             </div>
-            <button className="px-6 py-4 bg-white border border-slate-200 rounded-[2rem] text-slate-600 font-bold flex items-center gap-2 hover:bg-slate-50 transition-all shadow-sm">
+            <button 
+              onClick={() => alert('Filter feature coming soon!')}
+              className="px-6 py-4 bg-white border border-slate-200 rounded-[2rem] text-slate-600 font-bold flex items-center gap-2 hover:bg-slate-50 transition-all shadow-sm"
+            >
               <Filter size={20} />
               <span>Filters</span>
             </button>
@@ -153,13 +163,28 @@ const StaffDashboard = () => {
               <div className="space-y-3">
                 <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">Payment Method</p>
                 <div className="grid grid-cols-2 gap-2">
-                  <button className="py-3 px-4 rounded-xl border-2 border-blue-500 bg-blue-50 text-blue-600 font-bold text-sm transition-all">Cash</button>
-                  <button className="py-3 px-4 rounded-xl border-2 border-slate-200 text-slate-500 font-bold text-sm hover:border-slate-300 transition-all">M-Pesa</button>
+                  <button 
+                    onClick={() => setPaymentMethod('cash')}
+                    className={`py-3 px-4 rounded-xl border-2 font-bold text-sm transition-all ${
+                      paymentMethod === 'cash' ? 'border-blue-500 bg-blue-50 text-blue-600' : 'border-slate-200 text-slate-500 hover:border-slate-300'
+                    }`}
+                  >
+                    Cash
+                  </button>
+                  <button 
+                    onClick={() => setPaymentMethod('mpesa')}
+                    className={`py-3 px-4 rounded-xl border-2 font-bold text-sm transition-all ${
+                      paymentMethod === 'mpesa' ? 'border-blue-500 bg-blue-50 text-blue-600' : 'border-slate-200 text-slate-500 hover:border-slate-300'
+                    }`}
+                  >
+                    M-Pesa
+                  </button>
                 </div>
               </div>
 
               <button 
                 disabled={cart.length === 0}
+                onClick={handleCheckout}
                 className={`w-full py-5 rounded-2xl font-black text-lg flex items-center justify-center gap-2 shadow-xl transition-all active:scale-[0.98] ${
                   cart.length > 0 
                   ? 'premium-gradient text-white shadow-blue-500/20 hover:shadow-blue-500/40' 
