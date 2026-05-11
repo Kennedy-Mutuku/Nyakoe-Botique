@@ -46,24 +46,24 @@ const StaffDashboard = () => {
     <div className="flex bg-slate-50 min-h-screen">
       <Sidebar />
       
-      <main className="flex-1 ml-0 lg:ml-72 p-4 md:p-8 pt-20 lg:pt-8 grid lg:grid-cols-3 gap-8">
+      <main className="flex-1 w-full lg:ml-72 p-3 md:p-8 pt-20 lg:pt-8 grid lg:grid-cols-3 gap-6 md:gap-8 overflow-x-hidden">
         {/* Main Recording Area */}
-        <div className="lg:col-span-2 space-y-8">
+        <div className="lg:col-span-2 space-y-6 md:space-y-8 max-w-full">
           <header>
-            <h1 className="text-3xl font-extrabold text-slate-900">New Sale Recording</h1>
-            <p className="text-slate-500 font-medium mt-1">Search products and add to cart for checkout.</p>
+            <h1 className="text-2xl md:text-3xl font-extrabold text-slate-900 leading-tight">New Sale Recording</h1>
+            <p className="text-slate-500 font-medium mt-1 text-sm md:text-base">Search products and add to cart for checkout.</p>
           </header>
 
           {/* Search & Filter */}
           <div className="flex flex-col md:flex-row gap-4">
-            <div className="relative flex-1 group">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-500 transition-colors" size={20} />
+            <div className="relative flex-1 group w-full">
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-500 transition-colors" size={18} />
               <input 
                 type="text" 
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                placeholder="Search by product name or category..."
-                className="w-full pl-12 pr-4 py-4 bg-white border border-slate-200 rounded-[2rem] shadow-sm focus:outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all font-medium"
+                placeholder="Search products..."
+                className="w-full pl-11 pr-4 py-3.5 md:py-4 bg-white border border-slate-200 rounded-[2rem] shadow-sm focus:outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all font-medium text-sm md:text-base"
               />
             </div>
             <button 
@@ -106,8 +106,8 @@ const StaffDashboard = () => {
         </div>
 
         {/* Cart & Checkout */}
-        <div className="space-y-8">
-          <div className="bg-white rounded-[2.5rem] border border-slate-100 shadow-xl overflow-hidden flex flex-col h-auto lg:h-[calc(100vh-64px)] lg:sticky lg:top-8">
+        <div className="space-y-6 md:space-y-8 max-w-full">
+          <div className="bg-white rounded-[2rem] md:rounded-[2.5rem] border border-slate-100 shadow-xl overflow-hidden flex flex-col h-auto lg:h-[calc(100vh-64px)] lg:sticky lg:top-8">
             <div className="p-8 border-b border-slate-50">
               <div className="flex items-center gap-3 mb-2">
                 <ShoppingCart className="text-blue-500" />

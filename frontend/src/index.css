@@ -20,10 +20,20 @@
 }
 
 @layer base {
+  *, ::before, ::after {
+    box-sizing: border-box;
+  }
+
   html, body, #root {
-    @apply overflow-x-hidden bg-slate-50;
+    @apply bg-slate-50;
+    width: 100%;
     max-width: 100vw;
+    overflow-x: hidden;
     position: relative;
+    margin: 0;
+    padding: 0;
+    word-break: break-word;
+    overflow-wrap: anywhere;
   }
 }
 
