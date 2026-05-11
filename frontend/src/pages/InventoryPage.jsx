@@ -14,6 +14,7 @@ import {
 } from 'lucide-react';
 
 const InventoryPage = () => {
+  const { user } = useAuth();
   const [showModal, setShowModal] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
 

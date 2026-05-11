@@ -15,6 +15,7 @@ import {
 } from 'lucide-react';
 
 const CustomersPage = () => {
+  const { user } = useAuth();
   const [showModal, setShowModal] = useState(false);
   const [selectedCustomer, setSelectedCustomer] = useState(null);
 

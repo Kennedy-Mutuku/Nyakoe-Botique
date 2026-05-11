@@ -13,8 +13,10 @@ import {
   Calendar,
   Layers
 } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
 
 const TailoringPage = () => {
+  const { user } = useAuth();
   const [showModal, setShowModal] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [activeTab, setActiveTab] = useState('All');
