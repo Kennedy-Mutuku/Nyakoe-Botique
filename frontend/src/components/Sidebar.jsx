@@ -64,7 +64,7 @@ const Sidebar = () => {
       <div className={`
         fixed left-0 top-0 h-screen bg-white border-r border-slate-100 flex flex-col z-40
         transition-all duration-300 ease-in-out
-        ${isOpen ? 'translate-x-0 w-72' : '-translate-x-full lg:translate-x-0 lg:w-72'}
+        ${isOpen ? 'translate-x-0 w-72' : '-translate-x-full lg:translate-x-0 lg:w-72 lg:visible invisible'}
       `}>
         <div className="p-8 flex items-center gap-3">
           <div className="w-10 h-10 premium-gradient rounded-xl flex items-center justify-center text-white shadow-lg">
