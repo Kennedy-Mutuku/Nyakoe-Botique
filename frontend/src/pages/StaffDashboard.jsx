@@ -43,10 +43,10 @@ const StaffDashboard = () => {
   };
 
   return (
-    <div className="flex bg-slate-50 min-h-screen">
+    <div className="bg-slate-50 min-h-screen relative overflow-x-hidden">
       <Sidebar />
       
-      <main className="flex-1 w-full lg:ml-72 p-3 md:p-8 pt-20 lg:pt-8 grid lg:grid-cols-3 gap-6 md:gap-8 overflow-x-hidden">
+      <main className="flex-1 w-full lg:pl-72 p-3 md:p-8 pt-20 lg:pt-8 grid lg:grid-cols-3 gap-6 md:gap-8 overflow-x-hidden">
         {/* Main Recording Area */}
         <div className="lg:col-span-2 space-y-6 md:space-y-8 max-w-full">
           <header>

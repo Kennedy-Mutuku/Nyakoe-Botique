@@ -38,10 +38,10 @@ const COLORS = ['#0ea5e9', '#8b5cf6', '#f59e0b', '#10b981'];
 
 const AdminDashboard = () => {
   return (
-    <div className="flex bg-slate-50 min-h-screen">
+    <div className="bg-slate-50 min-h-screen relative overflow-x-hidden">
       <Sidebar />
       
-      <main className="flex-1 ml-0 lg:ml-72 p-4 md:p-8 pt-20 lg:pt-8">
+      <main className="w-full lg:pl-72 p-4 md:p-8 pt-20 lg:pt-8">
         {/* Header */}
         <header className="flex justify-between items-center mb-10">
           <div>

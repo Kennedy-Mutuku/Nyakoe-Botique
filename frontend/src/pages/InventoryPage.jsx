@@ -28,10 +28,10 @@ const InventoryPage = () => {
   ];
 
   return (
-    <div className="flex bg-slate-50 min-h-screen">
+    <div className="bg-slate-50 min-h-screen relative overflow-x-hidden">
       <Sidebar />
       
-      <main className="flex-1 w-full lg:ml-72 p-3 md:p-8 pt-20 lg:pt-8 overflow-x-hidden">
+      <main className="w-full lg:pl-72 p-3 md:p-8 pt-20 lg:pt-8 overflow-x-hidden">
         <header className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-10">
           <div>
             <h1 className="text-2xl md:text-3xl font-extrabold text-slate-900 leading-tight">Inventory Management</h1>
