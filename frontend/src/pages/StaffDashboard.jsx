@@ -44,7 +44,7 @@ const StaffDashboard = () => {
 
   return (
     <div className="flex bg-slate-50 min-h-screen">
-      <Sidebar role="attendant" />
+      <Sidebar />
       
       <main className="flex-1 ml-72 p-8 grid lg:grid-cols-3 gap-8">
         {/* Main Recording Area */}

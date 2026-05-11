@@ -12,6 +12,7 @@ import {
   Trash2,
   Edit3
 } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
 
 const InventoryPage = () => {
   const { user } = useAuth();
@@ -28,7 +29,7 @@ const InventoryPage = () => {
 
   return (
     <div className="flex bg-slate-50 min-h-screen">
-      <Sidebar role="admin" />
+      <Sidebar />
       
       <main className="flex-1 ml-72 p-8">
         <header className="flex justify-between items-center mb-10">
@@ -44,13 +45,15 @@ const InventoryPage = () => {
               <Download size={20} />
               <span>Export CSV</span>
             </button>
-            <button 
-              onClick={() => setShowModal(true)}
-              className="px-6 py-3 premium-gradient text-white rounded-2xl font-bold flex items-center gap-2 shadow-xl hover:shadow-blue-500/20 hover:-translate-y-0.5 transition-all active:scale-95"
-            >
-              <Plus size={20} />
-              <span>Add Product</span>
-            </button>
+            {user?.role === 'admin' && (
+              <button 
+                onClick={() => setShowModal(true)}
+                className="px-6 py-3 premium-gradient text-white rounded-2xl font-bold flex items-center gap-2 shadow-xl hover:shadow-blue-500/20 hover:-translate-y-0.5 transition-all active:scale-95"
+              >
+                <Plus size={20} />
+                <span>Add Product</span>
+              </button>
+            )}
           </div>
         </header>
 
@@ -107,7 +110,7 @@ const InventoryPage = () => {
                   <th className="px-8 py-4 text-xs font-bold text-slate-400 uppercase tracking-widest">Selling Price</th>
                   <th className="px-8 py-4 text-xs font-bold text-slate-400 uppercase tracking-widest">Stock</th>
                   <th className="px-8 py-4 text-xs font-bold text-slate-400 uppercase tracking-widest">Status</th>
-                  <th className="px-8 py-4 w-20"></th>
+                  <th className="px-8 py-4 w-20 text-right"></th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-50">
@@ -142,15 +145,19 @@ const InventoryPage = () => {
                         {row.stock < 10 ? 'Low Stock' : 'In Stock'}
                       </span>
                     </td>
-                    <td className="px-8 py-6">
-                      <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                        <button className="p-2 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all">
-                          <Edit3 size={18} />
-                        </button>
-                        <button className="p-2 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-all">
-                          <Trash2 size={18} />
-                        </button>
-                      </div>
+                    <td className="px-8 py-6 text-right">
+                      {user?.role === 'admin' ? (
+                        <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity justify-end">
+                          <button className="p-2 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all">
+                            <Edit3 size={18} />
+                          </button>
+                          <button className="p-2 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-all">
+                            <Trash2 size={18} />
+                          </button>
+                        </div>
+                      ) : (
+                        <span className="text-[10px] font-bold text-slate-400 uppercase">View Only</span>
+                      )}
                     </td>
                   </tr>
                 ))}

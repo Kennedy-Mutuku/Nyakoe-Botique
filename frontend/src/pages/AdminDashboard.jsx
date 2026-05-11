@@ -39,7 +39,7 @@ const COLORS = ['#0ea5e9', '#8b5cf6', '#f59e0b', '#10b981'];
 const AdminDashboard = () => {
   return (
     <div className="flex bg-slate-50 min-h-screen">
-      <Sidebar role="admin" />
+      <Sidebar />
       
       <main className="flex-1 ml-72 p-8">
         {/* Header */}
