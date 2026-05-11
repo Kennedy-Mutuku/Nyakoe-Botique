@@ -79,8 +79,8 @@ const LandingPage = () => {
             </div>
           </div>
           
-          <div className="relative fade-in" style={{ animationDelay: '0.2s' }}>
-            <div className="absolute -inset-4 bg-gradient-to-tr from-blue-500/10 to-purple-500/10 blur-3xl rounded-full"></div>
+          <div className="relative fade-in overflow-hidden lg:overflow-visible" style={{ animationDelay: '0.2s' }}>
+            <div className="absolute -inset-4 bg-gradient-to-tr from-blue-500/10 to-purple-500/10 blur-3xl rounded-full pointer-events-none"></div>
             <div className="relative glass rounded-[2.5rem] p-8 border border-white shadow-2xl overflow-hidden aspect-[4/3] flex items-center justify-center">
               <div className="grid grid-cols-2 gap-4 w-full">
                 <div className="space-y-4">

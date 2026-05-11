@@ -20,9 +20,10 @@
 }
 
 @layer base {
-  html, body {
+  html, body, #root {
     @apply overflow-x-hidden bg-slate-50;
     max-width: 100vw;
+    position: relative;
   }
 }
 

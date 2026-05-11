@@ -33,8 +33,8 @@ const LoginPage = () => {
   return (
     <div className="min-h-screen bg-slate-50 flex items-center justify-center p-6 relative overflow-hidden">
       {/* Background Decor */}
-      <div className="absolute top-0 right-0 w-96 h-96 bg-blue-400/5 blur-3xl rounded-full -translate-y-1/2 translate-x-1/2"></div>
-      <div className="absolute bottom-0 left-0 w-96 h-96 bg-purple-400/5 blur-3xl rounded-full translate-y-1/2 -translate-x-1/2"></div>
+      <div className="absolute top-0 right-0 w-96 h-96 bg-blue-400/5 blur-3xl rounded-full -translate-y-1/2 translate-x-1/2 pointer-events-none"></div>
+      <div className="absolute bottom-0 left-0 w-96 h-96 bg-purple-400/5 blur-3xl rounded-full translate-y-1/2 -translate-x-1/2 pointer-events-none"></div>
 
       <div className="w-full max-w-md fade-in">
         <button 
