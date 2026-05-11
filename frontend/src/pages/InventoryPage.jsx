@@ -31,8 +31,8 @@ const InventoryPage = () => {
     <div className="flex bg-slate-50 min-h-screen">
       <Sidebar />
       
-      <main className="flex-1 ml-72 p-8">
-        <header className="flex justify-between items-center mb-10">
+      <main className="flex-1 ml-0 lg:ml-72 p-4 md:p-8 pt-20 lg:pt-8">
+        <header className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-10">
           <div>
             <h1 className="text-3xl font-extrabold text-slate-900">Inventory Management</h1>
             <p className="text-slate-500 font-medium mt-1">Manage stock, prices, and suppliers professionally.</p>
@@ -98,10 +98,11 @@ const InventoryPage = () => {
           </button>
         </div>
 
-        {/* Inventory Table */}
+        {/* Inventory Table (Desktop) / Cards (Mobile) */}
         <div className="bg-white rounded-[2.5rem] border border-slate-100 shadow-sm overflow-hidden">
-          <div className="overflow-x-auto">
+          <div className="hidden md:block overflow-x-auto">
             <table className="w-full text-left">
+              {/* ... table content remains ... */}
               <thead>
                 <tr className="bg-slate-50/50">
                   <th className="px-8 py-4 text-xs font-bold text-slate-400 uppercase tracking-widest">Product</th>
@@ -163,6 +164,40 @@ const InventoryPage = () => {
                 ))}
               </tbody>
             </table>
+          </div>
+
+          {/* Mobile Card List */}
+          <div className="md:hidden divide-y divide-slate-50">
+            {inventory.filter(p => p.name.toLowerCase().includes(searchTerm.toLowerCase()) || p.id.toLowerCase().includes(searchTerm.toLowerCase())).map((row) => (
+              <div key={row.id} className="p-6 space-y-4">
+                <div className="flex justify-between items-start">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center text-slate-400">
+                      <Package size={20} />
+                    </div>
+                    <div>
+                      <p className="font-bold text-slate-800 text-sm">{row.name}</p>
+                      <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{row.id}</p>
+                    </div>
+                  </div>
+                  <span className={`px-2 py-1 rounded-full text-[9px] font-black uppercase tracking-widest ${
+                    row.stock < 10 ? 'bg-rose-50 text-rose-600' : 'bg-emerald-50 text-emerald-600'
+                  }`}>
+                    {row.stock} Units
+                  </span>
+                </div>
+                <div className="flex justify-between items-center bg-slate-50 p-3 rounded-xl">
+                  <div>
+                    <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Price</p>
+                    <p className="text-sm font-black text-slate-900">KSh {row.selling.toLocaleString()}</p>
+                  </div>
+                  <div>
+                    <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Category</p>
+                    <p className="text-xs font-bold text-slate-600 uppercase">{row.category}</p>
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
 

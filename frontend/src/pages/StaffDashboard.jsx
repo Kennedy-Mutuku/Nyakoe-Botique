@@ -46,7 +46,7 @@ const StaffDashboard = () => {
     <div className="flex bg-slate-50 min-h-screen">
       <Sidebar />
       
-      <main className="flex-1 ml-72 p-8 grid lg:grid-cols-3 gap-8">
+      <main className="flex-1 ml-0 lg:ml-72 p-4 md:p-8 pt-20 lg:pt-8 grid lg:grid-cols-3 gap-8">
         {/* Main Recording Area */}
         <div className="lg:col-span-2 space-y-8">
           <header>
@@ -55,7 +55,7 @@ const StaffDashboard = () => {
           </header>
 
           {/* Search & Filter */}
-          <div className="flex gap-4">
+          <div className="flex flex-col md:flex-row gap-4">
             <div className="relative flex-1 group">
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-500 transition-colors" size={20} />
               <input 
@@ -68,7 +68,7 @@ const StaffDashboard = () => {
             </div>
             <button 
               onClick={() => alert('Filter feature coming soon!')}
-              className="px-6 py-4 bg-white border border-slate-200 rounded-[2rem] text-slate-600 font-bold flex items-center gap-2 hover:bg-slate-50 transition-all shadow-sm"
+              className="w-full md:w-auto px-6 py-4 bg-white border border-slate-200 rounded-[2rem] text-slate-600 font-bold flex items-center justify-center gap-2 hover:bg-slate-50 transition-all shadow-sm"
             >
               <Filter size={20} />
               <span>Filters</span>
@@ -107,7 +107,7 @@ const StaffDashboard = () => {
 
         {/* Cart & Checkout */}
         <div className="space-y-8">
-          <div className="bg-white rounded-[2.5rem] border border-slate-100 shadow-xl overflow-hidden flex flex-col h-[calc(100vh-64px)] sticky top-8">
+          <div className="bg-white rounded-[2.5rem] border border-slate-100 shadow-xl overflow-hidden flex flex-col h-auto lg:h-[calc(100vh-64px)] lg:sticky lg:top-8">
             <div className="p-8 border-b border-slate-50">
               <div className="flex items-center gap-3 mb-2">
                 <ShoppingCart className="text-blue-500" />

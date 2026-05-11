@@ -30,18 +30,18 @@ const ReportsPage = () => {
     <div className="flex bg-slate-50 min-h-screen">
       <Sidebar />
       
-      <main className="flex-1 ml-72 p-8">
-        <header className="flex justify-between items-center mb-10">
+      <main className="flex-1 ml-0 lg:ml-72 p-4 md:p-8 pt-20 lg:pt-8">
+        <header className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-10">
           <div>
             <h1 className="text-3xl font-extrabold text-slate-900">Professional Analytics</h1>
             <p className="text-slate-500 font-medium mt-1">Detailed insights into your business growth and performance.</p>
           </div>
-          <div className="flex gap-4">
-            <div className="flex items-center gap-2 bg-white px-4 py-2 rounded-xl border border-slate-200 text-slate-600 font-bold text-sm shadow-sm">
+          <div className="flex flex-col sm:flex-row gap-4 w-full md:w-auto">
+            <div className="flex items-center justify-center gap-2 bg-white px-4 py-2 rounded-xl border border-slate-200 text-slate-600 font-bold text-sm shadow-sm">
               <Calendar size={18} />
               <span>Year 2023</span>
             </div>
-            <button className="px-6 py-3 bg-slate-900 text-white rounded-2xl font-bold flex items-center gap-2 shadow-xl hover:bg-slate-800 transition-all">
+            <button className="px-6 py-3 bg-slate-900 text-white rounded-2xl font-bold flex items-center justify-center gap-2 shadow-xl hover:bg-slate-800 transition-all">
               <Download size={20} />
               <span>Download Report</span>
             </button>

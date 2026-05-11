@@ -41,25 +41,22 @@ const AdminDashboard = () => {
     <div className="flex bg-slate-50 min-h-screen">
       <Sidebar />
       
-      <main className="flex-1 ml-72 p-8">
+      <main className="flex-1 ml-0 lg:ml-72 p-4 md:p-8 pt-20 lg:pt-8">
         {/* Header */}
         <header className="flex justify-between items-center mb-10">
           <div>
             <h1 className="text-3xl font-extrabold text-slate-900">Admin Overview</h1>
             <p className="text-slate-500 font-medium mt-1">Monitor your business performance in real-time.</p>
           </div>
-          <div className="flex items-center gap-4">
-            <div className="relative group">
+          <div className="flex flex-col md:flex-row items-center gap-4 w-full lg:w-auto">
+            <div className="relative group w-full md:w-auto">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-500 transition-colors" size={20} />
               <input 
                 type="text" 
                 placeholder="Search analytics..."
-                className="pl-10 pr-4 py-2.5 bg-white border border-slate-200 rounded-xl focus:outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all w-64"
+                className="pl-10 pr-4 py-2.5 bg-white border border-slate-200 rounded-xl focus:outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all w-full md:w-64"
               />
             </div>
-            <button className="w-11 h-11 bg-white border border-slate-200 rounded-xl flex items-center justify-center text-slate-500 hover:text-blue-600 hover:border-blue-200 transition-all shadow-sm">
-              <Bell size={20} />
-            </button>
             <div className="w-11 h-11 premium-gradient rounded-xl flex items-center justify-center text-white shadow-lg font-bold">
               K
             </div>
@@ -171,7 +168,7 @@ const AdminDashboard = () => {
             <h3 className="text-xl font-black text-slate-900">Recent Transactions</h3>
             <button className="text-blue-600 font-bold text-sm hover:underline">View All History</button>
           </div>
-          <div className="overflow-x-auto">
+          <div className="hidden md:block overflow-x-auto">
             <table className="w-full text-left">
               <thead>
                 <tr className="bg-slate-50/50">
@@ -219,6 +216,40 @@ const AdminDashboard = () => {
                 ))}
               </tbody>
             </table>
+          </div>
+
+          {/* Mobile Card List */}
+          <div className="md:hidden divide-y divide-slate-50">
+            {[
+              { name: 'John Doe', item: 'Silk Wedding Suit', date: 'Oct 24, 2023', status: 'Completed', amount: 'KSh 12,500' },
+              { name: 'Sarah Ken', item: 'Floral Summer Dress', date: 'Oct 23, 2023', status: 'Pending', amount: 'KSh 4,200' },
+              { name: 'Mike Ross', item: 'Office Cotton Shirt', date: 'Oct 23, 2023', status: 'Completed', amount: 'KSh 2,800' },
+              { name: 'Lilian Kamau', item: 'School Uniform Set', date: 'Oct 22, 2023', status: 'Processing', amount: 'KSh 3,500' },
+            ].map((row, i) => (
+              <div key={i} className="p-6 space-y-4">
+                <div className="flex justify-between items-start">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center font-bold text-slate-600 text-sm">
+                      {row.name.charAt(0)}
+                    </div>
+                    <div>
+                      <p className="font-bold text-slate-800 text-sm">{row.name}</p>
+                      <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{row.date}</p>
+                    </div>
+                  </div>
+                  <span className={`px-2 py-1 rounded-full text-[9px] font-black uppercase tracking-widest ${
+                    row.status === 'Completed' ? 'bg-emerald-50 text-emerald-600' : 
+                    row.status === 'Pending' ? 'bg-amber-50 text-amber-600' : 'bg-blue-50 text-blue-600'
+                  }`}>
+                    {row.status}
+                  </span>
+                </div>
+                <div className="flex justify-between items-center bg-slate-50 p-3 rounded-xl">
+                  <span className="text-xs font-bold text-slate-600">{row.item}</span>
+                  <span className="text-sm font-black text-slate-900">{row.amount}</span>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </main>

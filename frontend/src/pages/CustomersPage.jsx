@@ -36,15 +36,15 @@ const CustomersPage = () => {
     <div className="flex bg-slate-50 min-h-screen">
       <Sidebar />
       
-      <main className="flex-1 ml-72 p-8">
-        <header className="flex justify-between items-center mb-10">
+      <main className="flex-1 ml-0 lg:ml-72 p-4 md:p-8 pt-20 lg:pt-8">
+        <header className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-10">
           <div>
             <h1 className="text-3xl font-extrabold text-slate-900">Customer CRM</h1>
             <p className="text-slate-500 font-medium mt-1">Manage customer profiles, history, and measurements.</p>
           </div>
           <button 
             onClick={() => setShowModal(true)}
-            className="px-6 py-3 premium-gradient text-white rounded-2xl font-bold flex items-center gap-2 shadow-xl hover:shadow-blue-500/20 hover:-translate-y-0.5 transition-all active:scale-95"
+            className="w-full md:w-auto px-6 py-3 premium-gradient text-white rounded-2xl font-bold flex items-center justify-center gap-2 shadow-xl hover:shadow-blue-500/20 hover:-translate-y-0.5 transition-all active:scale-95"
           >
             <UserPlus size={20} />
             <span>Add Customer</span>

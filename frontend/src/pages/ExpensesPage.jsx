@@ -35,15 +35,15 @@ const ExpensesPage = () => {
     <div className="flex bg-slate-50 min-h-screen">
       <Sidebar />
       
-      <main className="flex-1 ml-72 p-8">
-        <header className="flex justify-between items-center mb-10">
+      <main className="flex-1 ml-0 lg:ml-72 p-4 md:p-8 pt-20 lg:pt-8">
+        <header className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-10">
           <div>
             <h1 className="text-3xl font-extrabold text-slate-900">Expense Tracking</h1>
             <p className="text-slate-500 font-medium mt-1">Monitor business costs to calculate real profit.</p>
           </div>
           <button 
             onClick={() => setShowModal(true)}
-            className="px-6 py-3 bg-slate-900 text-white rounded-2xl font-bold flex items-center gap-2 shadow-xl hover:bg-slate-800 transition-all active:scale-95"
+            className="w-full md:w-auto px-6 py-3 bg-slate-900 text-white rounded-2xl font-bold flex items-center justify-center gap-2 shadow-xl hover:bg-slate-800 transition-all active:scale-95"
           >
             <Plus size={20} />
             <span>Record Expense</span>
@@ -87,7 +87,7 @@ const ExpensesPage = () => {
           </div>
         </div>
 
-        {/* Filters & Table */}
+        {/* Filters & Table (Desktop) / Cards (Mobile) */}
         <div className="bg-white rounded-[2.5rem] border border-slate-100 shadow-sm overflow-hidden">
           <div className="p-8 border-b border-slate-50 flex flex-col md:flex-row justify-between items-center gap-4">
             <h3 className="text-xl font-black text-slate-900">Expense History</h3>
@@ -101,7 +101,8 @@ const ExpensesPage = () => {
               </button>
             </div>
           </div>
-          <div className="overflow-x-auto">
+          
+          <div className="hidden md:block overflow-x-auto">
             <table className="w-full text-left">
               <thead>
                 <tr className="bg-slate-50/50">
@@ -147,6 +148,34 @@ const ExpensesPage = () => {
                 ))}
               </tbody>
             </table>
+          </div>
+
+          {/* Mobile Card List */}
+          <div className="md:hidden divide-y divide-slate-50">
+            {expenses.map((exp) => (
+              <div key={exp.id} className="p-6 space-y-4">
+                <div className="flex justify-between items-start">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center text-slate-400">
+                      <Receipt size={20} />
+                    </div>
+                    <div>
+                      <p className="font-bold text-slate-800 text-sm">{exp.title}</p>
+                      <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{new Date(exp.date).toLocaleDateString()}</p>
+                    </div>
+                  </div>
+                  <span className={`px-2 py-1 rounded-full text-[9px] font-black uppercase tracking-widest ${
+                    exp.status === 'Paid' ? 'bg-emerald-50 text-emerald-600' : 'bg-amber-50 text-amber-600'
+                  }`}>
+                    {exp.status}
+                  </span>
+                </div>
+                <div className="flex justify-between items-center bg-slate-50 p-3 rounded-xl">
+                  <span className="text-sm font-black text-slate-900">KSh {exp.amount.toLocaleString()}</span>
+                  <span className="text-[10px] font-bold text-slate-500 uppercase">{exp.category}</span>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
 
