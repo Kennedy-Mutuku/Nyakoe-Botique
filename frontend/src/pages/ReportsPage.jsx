@@ -28,7 +28,7 @@ const monthlyData = [
 const ReportsPage = () => {
   return (
     <div className="flex bg-slate-50 min-h-screen">
-      <Sidebar role="admin" />
+      <Sidebar />
       
       <main className="flex-1 ml-72 p-8">
         <header className="flex justify-between items-center mb-10">

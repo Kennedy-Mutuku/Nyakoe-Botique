@@ -13,11 +13,13 @@ import {
   Filter,
   UserPlus
 } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
 
 const CustomersPage = () => {
   const { user } = useAuth();
   const [showModal, setShowModal] = useState(false);
   const [selectedCustomer, setSelectedCustomer] = useState(null);
+  const [searchTerm, setSearchTerm] = useState('');
 
   const customers = [
     { id: 'CUST-001', name: 'Alice Johnson', phone: '0712345678', email: 'alice@example.com', lastOrder: '2023-10-24', totalSpent: 25000, measurements: { chest: '34', waist: '28', shoulder: '15' } },
@@ -25,9 +27,14 @@ const CustomersPage = () => {
     { id: 'CUST-003', name: 'Catherine Lee', phone: '0733445566', email: 'cat@example.com', lastOrder: '2023-09-30', totalSpent: 3500, measurements: { chest: '32', waist: '26', shoulder: '14' } },
   ];
 
+  const filteredCustomers = customers.filter(c => 
+    c.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
+    c.phone.includes(searchTerm)
+  );
+
   return (
     <div className="flex bg-slate-50 min-h-screen">
-      <Sidebar role="admin" />
+      <Sidebar />
       
       <main className="flex-1 ml-72 p-8">
         <header className="flex justify-between items-center mb-10">
@@ -50,6 +57,8 @@ const CustomersPage = () => {
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-500 transition-colors" size={20} />
             <input 
               type="text" 
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
               placeholder="Search by name, phone or email..."
               className="w-full pl-12 pr-4 py-3 bg-slate-50 border border-transparent rounded-2xl focus:bg-white focus:border-blue-500 focus:ring-4 focus:ring-blue-500/5 transition-all font-medium"
             />
@@ -62,7 +71,7 @@ const CustomersPage = () => {
 
         {/* Customer List/Grid */}
         <div className="grid lg:grid-cols-2 xl:grid-cols-3 gap-6">
-          {customers.map((customer) => (
+          {filteredCustomers.map((customer) => (
             <div key={customer.id} className="bg-white rounded-[2.5rem] border border-slate-100 shadow-sm hover:shadow-xl transition-all group overflow-hidden">
               <div className="p-8">
                 <div className="flex justify-between items-start mb-6">
@@ -141,8 +150,42 @@ const CustomersPage = () => {
                     </div>
                   ))}
                 </div>
-                <button className="w-full mt-8 py-4 premium-gradient text-white rounded-2xl font-black shadow-xl shadow-blue-500/20 hover:shadow-blue-500/40 transition-all">
+                <button 
+                  onClick={() => alert('🎉 Measurements updated successfully!')}
+                  className="w-full mt-8 py-4 premium-gradient text-white rounded-2xl font-black shadow-xl shadow-blue-500/20 hover:shadow-blue-500/40 transition-all"
+                >
                   Update Measurements
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Add Customer Modal (Simplified) */}
+        {showModal && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-6 bg-slate-900/60 backdrop-blur-sm">
+            <div className="bg-white w-full max-w-md rounded-[3rem] shadow-2xl overflow-hidden fade-in">
+              <div className="p-8 border-b border-slate-100 flex justify-between items-center">
+                <h2 className="text-2xl font-black text-slate-900">Add New Customer</h2>
+                <button onClick={() => setShowModal(false)} className="text-slate-400 hover:text-rose-500 transition-colors">✕</button>
+              </div>
+              <div className="p-8 space-y-4">
+                <div className="space-y-2">
+                  <label className="text-sm font-bold text-slate-600 ml-1">Full Name</label>
+                  <input type="text" placeholder="Enter customer name..." className="w-full px-5 py-3.5 bg-slate-50 border-none rounded-2xl focus:ring-4 focus:ring-blue-500/10 transition-all font-medium" />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-sm font-bold text-slate-600 ml-1">Phone Number</label>
+                  <input type="text" placeholder="e.g. 0712345678" className="w-full px-5 py-3.5 bg-slate-50 border-none rounded-2xl focus:ring-4 focus:ring-blue-500/10 transition-all font-medium" />
+                </div>
+              </div>
+              <div className="p-8 bg-slate-50 border-t border-slate-100 flex justify-end gap-4">
+                <button onClick={() => setShowModal(false)} className="px-8 py-3 bg-white border border-slate-200 text-slate-600 rounded-2xl font-bold hover:bg-white/80 transition-all">Cancel</button>
+                <button 
+                  onClick={() => { alert('🎉 Customer Added Successfully!'); setShowModal(false); }}
+                  className="px-10 py-3 premium-gradient text-white rounded-2xl font-black shadow-xl shadow-blue-500/20 hover:shadow-blue-500/40 transition-all"
+                >
+                  Save Customer
                 </button>
               </div>
             </div>
