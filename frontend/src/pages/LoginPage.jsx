@@ -1,10 +1,9 @@
-import React, { useState } from 'react';
-import { useSearchParams, useNavigate } from 'react-router-dom';
-import { ShoppingBag, Lock, User, Eye, EyeOff, ArrowLeft } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
 
 const LoginPage = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
+  const { login } = useAuth();
   const roleParam = searchParams.get('role') || 'attendant';
   
   const [showPassword, setShowPassword] = useState(false);
@@ -13,14 +12,18 @@ const LoginPage = () => {
 
   const isAdmin = roleParam === 'admin';
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    // For now, mock login
-    console.log(`Logging in as ${roleParam}`, { email, password });
-    if (isAdmin) {
-      navigate('/admin/dashboard');
+    const result = await login(email, password, roleParam);
+    
+    if (result.success) {
+      if (isAdmin) {
+        navigate('/admin/dashboard');
+      } else {
+        navigate('/staff/dashboard');
+      }
     } else {
-      navigate('/staff/dashboard');
+      alert(result.error);
     }
   };
 

@@ -7,6 +7,8 @@ import StaffDashboard from './pages/StaffDashboard';
 import InventoryPage from './pages/InventoryPage';
 import TailoringPage from './pages/TailoringPage';
 import ReportsPage from './pages/ReportsPage';
+import CustomersPage from './pages/CustomersPage';
+import ExpensesPage from './pages/ExpensesPage';
 
 function App() {
   return (
@@ -20,6 +22,8 @@ function App() {
         <Route path="/admin/inventory" element={<InventoryPage />} />
         <Route path="/admin/tailoring" element={<TailoringPage />} />
         <Route path="/admin/reports" element={<ReportsPage />} />
+        <Route path="/admin/customers" element={<CustomersPage />} />
+        <Route path="/admin/expenses" element={<ExpensesPage />} />
         
         <Route path="/staff/dashboard" element={<StaffDashboard />} />
         <Route path="/staff/tailoring" element={<TailoringPage />} />
