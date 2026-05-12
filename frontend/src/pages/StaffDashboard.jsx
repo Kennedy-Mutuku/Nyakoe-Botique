@@ -151,22 +151,19 @@ const StaffDashboard = () => {
                   
                   {product.variantsList && product.variantsList.length > 0 ? (
                     <div className="mt-3 mb-4 space-y-2">
-                      <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest ml-1">Select Size</p>
-                      <div className="flex flex-wrap gap-2">
+                      <label className="text-[9px] font-black text-slate-400 uppercase tracking-widest ml-1">Choose Size *</label>
+                      <select 
+                        value={selectedSizes[product.id] ?? ''}
+                        onChange={(e) => setSelectedSizes({...selectedSizes, [product.id]: e.target.value === '' ? undefined : parseInt(e.target.value)})}
+                        className="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-black text-slate-700 focus:ring-4 focus:ring-blue-500/10 focus:bg-white transition-all appearance-none cursor-pointer"
+                      >
+                        <option value="">-- Select Size --</option>
                         {product.variantsList.map((v, vIdx) => (
-                          <button
-                            key={vIdx}
-                            onClick={() => setSelectedSizes({...selectedSizes, [product.id]: vIdx})}
-                            className={`px-3 py-1.5 rounded-lg text-[10px] font-black transition-all border ${
-                              selectedSizes[product.id] === vIdx
-                              ? 'bg-blue-600 border-blue-600 text-white shadow-md'
-                              : 'bg-white border-slate-200 text-slate-600 hover:border-blue-400'
-                            }`}
-                          >
-                            {v.size}
-                          </button>
+                          <option key={vIdx} value={vIdx}>
+                            {v.size} - KSh {v.price.toLocaleString()}
+                          </option>
                         ))}
-                      </div>
+                      </select>
                     </div>
                   ) : (
                     <p className="text-[10px] text-blue-600 font-black uppercase tracking-widest mt-0.5 mb-3">Size: {product.size || 'N/A'}</p>
@@ -185,9 +182,9 @@ const StaffDashboard = () => {
                     </div>
                     <button 
                       onClick={() => addToCart(product)}
-                      disabled={product.stock <= 0}
+                      disabled={product.stock <= 0 || (product.variantsList && product.variantsList.length > 0 && selectedSizes[product.id] === undefined)}
                       className={`p-2 rounded-lg transition-all active:scale-95 ${
-                        product.stock > 0 
+                        product.stock > 0 && (product.variantsList ? selectedSizes[product.id] !== undefined : true)
                         ? 'bg-slate-900 text-white hover:bg-blue-600 shadow-lg shadow-slate-900/10' 
                         : 'bg-slate-100 text-slate-300 cursor-not-allowed'
                       }`}
