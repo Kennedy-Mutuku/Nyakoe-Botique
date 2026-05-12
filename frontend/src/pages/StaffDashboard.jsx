@@ -18,13 +18,13 @@ const StaffDashboard = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [cart, setCart] = useState([]);
   const [paymentMethod, setPaymentMethod] = useState('cash');
-
-  const products = [
-    { id: 1, name: 'Cotton Summer Dress', price: 2500, stock: 15, category: 'Dresses' },
-    { id: 2, name: 'Men Silk Tie', price: 1200, stock: 42, category: 'Accessories' },
-    { id: 3, name: 'Linen Trousers', price: 3800, stock: 8, category: 'Pants' },
-    { id: 4, name: 'Classic White Shirt', price: 2200, stock: 25, category: 'Shirts' },
-  ];
+  const [discount, setDiscount] = useState(0);
+  const [products, setProducts] = useState([
+    { id: 1, name: 'Cotton Summer Dress', price: 2500, stock: 15, category: 'Dresses', size: 'M' },
+    { id: 2, name: 'Men Silk Tie', price: 1200, stock: 42, category: 'Accessories', size: 'One Size' },
+    { id: 3, name: 'Linen Trousers', price: 3800, stock: 8, category: 'Pants', size: '34' },
+    { id: 4, name: 'Classic White Shirt', price: 2200, stock: 25, category: 'Shirts', size: 'L' },
+  ]);
 
   const addToCart = (product) => {
     setCart([...cart, product]);
@@ -37,11 +37,21 @@ const StaffDashboard = () => {
   };
 
   const total = cart.reduce((sum, item) => sum + item.price, 0);
+  const finalTotal = Math.max(0, total - discount);
 
   const handleCheckout = () => {
     if (cart.length === 0) return;
-    alert(`🎉 Sale Recorded Successfully!\nTotal: KSh ${total.toLocaleString()}\nMethod: ${paymentMethod.toUpperCase()}`);
+    
+    // Reduce Stock Logic
+    const updatedProducts = products.map(p => {
+      const itemsInCart = cart.filter(item => item.id === p.id).length;
+      return { ...p, stock: Math.max(0, p.stock - itemsInCart) };
+    });
+    
+    setProducts(updatedProducts);
+    alert(`🎉 Dispatch Successful!\nFinal Total: KSh ${finalTotal.toLocaleString()}\nDiscount Applied: KSh ${discount.toLocaleString()}\n\nStock levels have been automatically reduced.`);
     setCart([]);
+    setDiscount(0);
   };
 
   return (
@@ -91,11 +101,15 @@ const StaffDashboard = () => {
                   <span className={`text-[9px] font-black uppercase tracking-tighter ${
                     product.stock < 10 ? 'text-rose-500' : 'text-emerald-500'
                   }`}>
-                    {product.stock} left
+                    {product.stock} in stock
                   </span>
                 </div>
-                <h3 className="text-sm font-bold text-slate-900 truncate">{product.name}</h3>
-                <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest mb-3">{product.category}</p>
+                <h3 className="text-sm font-black text-slate-900 truncate">{product.name}</h3>
+                <div className="flex items-center gap-2 mt-1 mb-3">
+                  <span className="text-[9px] text-slate-400 font-bold uppercase tracking-widest">{product.category}</span>
+                  <span className="w-1 h-1 bg-slate-200 rounded-full"></span>
+                  <span className="text-[9px] text-blue-600 font-black uppercase tracking-widest">Size: {product.size}</span>
+                </div>
                 <div className="flex justify-between items-center">
                   <span className="text-sm font-black text-slate-900">KSh {product.price.toLocaleString()}</span>
                   <button 
@@ -152,14 +166,32 @@ const StaffDashboard = () => {
             </div>
 
             <div className="p-5 border-t border-slate-50 space-y-4 bg-slate-50/30">
-              <div className="space-y-1">
-                <div className="flex justify-between text-[10px] font-bold text-slate-400 uppercase tracking-widest">
-                  <span>Subtotal</span>
-                  <span>KSh {total.toLocaleString()}</span>
+              <div className="space-y-3">
+                <div className="space-y-1">
+                  <label className="text-[9px] font-black text-slate-400 uppercase tracking-widest ml-1">Optional Discount (KSh)</label>
+                  <input 
+                    type="number" 
+                    value={discount}
+                    onChange={(e) => setDiscount(Number(e.target.value))}
+                    className="w-full px-4 py-2 bg-white border border-slate-200 rounded-xl text-sm font-black text-rose-600 focus:ring-4 focus:ring-rose-500/5 focus:border-rose-300 transition-all"
+                    placeholder="0"
+                  />
                 </div>
-                <div className="flex justify-between text-lg font-black text-slate-900 tracking-tight">
-                  <span>Total</span>
-                  <span className="text-blue-600">KSh {total.toLocaleString()}</span>
+                <div className="space-y-1 pt-2 border-t border-slate-100">
+                  <div className="flex justify-between text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                    <span>Subtotal</span>
+                    <span>KSh {total.toLocaleString()}</span>
+                  </div>
+                  {discount > 0 && (
+                    <div className="flex justify-between text-[10px] font-bold text-rose-500 uppercase tracking-widest">
+                      <span>Discount</span>
+                      <span>- KSh {discount.toLocaleString()}</span>
+                    </div>
+                  )}
+                  <div className="flex justify-between text-lg font-black text-slate-900 tracking-tight pt-1">
+                    <span>Final Total</span>
+                    <span className="text-blue-600">KSh {finalTotal.toLocaleString()}</span>
+                  </div>
                 </div>
               </div>
 

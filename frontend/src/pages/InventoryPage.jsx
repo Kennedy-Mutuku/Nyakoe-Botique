@@ -11,7 +11,8 @@ import {
   ArrowUpDown,
   Download,
   Trash2,
-  Edit3
+  Edit3,
+  Camera
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
@@ -234,138 +235,166 @@ const InventoryPage = () => {
 
               {/* Modal Body - Scrollable */}
               <div className="flex-1 overflow-y-auto p-6 md:p-8">
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12">
-                  {/* Left Column: Visuals & Core Info */}
-                  <div className="space-y-8">
-                    {/* Image Upload Area */}
-                    <div className="space-y-3">
-                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Product Media</label>
-                      <div className="aspect-square bg-slate-50 border-2 border-dashed border-slate-200 rounded-[2.5rem] flex flex-col items-center justify-center gap-4 group hover:border-blue-400 hover:bg-blue-50/30 transition-all cursor-pointer">
-                        <div className="w-16 h-16 bg-white rounded-2xl shadow-sm flex items-center justify-center text-slate-300 group-hover:text-blue-500 transition-all">
-                          <Plus size={32} />
-                        </div>
-                        <div className="text-center">
-                          <p className="text-sm font-black text-slate-900">Upload Product Photo</p>
-                          <p className="text-[10px] font-bold text-slate-400 uppercase tracking-tight mt-1">PNG, JPG up to 10MB</p>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Basic Info Group */}
-                    <div className="space-y-6 bg-slate-50/50 p-6 rounded-3xl border border-slate-100">
-                      <div className="space-y-2">
-                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Product Name</label>
-                        <input type="text" placeholder="e.g., Luxury Silk Evening Gown" className="w-full px-5 py-3 bg-white border border-slate-200 rounded-xl focus:ring-4 focus:ring-blue-500/10 transition-all font-bold text-sm" />
-                      </div>
-                      <div className="grid grid-cols-2 gap-4">
-                        <div className="space-y-2">
-                          <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Category</label>
-                          <select className="w-full px-5 py-3 bg-white border border-slate-200 rounded-xl focus:ring-4 focus:ring-blue-500/10 transition-all font-bold text-sm appearance-none">
-                            <option>Dresses</option>
-                            <option>Suits</option>
-                            <option>Accessories</option>
-                            <option>Footwear</option>
-                          </select>
-                        </div>
-                        <div className="space-y-2">
-                          <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Supplier</label>
-                          <input type="text" placeholder="Global Garments Ltd" className="w-full px-5 py-3 bg-white border border-slate-200 rounded-xl focus:ring-4 focus:ring-blue-500/10 transition-all font-bold text-sm" />
-                        </div>
-                      </div>
+                <div className="space-y-8">
+                  {/* Section 1: Core Product Identity (Mandatory First) */}
+                  <div className="space-y-6">
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1 flex items-center gap-2">
+                        Product Identity <span className="text-rose-500">* REQUIRED</span>
+                      </label>
+                      <input 
+                        type="text" 
+                        required
+                        placeholder="e.g., Luxury Silk Evening Gown" 
+                        className="w-full px-6 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-4 focus:ring-blue-500/10 focus:bg-white focus:border-blue-500 transition-all font-black text-lg placeholder:font-bold placeholder:text-slate-300" 
+                      />
                     </div>
                   </div>
 
-                  {/* Right Column: Pricing & Multi-Size Inventory */}
-                  <div className="space-y-8">
-                    {/* Financial Information */}
-                    <div className="space-y-4">
-                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Financial Specifications</label>
-                      <div className="grid grid-cols-2 gap-4">
-                        <div className="p-5 bg-emerald-50/30 border border-emerald-100 rounded-3xl space-y-2">
-                          <p className="text-[10px] font-black text-emerald-600 uppercase tracking-widest">Buying Price</p>
-                          <div className="flex items-center gap-2">
-                            <span className="text-sm font-black text-emerald-600/60">KSh</span>
-                            <input type="number" placeholder="0" className="w-full bg-transparent border-none p-0 focus:ring-0 text-xl font-black text-emerald-700 placeholder:text-emerald-200" />
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12">
+                    {/* Left Column: Media & Classification */}
+                    <div className="space-y-8">
+                      {/* Image Upload Area */}
+                      <div className="space-y-3">
+                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1 flex items-center gap-2">
+                          Visual Representation <span className="text-rose-500">* REQUIRED</span>
+                        </label>
+                        <input type="file" id="photo-upload" className="hidden" accept="image/*" capture="environment" />
+                        <label 
+                          htmlFor="photo-upload"
+                          className="aspect-square bg-slate-50 border-2 border-dashed border-slate-200 rounded-[2.5rem] flex flex-col items-center justify-center gap-4 group hover:border-blue-400 hover:bg-blue-50/30 transition-all cursor-pointer overflow-hidden relative"
+                        >
+                          <div className="w-16 h-16 bg-white rounded-2xl shadow-sm flex items-center justify-center text-slate-300 group-hover:text-blue-500 transition-all">
+                            <Plus size={32} />
                           </div>
-                        </div>
-                        <div className="p-5 bg-blue-50/30 border border-blue-100 rounded-3xl space-y-2">
-                          <p className="text-[10px] font-black text-blue-600 uppercase tracking-widest">Selling Price</p>
-                          <div className="flex items-center gap-2">
-                            <span className="text-sm font-black text-blue-600/60">KSh</span>
-                            <input type="number" placeholder="0" className="w-full bg-transparent border-none p-0 focus:ring-0 text-xl font-black text-blue-700 placeholder:text-blue-200" />
+                          <div className="text-center px-6">
+                            <p className="text-sm font-black text-slate-900">Upload Photo or Use Camera</p>
+                            <p className="text-[10px] font-bold text-slate-400 uppercase tracking-tight mt-1">PNG, JPG or Instant Snap</p>
+                          </div>
+                          {/* Camera Icon Overlay */}
+                          <div className="absolute bottom-6 right-6 p-3 bg-white shadow-lg rounded-xl text-slate-400 group-hover:text-blue-500 transition-all">
+                            <Camera size={20} />
+                          </div>
+                        </label>
+                      </div>
+
+                      {/* Classification */}
+                      <div className="space-y-6 bg-slate-50/50 p-6 rounded-3xl border border-slate-100">
+                        <div className="grid grid-cols-2 gap-4">
+                          <div className="space-y-2">
+                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Category *</label>
+                            <select required className="w-full px-5 py-3 bg-white border border-slate-200 rounded-xl focus:ring-4 focus:ring-blue-500/10 transition-all font-bold text-sm appearance-none">
+                              <option value="">Select Category</option>
+                              <option>Dresses</option>
+                              <option>Suits</option>
+                              <option>Shirts</option>
+                              <option>Pants</option>
+                              <option>Accessories</option>
+                              <option>Footwear</option>
+                            </select>
+                          </div>
+                          <div className="space-y-2">
+                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Supplier *</label>
+                            <input type="text" required placeholder="Global Garments Ltd" className="w-full px-5 py-3 bg-white border border-slate-200 rounded-xl focus:ring-4 focus:ring-blue-500/10 transition-all font-bold text-sm" />
                           </div>
                         </div>
                       </div>
                     </div>
 
-                    {/* Multi-Size Inventory Management */}
-                    <div className="space-y-4">
-                      <div className="flex justify-between items-end px-1">
-                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Inventory by Size</label>
-                        <span className="text-[10px] font-black text-blue-600 uppercase">Total Stock: {totalStock} pcs</span>
-                      </div>
-                      
-                      <div className="bg-white border border-slate-200 rounded-3xl overflow-hidden shadow-sm">
-                        <div className="p-4 bg-slate-50 border-b border-slate-200 grid grid-cols-3 gap-4">
-                          <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Size Label</p>
-                          <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Quantity</p>
-                          <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest text-right">Action</p>
+                    {/* Right Column: Pricing & Multi-Size Inventory */}
+                    <div className="space-y-8">
+                      {/* Financial Information */}
+                      <div className="space-y-4">
+                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Financial Specifications *</label>
+                        <div className="grid grid-cols-2 gap-4">
+                          <div className="p-5 bg-emerald-50/30 border border-emerald-100 rounded-3xl space-y-2 focus-within:ring-4 focus-within:ring-emerald-500/10 transition-all">
+                            <p className="text-[10px] font-black text-emerald-600 uppercase tracking-widest">Buying Price</p>
+                            <div className="flex items-center gap-2">
+                              <span className="text-sm font-black text-emerald-600/60">KSh</span>
+                              <input type="number" required placeholder="0" className="w-full bg-transparent border-none p-0 focus:ring-0 text-xl font-black text-emerald-700 placeholder:text-emerald-200" />
+                            </div>
+                          </div>
+                          <div className="p-5 bg-blue-50/30 border border-blue-100 rounded-3xl space-y-2 focus-within:ring-4 focus-within:ring-blue-500/10 transition-all">
+                            <p className="text-[10px] font-black text-blue-600 uppercase tracking-widest">Selling Price</p>
+                            <div className="flex items-center gap-2">
+                              <span className="text-sm font-black text-blue-600/60">KSh</span>
+                              <input type="number" required placeholder="0" className="w-full bg-transparent border-none p-0 focus:ring-0 text-xl font-black text-blue-700 placeholder:text-blue-200" />
+                            </div>
+                          </div>
                         </div>
-                        <div className="max-h-[200px] overflow-y-auto divide-y divide-slate-100">
-                          {/* Entry Row */}
-                          <div className="p-4 grid grid-cols-3 gap-4 items-center bg-blue-50/20">
-                            <input 
-                              type="text" 
-                              value={newSize}
-                              onChange={(e) => setNewSize(e.target.value)}
-                              placeholder="e.g. XL" 
-                              className="bg-white border border-slate-200 rounded-lg py-2 px-3 text-sm font-bold w-full" 
-                            />
-                            <input 
-                              type="number" 
-                              value={newQty}
-                              onChange={(e) => setNewQty(e.target.value)}
-                              placeholder="0" 
-                              className="bg-white border border-slate-200 rounded-lg py-2 px-3 text-sm font-bold w-full" 
-                            />
-                            <div className="flex justify-end">
-                              <button 
-                                onClick={addVariant}
-                                className="px-4 py-2 bg-blue-600 text-white rounded-lg transition-all font-black text-[10px] uppercase shadow-sm active:scale-95"
+                      </div>
+
+                      {/* Multi-Size Inventory Management */}
+                      <div className="space-y-4">
+                        <div className="flex justify-between items-end px-1">
+                          <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Mandatory Size Entry *</label>
+                          <span className="text-[10px] font-black text-blue-600 uppercase">Total Stock: {totalStock} pcs</span>
+                        </div>
+                        
+                        <div className="bg-white border border-slate-200 rounded-3xl overflow-hidden shadow-sm">
+                          <div className="p-4 bg-slate-50 border-b border-slate-200 grid grid-cols-3 gap-4">
+                            <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Size Label</p>
+                            <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Quantity</p>
+                            <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest text-right">Action</p>
+                          </div>
+                          <div className="max-h-[200px] overflow-y-auto divide-y divide-slate-100">
+                            {/* Entry Row */}
+                            <div className="p-4 grid grid-cols-3 gap-4 items-center bg-blue-50/10">
+                              <select 
+                                value={newSize}
+                                onChange={(e) => setNewSize(e.target.value)}
+                                className="bg-white border border-slate-200 rounded-lg py-2 px-3 text-sm font-black w-full appearance-none cursor-pointer"
                               >
-                                Add
-                              </button>
-                            </div>
-                          </div>
-
-                          {/* Dynamic List */}
-                          {variants.length === 0 ? (
-                            <div className="p-4 flex flex-col items-center justify-center text-slate-300 py-8 italic text-xs font-medium">
-                              No sizes added yet...
-                            </div>
-                          ) : (
-                            variants.map((v, idx) => (
-                              <div key={idx} className="p-4 grid grid-cols-3 gap-4 items-center hover:bg-slate-50 transition-colors">
-                                <span className="text-sm font-black text-slate-700 uppercase">{v.size}</span>
-                                <span className="text-sm font-black text-blue-600">{v.qty} <span className="text-[10px] text-slate-400 ml-1">PCS</span></span>
-                                <div className="flex justify-end">
-                                  <button onClick={() => removeVariant(idx)} className="p-2 text-rose-500 hover:bg-rose-50 rounded-lg transition-all">
-                                    <Trash2 size={14} />
-                                  </button>
-                                </div>
+                                <option value="">Size</option>
+                                <optgroup label="Letters">
+                                  <option>XS</option><option>S</option><option>M</option><option>L</option><option>XL</option><option>XXL</option>
+                                </optgroup>
+                                <optgroup label="Trousers/Suits">
+                                  <option>28</option><option>30</option><option>32</option><option>34</option><option>36</option><option>38</option><option>40</option><option>42</option>
+                                </optgroup>
+                                <optgroup label="Shoes">
+                                  <option>38</option><option>39</option><option>40</option><option>41</option><option>42</option><option>43</option><option>44</option><option>45</option>
+                                </optgroup>
+                              </select>
+                              <input 
+                                type="number" 
+                                value={newQty}
+                                onChange={(e) => setNewQty(e.target.value)}
+                                placeholder="Qty" 
+                                className="bg-white border border-slate-200 rounded-lg py-2 px-3 text-sm font-bold w-full" 
+                              />
+                              <div className="flex justify-end">
+                                <button 
+                                  onClick={addVariant}
+                                  className="px-4 py-2 bg-blue-600 text-white rounded-lg transition-all font-black text-[10px] uppercase shadow-sm active:scale-95 disabled:opacity-50"
+                                  disabled={!newSize || !newQty}
+                                >
+                                  Add
+                                </button>
                               </div>
-                            ))
-                          )}
+                            </div>
+
+                            {/* Dynamic List */}
+                            {variants.length === 0 ? (
+                              <div className="p-4 flex flex-col items-center justify-center text-slate-300 py-8 italic text-xs font-medium">
+                                Minimum 1 size variant required...
+                              </div>
+                            ) : (
+                              variants.map((v, idx) => (
+                                <div key={idx} className="p-4 grid grid-cols-3 gap-4 items-center hover:bg-slate-50 transition-colors">
+                                  <span className="text-sm font-black text-slate-700 uppercase">{v.size}</span>
+                                  <span className="text-sm font-black text-blue-600">{v.qty} <span className="text-[10px] text-slate-400 ml-1 uppercase">pieces</span></span>
+                                  <div className="flex justify-end">
+                                    <button onClick={() => removeVariant(idx)} className="p-2 text-rose-500 hover:bg-rose-50 rounded-lg transition-all">
+                                      <Trash2 size={14} />
+                                    </button>
+                                  </div>
+                                </div>
+                              ))
+                            )}
+                          </div>
                         </div>
                       </div>
-                    </div>
-
-                    {/* Quick Settings */}
-                    <div className="flex items-center gap-4 bg-amber-50/50 p-4 rounded-2xl border border-amber-100">
-                      <AlertTriangle size={18} className="text-amber-600" />
-                      <p className="text-[10px] font-bold text-amber-800 uppercase tracking-tight leading-snug">
-                        Stock levels below 5 units will trigger a 'Low Stock' alert automatically.
-                      </p>
                     </div>
                   </div>
                 </div>
@@ -375,10 +404,17 @@ const InventoryPage = () => {
               <div className="p-6 md:p-8 bg-slate-50 border-t border-slate-100 flex justify-end gap-4 sticky bottom-0 z-10">
                 <button onClick={() => setShowModal(false)} className="px-6 py-3 bg-white border border-slate-200 text-slate-600 rounded-xl font-black text-xs hover:bg-white/80 transition-all uppercase tracking-widest">Cancel</button>
                 <button 
-                  onClick={() => { alert('🎉 Product Successfully Added to Digital Vault!'); setShowModal(false); }}
+                  onClick={() => { 
+                    if (variants.length === 0) {
+                      alert('❌ Mandatory Size Entry Required!');
+                      return;
+                    }
+                    alert('🎉 Stock Initialized Successfully! Items are now active in dispatch.'); 
+                    setShowModal(false); 
+                  }}
                   className="px-10 py-3 premium-gradient text-white rounded-xl font-black text-xs shadow-xl shadow-blue-500/20 hover:shadow-blue-500/40 transition-all uppercase tracking-[0.2em]"
                 >
-                  Confirm Entry
+                  Initialize Stock
                 </button>
               </div>
             </div>
