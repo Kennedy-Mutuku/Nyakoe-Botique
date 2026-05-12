@@ -36,23 +36,16 @@ const data = [
 
 const COLORS = ['#0ea5e9', '#8b5cf6', '#f59e0b', '#10b981'];
 
+import Header from '../components/Header';
+
 const AdminDashboard = () => {
   return (
     <div className="bg-slate-50 min-h-screen relative overflow-x-hidden">
-      {/* Top Contact Strip - Branded Consistency */}
-      <div className="fixed top-0 left-0 right-0 z-[70] bg-blue-600 text-white py-1.5 px-6 md:px-12 flex justify-between items-center text-[8px] md:text-[9px] tracking-[0.2em] uppercase font-medium border-b border-white/5">
-        <div className="flex items-center gap-6">
-          <span className="opacity-80 uppercase">SYSTEM: NYAKOE BOUTIQUE ERP</span>
-          <span className="hidden sm:inline opacity-60 border-l border-white/20 pl-6 lowercase tracking-normal">info.nyakoeboutique@gmail.com</span>
-        </div>
-        <div className="hidden md:block opacity-60 italic serif-font lowercase tracking-normal text-[10px]">
-          Elevated Administrative Access
-        </div>
-      </div>
+      <Header />
 
       <Sidebar />
       
-      <main className="w-full lg:pl-72 p-4 md:p-8 pt-24 lg:pt-20">
+      <main className="w-full lg:pl-72 p-4 md:p-8 pt-36 lg:pt-32">
         {/* Header */}
         <header className="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-10 gap-6">
           <div className="flex flex-col sm:flex-row sm:items-center gap-4">
