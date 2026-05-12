@@ -19,15 +19,26 @@ const StaffDashboard = () => {
   const [cart, setCart] = useState([]);
   const [paymentMethod, setPaymentMethod] = useState('cash');
   const [discount, setDiscount] = useState(0);
-  const [products, setProducts] = useState([
-    { id: 1, name: 'Cotton Summer Dress', price: 2500, stock: 15, category: 'Dresses', size: 'M' },
-    { id: 2, name: 'Men Silk Tie', price: 1200, stock: 42, category: 'Accessories', size: 'One Size' },
-    { id: 3, name: 'Linen Trousers', price: 3800, stock: 8, category: 'Pants', size: '34' },
-    { id: 4, name: 'Classic White Shirt', price: 2200, stock: 25, category: 'Shirts', size: 'L' },
-  ]);
+
+  // Load from LocalStorage to stay in sync with Inventory Page
+  const [products, setProducts] = useState(() => {
+    const saved = localStorage.getItem('nyakoe_inventory');
+    if (saved) return JSON.parse(saved);
+    return [
+      { id: 'PRD-001', name: 'Cotton Summer Dress', selling: 2500, stock: 15, category: 'Dresses', size: 'M' },
+      { id: 'PRD-002', name: 'Men Silk Tie', selling: 1200, stock: 42, category: 'Accessories', size: 'One Size' },
+      { id: 'PRD-003', name: 'Linen Trousers', selling: 3800, stock: 8, category: 'Pants', size: '34' },
+      { id: 'PRD-004', name: 'Classic White Shirt', selling: 2200, stock: 25, category: 'Shirts', size: 'L' },
+    ];
+  });
+
+  // Sync back to LocalStorage whenever products change (stock reduction)
+  React.useEffect(() => {
+    localStorage.setItem('nyakoe_inventory', JSON.stringify(products));
+  }, [products]);
 
   const addToCart = (product) => {
-    setCart([...cart, product]);
+    setCart([...cart, { ...product, price: product.selling || product.price }]);
   };
 
   const removeFromCart = (index) => {
@@ -90,34 +101,48 @@ const StaffDashboard = () => {
             </button>
           </div>
 
-          {/* Product Grid - Denser for efficiency */}
+          {/* Product Grid - Dynamic & Synced */}
           <div className="grid sm:grid-cols-2 xl:grid-cols-3 gap-4">
             {products.filter(p => p.name.toLowerCase().includes(searchTerm.toLowerCase())).map((product) => (
-              <div key={product.id} className="bg-white p-4 rounded-3xl border border-slate-100 shadow-sm hover:shadow-lg transition-all group">
-                <div className="flex justify-between items-start mb-3">
-                  <div className="w-10 h-10 bg-blue-50 rounded-xl flex items-center justify-center text-blue-500">
-                    <Package size={20} />
+              <div key={product.id} className="bg-white p-0 rounded-3xl border border-slate-100 shadow-sm hover:shadow-lg transition-all group overflow-hidden">
+                {/* Product Image Area */}
+                <div className="aspect-[4/3] bg-slate-100 relative overflow-hidden">
+                  <div className="absolute inset-0 flex items-center justify-center text-slate-300">
+                    <Package size={40} strokeWidth={1.5} />
                   </div>
-                  <span className={`text-[9px] font-black uppercase tracking-tighter ${
-                    product.stock < 10 ? 'text-rose-500' : 'text-emerald-500'
-                  }`}>
-                    {product.stock} in stock
-                  </span>
+                  <div className="absolute top-3 right-3">
+                    <span className={`px-2 py-1 rounded-lg text-[9px] font-black uppercase tracking-widest shadow-sm ${
+                      product.stock < 10 ? 'bg-rose-500 text-white' : 'bg-white/90 text-emerald-600 backdrop-blur-sm'
+                    }`}>
+                      {product.stock} in stock
+                    </span>
+                  </div>
+                  {/* Category Tag Overlay */}
+                  <div className="absolute bottom-3 left-3">
+                    <span className="px-2 py-1 bg-slate-900/40 backdrop-blur-md text-white rounded-lg text-[8px] font-black uppercase tracking-widest">
+                      {product.category}
+                    </span>
+                  </div>
                 </div>
-                <h3 className="text-sm font-black text-slate-900 truncate">{product.name}</h3>
-                <div className="flex items-center gap-2 mt-1 mb-3">
-                  <span className="text-[9px] text-slate-400 font-bold uppercase tracking-widest">{product.category}</span>
-                  <span className="w-1 h-1 bg-slate-200 rounded-full"></span>
-                  <span className="text-[9px] text-blue-600 font-black uppercase tracking-widest">Size: {product.size}</span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-sm font-black text-slate-900">KSh {product.price.toLocaleString()}</span>
-                  <button 
-                    onClick={() => addToCart(product)}
-                    className="p-2 bg-slate-900 text-white rounded-lg hover:bg-blue-600 transition-all active:scale-95"
-                  >
-                    <Plus size={16} />
-                  </button>
+
+                <div className="p-4">
+                  <h3 className="text-sm font-black text-slate-900 truncate">{product.name}</h3>
+                  <p className="text-[10px] text-blue-600 font-black uppercase tracking-widest mt-0.5 mb-3">Size: {product.size || 'N/A'}</p>
+                  
+                  <div className="flex justify-between items-center pt-3 border-t border-slate-50">
+                    <span className="text-sm font-black text-slate-900">KSh {(product.selling || product.price).toLocaleString()}</span>
+                    <button 
+                      onClick={() => addToCart(product)}
+                      disabled={product.stock <= 0}
+                      className={`p-2 rounded-lg transition-all active:scale-95 ${
+                        product.stock > 0 
+                        ? 'bg-slate-900 text-white hover:bg-blue-600 shadow-lg shadow-slate-900/10' 
+                        : 'bg-slate-100 text-slate-300 cursor-not-allowed'
+                      }`}
+                    >
+                      <Plus size={16} />
+                    </button>
+                  </div>
                 </div>
               </div>
             ))}
