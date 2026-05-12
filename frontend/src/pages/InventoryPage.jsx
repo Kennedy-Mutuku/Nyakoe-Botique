@@ -24,13 +24,24 @@ const InventoryPage = () => {
   const [newSize, setNewSize] = useState('');
   const [newQty, setNewQty] = useState('');
 
-  const [inventoryData, setInventoryData] = useState([
+  // Initial Data
+  const initialItems = [
     { id: 'PRD-001', name: 'Cotton Summer Dress', category: 'Dresses', buying: 1500, selling: 2500, stock: 15, supplier: 'Global Textiles' },
     { id: 'PRD-002', name: 'Men Silk Tie', category: 'Accessories', buying: 500, selling: 1200, stock: 42, supplier: 'Silk Road' },
     { id: 'PRD-003', name: 'Linen Trousers', category: 'Pants', buying: 2200, selling: 3800, stock: 8, supplier: 'Quality Linens' },
     { id: 'PRD-004', name: 'Classic White Shirt', category: 'Shirts', buying: 1200, selling: 2200, stock: 25, supplier: 'Shirt Co.' },
     { id: 'PRD-005', name: 'School Uniform Set', category: 'Uniforms', buying: 1800, selling: 3500, stock: 5, supplier: 'Local Garments' },
-  ]);
+  ];
+
+  const [inventoryData, setInventoryData] = useState(() => {
+    const saved = localStorage.getItem('nyakoe_inventory');
+    return saved ? JSON.parse(saved) : initialItems;
+  });
+
+  // Sync with LocalStorage
+  React.useEffect(() => {
+    localStorage.setItem('nyakoe_inventory', JSON.stringify(inventoryData));
+  }, [inventoryData]);
 
   // Form States
   const [prodName, setProdName] = useState('');
