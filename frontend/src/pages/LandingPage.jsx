@@ -20,13 +20,13 @@ const LandingPage = () => {
     <div className="min-h-screen bg-white selection:bg-black selection:text-white">
       {/* Navigation - Demure & Transparent */}
       <nav className={`fixed top-0 left-0 right-0 z-[60] transition-all duration-700 ${
-        isScrolled ? 'bg-white/90 backdrop-blur-md py-4 border-b border-black/5' : 'bg-transparent py-8'
+        (isScrolled || isMenuOpen) ? 'bg-white py-4 border-b border-black/5' : 'bg-transparent py-8'
       }`}>
         <div className="max-w-[1600px] mx-auto px-6 md:px-12 flex items-center justify-between">
           <div className="flex items-center gap-12">
             <div className="flex items-center gap-2 cursor-pointer group" onClick={() => navigate('/')}>
-              <span className={`text-2xl font-black tracking-tighter transition-colors duration-500 ${isScrolled ? 'text-black' : 'text-white'}`}>
-                NYAKOE <span className="font-light italic serif-font">Boutique</span>
+              <span className={`text-2xl font-black tracking-tighter transition-colors duration-500 ${(isScrolled || isMenuOpen) ? 'text-black' : 'text-white'}`}>
+                NYAKOE <span className="serif-font italic font-light lowercase tracking-normal">Boutique</span>
               </span>
             </div>
             
@@ -35,9 +35,7 @@ const LandingPage = () => {
                 <a 
                   key={item} 
                   href="#" 
-                  className={`text-[10px] uppercase tracking-[0.3em] font-bold hover-underline-animation transition-colors duration-500 ${
-                    isScrolled ? 'text-black/60 hover:text-black' : 'text-white/70 hover:text-white'
-                  }`}
+                  className={`text-[10px] uppercase tracking-[0.3em] font-bold transition-all duration-500 ${(isScrolled || isMenuOpen) ? 'text-black hover:opacity-60' : 'text-white hover:opacity-60'}`}
                 >
                   {item}
                 </a>
@@ -48,16 +46,14 @@ const LandingPage = () => {
           <div className="flex items-center gap-6">
             <button 
               onClick={() => navigate('/login?role=admin')}
-              className={`hidden md:block text-[10px] uppercase tracking-[0.3em] font-bold transition-all duration-500 ${
-                isScrolled ? 'text-black hover:opacity-60' : 'text-white hover:opacity-60'
-              }`}
+              className={`hidden md:block text-[10px] uppercase tracking-[0.3em] font-bold transition-all duration-500 ${(isScrolled || isMenuOpen) ? 'text-black hover:opacity-60' : 'text-white hover:opacity-60'}`}
             >
               Admin Portal
             </button>
             <button 
               onClick={() => navigate('/login?role=attendant')}
               className={`hidden sm:block px-8 py-2.5 text-[10px] uppercase tracking-[0.3em] font-bold border transition-all duration-500 ${
-                isScrolled 
+                (isScrolled || isMenuOpen)
                 ? 'bg-black text-white border-black hover:bg-transparent hover:text-black' 
                 : 'bg-white text-black border-white hover:bg-transparent hover:text-white'
               }`}
