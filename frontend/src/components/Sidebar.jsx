@@ -63,24 +63,36 @@ const Sidebar = () => {
         fixed right-0 top-[114px] bg-white border-l border-slate-100 flex flex-col z-40
         transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)]
         ${isOpen 
-          ? 'translate-x-0 w-56 h-auto max-h-[calc(100vh-140px)] rounded-bl-[2.5rem] shadow-2xl visible' 
+          ? 'translate-x-0 w-60 h-auto max-h-[calc(100vh-140px)] rounded-bl-[2.5rem] shadow-2xl visible' 
           : 'translate-x-full invisible lg:hidden'}
       `}>
-        <div className="p-5 border-b border-slate-50">
-          <p className="text-[9px] font-black text-blue-600 uppercase tracking-[0.3em] opacity-80">Management</p>
+        <div className="p-5 border-b border-slate-50 bg-slate-50/50">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center text-white text-sm font-black shadow-lg shadow-blue-500/20">
+              {user?.name?.charAt(0) || 'U'}
+            </div>
+            <div className="flex flex-col">
+              <span className="text-xs font-black text-slate-900 uppercase tracking-tight leading-none">
+                {user?.name || 'User'}
+              </span>
+              <span className="text-[9px] font-bold text-blue-600 uppercase tracking-widest mt-1">
+                {user?.role === 'admin' ? 'Super Admin' : 'Attendant Admin'}
+              </span>
+            </div>
+          </div>
         </div>
 
         <div className="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
-          <p className="px-3 text-[9px] font-bold text-slate-400 uppercase tracking-widest mb-3 opacity-60">Menu</p>
+          <p className="px-3 text-[9px] font-bold text-slate-400 uppercase tracking-widest mb-3 opacity-60">Operations</p>
           {menuItems.map((item, index) => (
             <NavLink
               key={index}
               to={item.path}
               onClick={() => setIsOpen(false)}
               className={({ isActive }) => `
-                flex items-center gap-3 px-3 py-2 rounded-xl transition-all duration-200 group
+                flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 group
                 ${isActive 
-                  ? 'bg-blue-50/50 text-blue-600 font-bold' 
+                  ? 'bg-blue-50 text-blue-600 font-bold' 
                   : 'text-slate-500 hover:bg-slate-50 hover:text-slate-800'}
               `}
             >
@@ -90,19 +102,10 @@ const Sidebar = () => {
           ))}
         </div>
 
-        <div className="p-4 border-t border-slate-50 space-y-3 bg-slate-50/30">
-          <div className="flex items-center gap-3 px-2">
-            <div className="w-8 h-8 rounded-lg bg-white border border-slate-100 flex items-center justify-center text-blue-600 font-black shadow-sm text-xs">
-              {user?.name?.charAt(0) || 'U'}
-            </div>
-            <div className="flex flex-col overflow-hidden">
-              <span className="text-[11px] font-black text-slate-800 truncate uppercase tracking-tight">{user?.name || 'User'}</span>
-              <span className="text-[8px] font-bold text-slate-400 uppercase tracking-tighter">{user?.role}</span>
-            </div>
-          </div>
+        <div className="p-4 border-t border-slate-50 bg-slate-50/30">
           <button 
             onClick={handleSignOut}
-            className="w-full flex items-center gap-2 px-3 py-2 rounded-xl text-rose-500 hover:bg-rose-50 transition-all font-bold text-[11px] uppercase tracking-wider"
+            className="w-full flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl text-rose-500 hover:bg-rose-50 transition-all font-black text-[11px] uppercase tracking-wider border border-transparent hover:border-rose-100"
           >
             <LogOut size={14} />
             <span>Sign Out</span>

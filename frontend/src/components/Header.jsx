@@ -114,11 +114,11 @@ const Header = () => {
             /* Logged In View - Simplified & Mobile Optimized */
             <div className="flex items-center gap-3 md:gap-6">
               {/* User Identity Badge - Professional & Contextual */}
-              <div className="hidden sm:flex items-center gap-3 px-4 py-2 bg-slate-50 rounded-2xl border border-slate-100">
-                <div className="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center text-white text-xs font-black shadow-sm">
+              <div className="flex items-center gap-3 px-2 md:px-4 py-1.5 md:py-2 bg-slate-50 rounded-full md:rounded-2xl border border-slate-100">
+                <div className="w-7 h-7 md:w-8 md:h-8 rounded-full bg-blue-600 flex items-center justify-center text-white text-[10px] md:text-xs font-black shadow-sm">
                   {user?.name?.charAt(0) || 'U'}
                 </div>
-                <div className="flex flex-col">
+                <div className="hidden md:flex flex-col">
                   <span className="text-[10px] font-black text-slate-900 uppercase tracking-tight leading-none">
                     {user?.name || 'User'}
                   </span>
