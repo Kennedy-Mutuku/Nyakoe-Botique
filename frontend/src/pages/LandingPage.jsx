@@ -24,12 +24,12 @@ const LandingPage = () => {
         (isScrolled || isMenuOpen) ? 'bg-white border-b border-black/5' : 'bg-transparent'
       }`}>
         {/* Top Contact Strip - Vibrant Bright Blue */}
-        <div className="bg-blue-600 text-white py-2 px-6 md:px-12 flex justify-between items-center text-[9px] md:text-[10px] tracking-[0.2em] uppercase font-medium border-b border-white/5">
-          <div className="flex items-center gap-6">
-            <span className="opacity-80">PH: +254 762 053 876</span>
-            <span className="hidden sm:inline opacity-80 border-l border-white/20 pl-6 uppercase">info.nyakoeboutique@gmail.com</span>
+        <div className="bg-blue-600 text-white py-1.5 md:py-2 px-4 md:px-12 flex flex-col sm:flex-row justify-between items-center text-[8px] md:text-[10px] tracking-[0.1em] md:tracking-[0.2em] uppercase font-medium border-b border-white/5 gap-1 sm:gap-0">
+          <div className="flex flex-col xs:flex-row items-center gap-2 md:gap-6 text-center sm:text-left">
+            <span className="opacity-90 whitespace-nowrap font-bold">PH: +254 762 053 876</span>
+            <span className="opacity-90 xs:border-l border-white/20 xs:pl-6 lowercase tracking-normal font-bold">info.nyakoeboutique@gmail.com</span>
           </div>
-          <div className="hidden md:block opacity-60 italic serif-font lowercase tracking-normal text-xs">
+          <div className="opacity-80 italic serif-font lowercase tracking-normal text-[10px] md:text-xs text-center">
             Elegance in every stitch
           </div>
         </div>
