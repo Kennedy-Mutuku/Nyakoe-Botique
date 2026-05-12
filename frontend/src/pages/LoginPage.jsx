@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import { ShoppingBag, Lock, User, Eye, EyeOff, ArrowLeft } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import logo from '../assets/logo bq.png';
 
 const LoginPage = () => {
   const [searchParams] = useSearchParams();
@@ -46,10 +47,13 @@ const LoginPage = () => {
         </button>
 
         <div className="glass rounded-[2.5rem] p-8 md:p-10 border border-white shadow-2xl">
-          <div className="text-center mb-10">
-            <div className="inline-flex items-center justify-center w-16 h-16 premium-gradient rounded-2xl text-white shadow-lg mb-6">
-              {isAdmin ? <Lock size={32} /> : <User size={32} />}
+          <div className="text-center mb-10 flex flex-col items-center">
+            <div className="mb-4">
+              <img src={logo} alt="NYAKOE" className="h-16 w-auto mix-blend-multiply" />
             </div>
+            <span className="serif-font italic text-amber-800 tracking-wide text-sm mb-6">
+              Nyakoe Boutique
+            </span>
             <h1 className="text-3xl font-extrabold text-slate-900 mb-2">
               {isAdmin ? 'Admin Portal' : 'Staff Portal'}
             </h1>
