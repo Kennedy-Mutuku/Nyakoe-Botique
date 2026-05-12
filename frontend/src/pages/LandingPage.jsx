@@ -56,7 +56,7 @@ const LandingPage = () => {
             </button>
             <button 
               onClick={() => navigate('/login?role=attendant')}
-              className={`px-8 py-2.5 text-[10px] uppercase tracking-[0.3em] font-bold border transition-all duration-500 ${
+              className={`hidden sm:block px-8 py-2.5 text-[10px] uppercase tracking-[0.3em] font-bold border transition-all duration-500 ${
                 isScrolled 
                 ? 'bg-black text-white border-black hover:bg-transparent hover:text-black' 
                 : 'bg-white text-black border-white hover:bg-transparent hover:text-white'
@@ -64,9 +64,54 @@ const LandingPage = () => {
             >
               Staff Login
             </button>
-            <button className={`lg:hidden transition-colors duration-500 ${isScrolled ? 'text-black' : 'text-white'}`}>
-              <Menu size={24} />
+            <button 
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              className={`lg:hidden transition-all duration-500 relative z-[60] ${
+                isMenuOpen ? 'text-black' : (isScrolled ? 'text-black' : 'text-white')
+              }`}
+            >
+              {isMenuOpen ? <X size={28} strokeWidth={1.5} /> : <Menu size={28} strokeWidth={1.5} />}
             </button>
+          </div>
+        </div>
+
+        {/* Mobile Menu Overlay - Demure & Full Screen */}
+        <div className={`fixed inset-0 bg-white z-[55] transition-all duration-700 ease-[cubic-bezier(0.86,0,0.07,1)] ${
+          isMenuOpen ? 'translate-y-0' : '-translate-y-full'
+        }`}>
+          <div className="h-full flex flex-col justify-center px-12">
+            <div className="space-y-8">
+              {['Management', 'Tailoring', 'Inventory', 'Insights'].map((item, i) => (
+                <a 
+                  key={item} 
+                  href="#" 
+                  className={`block text-5xl serif-font italic hover:translate-x-4 transition-transform duration-500 ${
+                    isMenuOpen ? 'opacity-100' : 'opacity-0'
+                  }`}
+                  style={{ transitionDelay: `${i * 100}ms` }}
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  {item}
+                </a>
+              ))}
+            </div>
+            
+            <div className={`mt-20 pt-12 border-t border-black/5 flex flex-col gap-6 transition-all duration-1000 ${
+              isMenuOpen ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+            }`}>
+              <button 
+                onClick={() => { navigate('/login?role=attendant'); setIsMenuOpen(false); }}
+                className="btn-minimal btn-minimal-black w-full"
+              >
+                Staff Login
+              </button>
+              <button 
+                onClick={() => { navigate('/login?role=admin'); setIsMenuOpen(false); }}
+                className="btn-minimal w-full"
+              >
+                Admin Portal
+              </button>
+            </div>
           </div>
         </div>
       </nav>
