@@ -227,7 +227,7 @@ const InventoryPage = () => {
 
           {/* Mobile Card List */}
           <div className="md:hidden divide-y divide-slate-50">
-            {inventory.filter(p => p.name.toLowerCase().includes(searchTerm.toLowerCase()) || p.id.toLowerCase().includes(searchTerm.toLowerCase())).map((row) => (
+            {inventoryData.filter(p => p.name.toLowerCase().includes(searchTerm.toLowerCase()) || p.id.toLowerCase().includes(searchTerm.toLowerCase())).map((row) => (
               <div key={row.id} className="p-6 space-y-4">
                 <div className="flex justify-between items-start">
                   <div className="flex items-center gap-3">
