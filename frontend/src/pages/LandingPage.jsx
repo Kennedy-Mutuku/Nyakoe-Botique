@@ -25,12 +25,17 @@ const LandingPage = () => {
       }`}>
         <div className="max-w-[1600px] mx-auto px-6 md:px-12 flex items-center justify-between">
           <div className="flex items-center gap-12">
-            <div className="flex items-center gap-2 cursor-pointer group" onClick={() => navigate('/')}>
-              <img 
-                src={logo} 
-                alt="NYAKOE Boutique" 
-                className={`h-12 md:h-16 w-auto transition-all duration-500 ${(isScrolled || isMenuOpen) ? 'brightness-100' : 'brightness-0 invert'}`}
-              />
+            <div className="flex flex-col items-center cursor-pointer group" onClick={() => navigate('/')}>
+              <div className="relative">
+                <img 
+                  src={logo} 
+                  alt="Logo" 
+                  className={`h-10 md:h-12 w-auto transition-all duration-500 ${(isScrolled || isMenuOpen) ? 'mix-blend-multiply' : 'invert brightness-200 mix-blend-screen'}`}
+                />
+              </div>
+              <span className={`serif-font italic text-[10px] md:text-[12px] mt-1 tracking-wider transition-colors duration-500 ${(isScrolled || isMenuOpen) ? 'text-amber-800' : 'text-amber-200/80'}`}>
+                Nyakoe Boutique
+              </span>
             </div>
             
             <div className="hidden lg:flex items-center gap-8">
