@@ -24,6 +24,7 @@ const InventoryPage = () => {
   const [newSize, setNewSize] = useState('');
   const [newQty, setNewQty] = useState('');
   const [newPrice, setNewPrice] = useState('');
+  const [formErrors, setFormErrors] = useState({});
 
   // Initial Data
   const initialItems = [
@@ -83,8 +84,15 @@ const InventoryPage = () => {
   const totalStock = variants.reduce((sum, v) => sum + v.qty, 0);
 
   const handleSaveProduct = () => {
-    if (!prodName || !buyingPrice || !sellingPrice || variants.length === 0) {
-      alert('❌ Please complete all mandatory fields and add at least one size!');
+    const errors = {};
+    if (!prodName) errors.name = true;
+    if (!buyingPrice) errors.buying = true;
+    if (!sellingPrice) errors.selling = true;
+    if (!prodImage) errors.image = true;
+    if (variants.length === 0) errors.variants = true;
+
+    if (Object.keys(errors).length > 0) {
+      setFormErrors(errors);
       return;
     }
 
@@ -97,7 +105,7 @@ const InventoryPage = () => {
       stock: totalStock,
       supplier: prodSupplier,
       image: prodImage,
-      variantsList: variants // Store the detailed variants
+      variantsList: variants
     };
 
     setInventoryData([newProduct, ...inventoryData]);
@@ -110,6 +118,7 @@ const InventoryPage = () => {
     setSellingPrice('');
     setVariants([]);
     setProdImage(null);
+    setFormErrors({});
     
     alert('🎉 Product Successfully Added to Digital Vault!');
   };
@@ -315,16 +324,30 @@ const InventoryPage = () => {
                   {/* Section 1: Core Product Identity (Mandatory First) */}
                   <div className="space-y-6">
                     <div className="space-y-2">
-                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1 flex items-center gap-2">
-                        Product Identity <span className="text-rose-500">* REQUIRED</span>
-                      </label>
+                      <div className="flex justify-between items-center px-1">
+                        <label className={`text-[10px] font-black uppercase tracking-widest flex items-center gap-2 ${formErrors.name ? 'text-rose-500' : 'text-slate-400'}`}>
+                          Product Identity *
+                        </label>
+                        {formErrors.name && <span className="text-[10px] font-black text-rose-500 uppercase animate-pulse">Required *</span>}
+                      </div>
                       <input 
                         type="text" 
                         required
                         value={prodName}
-                        onChange={(e) => setProdName(e.target.value)}
+                        onChange={(e) => {
+                          setProdName(e.target.value);
+                          if(e.target.value) {
+                            const newErrs = {...formErrors};
+                            delete newErrs.name;
+                            setFormErrors(newErrs);
+                          }
+                        }}
                         placeholder="e.g., Luxury Silk Evening Gown" 
-                        className="w-full px-6 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-4 focus:ring-blue-500/10 focus:bg-white focus:border-blue-500 transition-all font-black text-lg placeholder:font-bold placeholder:text-slate-300" 
+                        className={`w-full px-6 py-4 border rounded-2xl transition-all font-black text-lg placeholder:font-bold placeholder:text-slate-300 ${
+                          formErrors.name 
+                          ? 'border-rose-500 bg-rose-50/30 text-rose-700 ring-4 ring-rose-500/10' 
+                          : 'bg-slate-50 border-slate-200 focus:ring-4 focus:ring-blue-500/10 focus:bg-white focus:border-blue-50'
+                        }`} 
                       />
                     </div>
                   </div>
@@ -334,20 +357,32 @@ const InventoryPage = () => {
                     <div className="space-y-8">
                       {/* Image Upload Area */}
                       <div className="space-y-3">
-                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1 flex items-center gap-2">
-                          Visual Representation <span className="text-rose-500">* REQUIRED</span>
-                        </label>
+                        <div className="flex justify-between items-center px-1">
+                          <label className={`text-[10px] font-black uppercase tracking-widest flex items-center gap-2 ${formErrors.image ? 'text-rose-500' : 'text-slate-400'}`}>
+                            Visual Representation *
+                          </label>
+                          {formErrors.image && <span className="text-[10px] font-black text-rose-500 uppercase animate-pulse">Required *</span>}
+                        </div>
                         <input 
                           type="file" 
                           id="photo-upload" 
                           className="hidden" 
                           accept="image/*" 
                           capture="environment" 
-                          onChange={handleImageChange}
+                          onChange={(e) => {
+                            handleImageChange(e);
+                            const newErrs = {...formErrors};
+                            delete newErrs.image;
+                            setFormErrors(newErrs);
+                          }}
                         />
                         <label 
                           htmlFor="photo-upload"
-                          className="aspect-square bg-slate-50 border-2 border-dashed border-slate-200 rounded-[2.5rem] flex flex-col items-center justify-center gap-4 group hover:border-blue-400 hover:bg-blue-50/30 transition-all cursor-pointer overflow-hidden relative"
+                          className={`aspect-square border-2 border-dashed rounded-[2.5rem] flex flex-col items-center justify-center gap-4 group transition-all cursor-pointer overflow-hidden relative ${
+                            formErrors.image 
+                            ? 'border-rose-500 bg-rose-50/30' 
+                            : 'bg-slate-50 border-slate-200 hover:border-blue-400 hover:bg-blue-50/30'
+                          }`}
                         >
                           {prodImage ? (
                             <img src={prodImage} alt="Preview" className="w-full h-full object-cover" />
@@ -409,31 +444,53 @@ const InventoryPage = () => {
                       <div className="space-y-4">
                         <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Financial Specifications *</label>
                         <div className="grid grid-cols-2 gap-4">
-                          <div className="p-5 bg-emerald-50/30 border border-emerald-100 rounded-3xl space-y-2 focus-within:ring-4 focus-within:ring-emerald-500/10 transition-all">
-                            <p className="text-[10px] font-black text-emerald-600 uppercase tracking-widest">Buying Price</p>
+                          <div className={`p-5 border rounded-3xl space-y-2 transition-all ${
+                            formErrors.buying 
+                            ? 'border-rose-500 bg-rose-50/30 ring-4 ring-rose-500/10' 
+                            : 'bg-emerald-50/30 border-emerald-100 focus-within:ring-4 focus-within:ring-emerald-500/10'
+                          }`}>
+                            <p className={`text-[10px] font-black uppercase tracking-widest ${formErrors.buying ? 'text-rose-600' : 'text-emerald-600'}`}>Buying Price {formErrors.buying && '*'}</p>
                             <div className="flex items-center gap-2">
-                              <span className="text-sm font-black text-emerald-600/60">KSh</span>
+                              <span className={`text-sm font-black ${formErrors.buying ? 'text-rose-600/60' : 'text-emerald-600/60'}`}>KSh</span>
                               <input 
                                 type="number" 
                                 required 
                                 value={buyingPrice}
-                                onChange={(e) => setBuyingPrice(e.target.value)}
+                                onChange={(e) => {
+                                  setBuyingPrice(e.target.value);
+                                  if(e.target.value) {
+                                    const newErrs = {...formErrors};
+                                    delete newErrs.buying;
+                                    setFormErrors(newErrs);
+                                  }
+                                }}
                                 placeholder="0" 
-                                className="w-full bg-transparent border-none p-0 focus:ring-0 text-xl font-black text-emerald-700 placeholder:text-emerald-200" 
+                                className={`w-full bg-transparent border-none p-0 focus:ring-0 text-xl font-black placeholder:text-emerald-200 ${formErrors.buying ? 'text-rose-700' : 'text-emerald-700'}`} 
                               />
                             </div>
                           </div>
-                          <div className="p-5 bg-blue-50/30 border border-blue-100 rounded-3xl space-y-2 focus-within:ring-4 focus-within:ring-blue-500/10 transition-all">
-                            <p className="text-[10px] font-black text-blue-600 uppercase tracking-widest">Selling Price</p>
+                          <div className={`p-5 border rounded-3xl space-y-2 transition-all ${
+                            formErrors.selling 
+                            ? 'border-rose-500 bg-rose-50/30 ring-4 ring-rose-500/10' 
+                            : 'bg-blue-50/30 border-blue-100 focus-within:ring-4 focus-within:ring-blue-500/10'
+                          }`}>
+                            <p className={`text-[10px] font-black uppercase tracking-widest ${formErrors.selling ? 'text-rose-600' : 'text-blue-600'}`}>Selling Price {formErrors.selling && '*'}</p>
                             <div className="flex items-center gap-2">
-                              <span className="text-sm font-black text-blue-600/60">KSh</span>
+                              <span className={`text-sm font-black ${formErrors.selling ? 'text-rose-600/60' : 'text-blue-600/60'}`}>KSh</span>
                               <input 
                                 type="number" 
                                 required 
                                 value={sellingPrice}
-                                onChange={(e) => setSellingPrice(e.target.value)}
+                                onChange={(e) => {
+                                  setSellingPrice(e.target.value);
+                                  if(e.target.value) {
+                                    const newErrs = {...formErrors};
+                                    delete newErrs.selling;
+                                    setFormErrors(newErrs);
+                                  }
+                                }}
                                 placeholder="0" 
-                                className="w-full bg-transparent border-none p-0 focus:ring-0 text-xl font-black text-blue-700 placeholder:text-blue-200" 
+                                className={`w-full bg-transparent border-none p-0 focus:ring-0 text-xl font-black placeholder:text-blue-200 ${formErrors.selling ? 'text-rose-700' : 'text-blue-700'}`} 
                               />
                             </div>
                           </div>
@@ -443,11 +500,16 @@ const InventoryPage = () => {
                       {/* Multi-Size Inventory Management */}
                       <div className="space-y-4">
                         <div className="flex justify-between items-end px-1">
-                          <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Mandatory Size Entry *</label>
-                          <span className="text-[10px] font-black text-blue-600 uppercase">Total Stock: {totalStock} pcs</span>
+                          <label className={`text-[10px] font-black uppercase tracking-widest ${formErrors.variants ? 'text-rose-500' : 'text-slate-400'}`}>
+                            Mandatory Size Entry *
+                          </label>
+                          <div className="flex flex-col items-end">
+                            {formErrors.variants && <span className="text-[8px] font-black text-rose-500 uppercase animate-pulse mb-1">Add at least one size variant *</span>}
+                            <span className="text-[10px] font-black text-blue-600 uppercase">Total Stock: {totalStock} pcs</span>
+                          </div>
                         </div>
                         
-                        <div className="bg-white border border-slate-200 rounded-3xl overflow-hidden shadow-sm">
+                        <div className={`bg-white border rounded-3xl overflow-hidden shadow-sm transition-all ${formErrors.variants ? 'border-rose-500 ring-4 ring-rose-500/10' : 'border-slate-200'}`}>
                           <div className="p-4 bg-slate-50 border-b border-slate-200 grid grid-cols-4 gap-3">
                             <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Size Label</p>
                             <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Quantity</p>
