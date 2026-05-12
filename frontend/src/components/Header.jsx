@@ -69,8 +69,8 @@ const Header = () => {
             </div>
           </div>
           
-          {/* Management Desktop Navigation - Expansive & Underlined */}
-          {isLoggedIn && (
+          {/* Navigation Area */}
+          {isLoggedIn ? (
             <div className="hidden lg:flex items-center justify-center flex-1 px-8">
               <div className="flex items-center gap-8 xl:gap-12">
                 {menuItems.map((item, idx) => (
@@ -93,92 +93,87 @@ const Header = () => {
                 ))}
               </div>
             </div>
-          )}
-
-          {/* Public Navigation Links - ONLY for landing page (not logged in) */}
-          {!isLoggedIn && (
-            <div className="hidden lg:flex items-center gap-8">
-              {['Management', 'Tailoring', 'Inventory', 'Insights'].map((item) => (
-                <a 
-                  key={item} 
-                  href="#" 
-                  className="text-[10px] uppercase tracking-[0.3em] font-bold text-black hover:opacity-60 transition-all"
-                >
-                  {item}
-                </a>
-              ))}
-            </div>
-          )}
-        </div>
-
-        <div className="flex items-center gap-3 md:gap-6">
-          {isLoggedIn ? (
-            /* Logged In View - Simplified & Mobile Optimized */
-            <div className="flex items-center gap-3 md:gap-6">
-              {/* User Identity Badge - Desktop Only */}
-              <div className="hidden md:flex items-center gap-3 px-4 py-2 bg-slate-50 rounded-2xl border border-slate-100">
-                <div className="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center text-white text-xs font-black shadow-sm">
-                  {user?.name?.charAt(0) || 'U'}
-                </div>
-                <div className="flex flex-col">
-                  <span className="text-[10px] font-black text-slate-900 uppercase tracking-tight leading-none">
-                    {user?.name || 'User'}
-                  </span>
-                  <span className="text-[8px] font-bold text-blue-600 uppercase tracking-tighter mt-1">
-                    {user?.role === 'admin' ? 'Super Admin' : 'Attendant Admin'}
-                  </span>
-                </div>
-              </div>
-
-              <button 
-                onClick={() => window.dispatchEvent(new CustomEvent('toggleSidebar'))}
-                className="lg:hidden flex items-center justify-center p-2.5 bg-slate-50 text-blue-600 rounded-xl hover:bg-blue-50 transition-all active:scale-90 border border-slate-100"
-                title="Management Menu"
-              >
-                <LayoutGrid size={20} />
-              </button>
-              
-              <button 
-                onClick={handleSignOut}
-                className="flex items-center gap-2 px-4 md:px-6 py-2 md:py-2.5 text-[9px] md:text-[10px] uppercase tracking-[0.2em] md:tracking-[0.3em] font-black border border-rose-500 text-rose-500 hover:bg-rose-500 hover:text-white transition-all shadow-lg shadow-rose-500/10"
-              >
-                <LogOut size={16} />
-                <span className="hidden md:inline">Log Out</span>
-              </button>
-            </div>
           ) : (
-            /* Public View - Portal Links */
-            <div className="hidden lg:flex items-center gap-10">
-              <button 
-                onClick={() => navigate('/')}
-                className="text-[10px] uppercase tracking-[0.3em] font-bold text-slate-400 hover:text-black transition-all"
-              >
-                Home
-              </button>
-              <button 
-                onClick={() => navigate('/login?role=admin')}
-                className="text-[10px] uppercase tracking-[0.3em] font-bold text-slate-400 hover:text-black transition-all"
-              >
-                Admin Portal
-              </button>
-              <button 
-                onClick={() => navigate('/login?role=attendant')}
-                className="px-8 py-2.5 text-[10px] uppercase tracking-[0.3em] font-bold border border-black bg-black text-white hover:bg-transparent hover:text-black transition-all shadow-xl shadow-black/10"
-              >
-                Staff Login
-              </button>
+            /* Public Navigation - Home First, then Management links */
+            <div className="hidden lg:flex items-center justify-center flex-1 px-8">
+              <div className="flex items-center gap-8 xl:gap-12">
+                <button 
+                  onClick={() => navigate('/')}
+                  className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400 hover:text-black transition-all py-1 border-b-2 border-transparent hover:border-black"
+                >
+                  Home
+                </button>
+                {['Management', 'Tailoring', 'Inventory', 'Insights'].map((item) => (
+                  <button 
+                    key={item}
+                    onClick={() => navigate(item === 'Management' ? '/login?role=admin' : '/login?role=attendant')}
+                    className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400 hover:text-black transition-all py-1 border-b-2 border-transparent hover:border-black"
+                  >
+                    {item}
+                  </button>
+                ))}
+              </div>
             </div>
           )}
-          
-          {/* Mobile Menu Toggle - Only if not logged in (sidebar handles dashboard mobile) */}
-          {!isLoggedIn && (
-            <button 
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="lg:hidden transition-all relative z-[60] text-black"
-            >
-              {isMenuOpen ? <X size={28} strokeWidth={1.5} /> : <Menu size={28} strokeWidth={1.5} />}
-            </button>
-          )}
+
+          {/* Right Control Cluster */}
+          <div className="flex items-center gap-3 md:gap-6">
+            {isLoggedIn ? (
+              /* Logged In View - Simplified & Mobile Optimized */
+              <div className="flex items-center gap-3 md:gap-6">
+                {/* User Identity Badge - Desktop Only */}
+                <div className="hidden md:flex items-center gap-3 px-4 py-2 bg-slate-50 rounded-2xl border border-slate-100">
+                  <div className="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center text-white text-xs font-black shadow-sm">
+                    {user?.name?.charAt(0) || 'U'}
+                  </div>
+                  <div className="flex flex-col">
+                    <span className="text-[10px] font-black text-slate-900 uppercase tracking-tight leading-none">
+                      {user?.name || 'User'}
+                    </span>
+                    <span className="text-[8px] font-bold text-blue-600 uppercase tracking-tighter mt-1">
+                      {user?.role === 'admin' ? 'Super Admin' : 'Attendant Admin'}
+                    </span>
+                  </div>
+                </div>
+
+                <button 
+                  onClick={() => window.dispatchEvent(new CustomEvent('toggleSidebar'))}
+                  className="lg:hidden flex items-center justify-center p-2.5 bg-slate-50 text-blue-600 rounded-xl hover:bg-blue-50 transition-all active:scale-90 border border-slate-100"
+                  title="Management Menu"
+                >
+                  <LayoutGrid size={20} />
+                </button>
+                
+                <button 
+                  onClick={handleSignOut}
+                  className="flex items-center gap-2 px-4 md:px-6 py-2 md:py-2.5 text-[9px] md:text-[10px] uppercase tracking-[0.2em] md:tracking-[0.3em] font-black border border-rose-500 text-rose-500 hover:bg-rose-500 hover:text-white transition-all shadow-lg shadow-rose-500/10"
+                >
+                  <LogOut size={16} />
+                  <span className="hidden md:inline">Log Out</span>
+                </button>
+              </div>
+            ) : (
+              /* Public View - Portal Links */
+              <div className="hidden lg:flex items-center gap-10">
+                <button 
+                  onClick={() => navigate('/login?role=admin')}
+                  className="text-[10px] uppercase tracking-[0.3em] font-bold text-slate-400 hover:text-black transition-all"
+                >
+                  Admin Portal
+                </button>
+                <button 
+                  onClick={() => navigate('/login?role=attendant')}
+                  className="px-8 py-2.5 text-[10px] uppercase tracking-[0.3em] font-bold border border-black bg-black text-white hover:bg-transparent hover:text-black transition-all shadow-xl shadow-black/10"
+                >
+                  Staff Login
+                </button>
+              </div>
+            )}
+          </div>
+
+          <button className="lg:hidden" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+            {isMenuOpen ? <X size={28} strokeWidth={1.5} /> : <Menu size={28} strokeWidth={1.5} />}
+          </button>
         </div>
       </div>
 
