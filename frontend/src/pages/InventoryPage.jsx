@@ -89,6 +89,8 @@ const InventoryPage = () => {
     if (!buyingPrice) errors.buying = true;
     if (!sellingPrice) errors.selling = true;
     if (!prodImage) errors.image = true;
+    if (!prodCategory) errors.category = true;
+    if (!prodSupplier) errors.supplier = true;
     if (variants.length === 0) errors.variants = true;
 
     if (Object.keys(errors).length > 0) {
@@ -207,6 +209,7 @@ const InventoryPage = () => {
                 <tr className="bg-slate-50/50">
                   <th className="px-6 py-3 text-[9px] font-black text-slate-400 uppercase tracking-[0.2em]">Product</th>
                   <th className="px-6 py-3 text-[9px] font-black text-slate-400 uppercase tracking-[0.2em]">Category</th>
+                  <th className="px-6 py-3 text-[9px] font-black text-slate-400 uppercase tracking-[0.2em]">Supplier</th>
                   <th className="px-6 py-3 text-[9px] font-black text-slate-400 uppercase tracking-[0.2em]">Buying Price</th>
                   <th className="px-6 py-3 text-[9px] font-black text-slate-400 uppercase tracking-[0.2em]">Selling Price</th>
                   <th className="px-6 py-3 text-[9px] font-black text-slate-400 uppercase tracking-[0.2em]">Stock</th>
@@ -219,9 +222,9 @@ const InventoryPage = () => {
                   <tr key={row.id} className="hover:bg-slate-50/50 transition-colors group">
                     <td className="px-6 py-3">
                       <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center text-slate-400 font-bold overflow-hidden">
+                        <div className="w-10 h-10 rounded-xl bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-400 font-bold overflow-hidden">
                           {row.image ? (
-                            <img src={row.image} alt="" className="w-full h-full object-cover" />
+                            <img src={row.image} alt="" className="w-full h-full object-contain" />
                           ) : (
                             <Package size={18} />
                           )}
@@ -233,8 +236,13 @@ const InventoryPage = () => {
                       </div>
                     </td>
                     <td className="px-6 py-3">
-                      <span className="px-2.5 py-0.5 bg-slate-100 text-slate-600 rounded-full text-[8px] font-black uppercase tracking-widest">
+                      <span className="px-2.5 py-0.5 bg-blue-50 text-blue-600 rounded-full text-[8px] font-black uppercase tracking-widest">
                         {row.category}
+                      </span>
+                    </td>
+                    <td className="px-6 py-3">
+                      <span className="text-[10px] font-bold text-slate-500 uppercase tracking-tight">
+                        {row.supplier || 'Direct'}
                       </span>
                     </td>
                     <td className="px-6 py-3 text-xs text-slate-500 font-bold">KSh {row.buying.toLocaleString()}</td>
@@ -381,7 +389,7 @@ const InventoryPage = () => {
                           }`}
                         >
                           {prodImage ? (
-                            <img src={prodImage} alt="Preview" className="w-full h-full object-cover" />
+                            <img src={prodImage} alt="Preview" className="w-full h-full object-contain p-2" />
                           ) : (
                             <>
                               <div className="w-12 h-12 bg-white rounded-xl shadow-sm flex items-center justify-center text-slate-300 group-hover:text-blue-500 transition-all">
@@ -399,15 +407,26 @@ const InventoryPage = () => {
                         </label>
                       </div>
 
-                      <div className="space-y-4 bg-slate-50/50 p-4 rounded-3xl border border-slate-100">
+                        <div className="space-y-4 bg-slate-50/50 p-4 rounded-3xl border border-slate-100">
                         <div className="space-y-1.5">
-                          <label className="text-[9px] font-black text-slate-400 uppercase tracking-widest ml-1">Category *</label>
+                          <div className="flex justify-between items-center px-1">
+                            <label className={`text-[9px] font-black uppercase tracking-widest ${formErrors.category ? 'text-rose-500' : 'text-slate-400'}`}>Category *</label>
+                            {formErrors.category && <span className="text-[8px] font-black text-rose-500 uppercase">Required *</span>}
+                          </div>
                           <select 
                             required 
                             value={prodCategory}
-                            onChange={(e) => setProdCategory(e.target.value)}
-                            className="w-full px-4 py-2.5 bg-white border border-slate-200 rounded-xl transition-all font-bold text-xs appearance-none cursor-pointer"
+                            onChange={(e) => {
+                              setProdCategory(e.target.value);
+                              const newErrs = {...formErrors};
+                              delete newErrs.category;
+                              setFormErrors(newErrs);
+                            }}
+                            className={`w-full px-4 py-2.5 border rounded-xl transition-all font-bold text-xs appearance-none cursor-pointer ${
+                              formErrors.category ? 'border-rose-500 bg-rose-50/30' : 'bg-white border-slate-200'
+                            }`}
                           >
+                            <option value="">Select Category</option>
                             <option>Dresses</option>
                             <option>Suits</option>
                             <option>Shirts</option>
@@ -417,14 +436,26 @@ const InventoryPage = () => {
                           </select>
                         </div>
                         <div className="space-y-1.5">
-                          <label className="text-[9px] font-black text-slate-400 uppercase tracking-widest ml-1">Supplier *</label>
+                          <div className="flex justify-between items-center px-1">
+                            <label className={`text-[9px] font-black uppercase tracking-widest ${formErrors.supplier ? 'text-rose-500' : 'text-slate-400'}`}>Supplier *</label>
+                            {formErrors.supplier && <span className="text-[8px] font-black text-rose-500 uppercase">Required *</span>}
+                          </div>
                           <input 
                             type="text" 
                             required 
                             value={prodSupplier}
-                            onChange={(e) => setProdSupplier(e.target.value)}
+                            onChange={(e) => {
+                              setProdSupplier(e.target.value);
+                              if(e.target.value) {
+                                const newErrs = {...formErrors};
+                                delete newErrs.supplier;
+                                setFormErrors(newErrs);
+                              }
+                            }}
                             placeholder="Supplier name..." 
-                            className="w-full px-4 py-2.5 bg-white border border-slate-200 rounded-xl transition-all font-bold text-xs" 
+                            className={`w-full px-4 py-2.5 border rounded-xl transition-all font-bold text-xs ${
+                              formErrors.supplier ? 'border-rose-500 bg-rose-50/30' : 'bg-white border-slate-200'
+                            }`} 
                           />
                         </div>
                       </div>
