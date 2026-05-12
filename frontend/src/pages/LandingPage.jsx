@@ -19,7 +19,7 @@ const LandingPage = () => {
   return (
     <div className="min-h-screen bg-white selection:bg-black selection:text-white">
       {/* Navigation - Demure & Transparent */}
-      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${
+      <nav className={`fixed top-0 left-0 right-0 z-[60] transition-all duration-700 ${
         isScrolled ? 'bg-white/90 backdrop-blur-md py-4 border-b border-black/5' : 'bg-transparent py-8'
       }`}>
         <div className="max-w-[1600px] mx-auto px-6 md:px-12 flex items-center justify-between">
