@@ -69,21 +69,24 @@ const Header = () => {
             </div>
           </div>
           
-          {/* Management Desktop Navigation - ONLY for Desktop when logged in */}
+          {/* Management Desktop Navigation - Expansive & Underlined */}
           {isLoggedIn && (
-            <div className="hidden lg:flex items-center gap-1 bg-slate-50/50 p-1 rounded-2xl border border-slate-100">
+            <div className="hidden lg:flex items-center gap-6 xl:gap-10 ml-8">
               {menuItems.map((item, idx) => (
                 <NavLink
                   key={idx}
                   to={item.path}
                   className={({ isActive }) => `
-                    flex items-center gap-2 px-4 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all
+                    flex items-center gap-2.5 py-6 px-1 text-[10px] font-black uppercase tracking-[0.2em] transition-all relative group
+                    border-b-2 
                     ${isActive 
-                      ? 'bg-white text-blue-600 shadow-sm border border-slate-100' 
-                      : 'text-slate-400 hover:text-slate-900 hover:bg-white/50'}
+                      ? 'text-blue-600 border-blue-600' 
+                      : 'text-slate-400 border-transparent hover:text-slate-900 hover:border-slate-200'}
                   `}
                 >
-                  {item.icon}
+                  <span className={`transition-transform group-hover:-translate-y-0.5`}>
+                    {item.icon}
+                  </span>
                   <span>{item.label}</span>
                 </NavLink>
               ))}
