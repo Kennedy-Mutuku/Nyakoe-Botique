@@ -84,29 +84,29 @@ const StaffDashboard = () => {
             </button>
           </div>
 
-          {/* Product Grid */}
-          <div className="grid sm:grid-cols-2 gap-6">
+          {/* Product Grid - Denser for efficiency */}
+          <div className="grid sm:grid-cols-2 xl:grid-cols-3 gap-4">
             {products.filter(p => p.name.toLowerCase().includes(searchTerm.toLowerCase())).map((product) => (
-              <div key={product.id} className="bg-white p-6 rounded-[2.5rem] border border-slate-100 shadow-sm hover:shadow-xl transition-all group">
-                <div className="flex justify-between items-start mb-4">
-                  <div className="w-14 h-14 bg-blue-50 rounded-2xl flex items-center justify-center text-blue-500 group-hover:scale-110 transition-transform">
-                    <Package size={28} />
+              <div key={product.id} className="bg-white p-4 rounded-3xl border border-slate-100 shadow-sm hover:shadow-lg transition-all group">
+                <div className="flex justify-between items-start mb-3">
+                  <div className="w-10 h-10 bg-blue-50 rounded-xl flex items-center justify-center text-blue-500">
+                    <Package size={20} />
                   </div>
-                  <span className={`px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest ${
-                    product.stock < 10 ? 'bg-rose-50 text-rose-600' : 'bg-emerald-50 text-emerald-600'
+                  <span className={`text-[9px] font-black uppercase tracking-tighter ${
+                    product.stock < 10 ? 'text-rose-500' : 'text-emerald-500'
                   }`}>
-                    {product.stock} in stock
+                    {product.stock} left
                   </span>
                 </div>
-                <h3 className="text-xl font-bold text-slate-900 mb-1">{product.name}</h3>
-                <p className="text-slate-400 text-sm font-semibold mb-4">{product.category}</p>
+                <h3 className="text-sm font-bold text-slate-900 truncate">{product.name}</h3>
+                <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest mb-3">{product.category}</p>
                 <div className="flex justify-between items-center">
-                  <span className="text-xl font-black text-slate-900">KSh {product.price.toLocaleString()}</span>
+                  <span className="text-sm font-black text-slate-900">KSh {product.price.toLocaleString()}</span>
                   <button 
                     onClick={() => addToCart(product)}
-                    className="p-3 bg-slate-900 text-white rounded-xl hover:bg-blue-600 transition-all active:scale-95 shadow-lg shadow-slate-900/10"
+                    className="p-2 bg-slate-900 text-white rounded-lg hover:bg-blue-600 transition-all active:scale-95"
                   >
-                    <Plus size={20} />
+                    <Plus size={16} />
                   </button>
                 </div>
               </div>
@@ -114,93 +114,82 @@ const StaffDashboard = () => {
           </div>
         </div>
 
-        {/* Cart & Checkout */}
-        <div className="space-y-6 md:space-y-8 max-w-full">
-          <div className="bg-white rounded-[2rem] md:rounded-[2.5rem] border border-slate-100 shadow-xl overflow-hidden flex flex-col h-auto lg:h-[calc(100vh-64px)] lg:sticky lg:top-8">
-            <div className="p-8 border-b border-slate-50">
-              <div className="flex items-center gap-3 mb-2">
-                <ShoppingCart className="text-blue-500" />
-                <h2 className="text-2xl font-black text-slate-900">Current Cart</h2>
+        {/* Cart & Checkout - Compact & Professional */}
+        <div className="space-y-6 max-w-full">
+          <div className="bg-white rounded-[2rem] border border-slate-100 shadow-xl overflow-hidden flex flex-col h-auto lg:h-[calc(100vh-160px)] lg:sticky lg:top-36">
+            <div className="p-6 border-b border-slate-50">
+              <div className="flex items-center gap-2 mb-1">
+                <ShoppingCart className="text-blue-500" size={20} />
+                <h2 className="text-lg font-black text-slate-900 uppercase tracking-tight">Active Cart</h2>
               </div>
-              <p className="text-slate-400 text-sm font-bold uppercase tracking-widest">{cart.length} items added</p>
+              <p className="text-slate-400 text-[10px] font-black uppercase tracking-widest">{cart.length} items</p>
             </div>
 
-            <div className="flex-1 overflow-y-auto p-6 space-y-4">
+            <div className="flex-1 overflow-y-auto p-4 space-y-2">
               {cart.length === 0 ? (
-                <div className="h-full flex flex-col items-center justify-center text-center opacity-40">
-                  <ShoppingCart size={64} className="mb-4" />
-                  <p className="font-bold">Your cart is empty</p>
-                  <p className="text-sm">Start adding products to record a sale</p>
+                <div className="h-full flex flex-col items-center justify-center text-center opacity-30 py-10">
+                  <ShoppingCart size={48} className="mb-2" />
+                  <p className="text-xs font-bold uppercase tracking-widest">Ready for sale</p>
                 </div>
               ) : (
                 cart.map((item, idx) => (
-                  <div key={idx} className="flex items-center gap-4 p-4 bg-slate-50 rounded-2xl group animate-in slide-in-from-right-4 duration-300">
-                    <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center text-slate-400 font-bold border border-slate-100">
-                      {idx + 1}
-                    </div>
-                    <div className="flex-1">
-                      <p className="font-bold text-slate-800 line-clamp-1">{item.name}</p>
-                      <p className="text-xs font-black text-slate-400">KSh {item.price.toLocaleString()}</p>
+                  <div key={idx} className="flex items-center gap-3 p-3 bg-slate-50 rounded-xl group transition-all">
+                    <div className="flex-1 min-w-0">
+                      <p className="text-xs font-bold text-slate-800 truncate">{item.name}</p>
+                      <p className="text-[10px] font-black text-blue-600 uppercase tracking-tight">KSh {item.price.toLocaleString()}</p>
                     </div>
                     <button 
                       onClick={() => removeFromCart(idx)}
-                      className="p-2 text-slate-300 hover:text-rose-500 transition-colors"
+                      className="p-1.5 text-slate-300 hover:text-rose-500 transition-colors"
                     >
-                      <Trash2 size={18} />
+                      <Trash2 size={14} />
                     </button>
                   </div>
                 ))
               )}
             </div>
 
-            <div className="p-8 bg-slate-50 border-t border-slate-100 space-y-6">
-              <div className="space-y-2">
-                <div className="flex justify-between text-slate-500 font-bold text-sm">
+            <div className="p-6 bg-slate-50 border-t border-slate-100 space-y-4">
+              <div className="space-y-1">
+                <div className="flex justify-between text-slate-500 font-bold text-[10px] uppercase">
                   <span>Subtotal</span>
                   <span>KSh {total.toLocaleString()}</span>
                 </div>
-                <div className="flex justify-between text-slate-500 font-bold text-sm">
-                  <span>Tax (0%)</span>
-                  <span>KSh 0</span>
-                </div>
-                <div className="flex justify-between text-slate-900 font-black text-2xl pt-2">
+                <div className="flex justify-between text-slate-900 font-black text-xl pt-1">
                   <span>Total</span>
-                  <span className="premium-text-gradient">KSh {total.toLocaleString()}</span>
+                  <span className="text-blue-600">KSh {total.toLocaleString()}</span>
                 </div>
               </div>
 
-              <div className="space-y-3">
-                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">Payment Method</p>
-                <div className="grid grid-cols-2 gap-2">
-                  <button 
-                    onClick={() => setPaymentMethod('cash')}
-                    className={`py-3 px-4 rounded-xl border-2 font-bold text-sm transition-all ${
-                      paymentMethod === 'cash' ? 'border-blue-500 bg-blue-50 text-blue-600' : 'border-slate-200 text-slate-500 hover:border-slate-300'
-                    }`}
-                  >
-                    Cash
-                  </button>
-                  <button 
-                    onClick={() => setPaymentMethod('mpesa')}
-                    className={`py-3 px-4 rounded-xl border-2 font-bold text-sm transition-all ${
-                      paymentMethod === 'mpesa' ? 'border-blue-500 bg-blue-50 text-blue-600' : 'border-slate-200 text-slate-500 hover:border-slate-300'
-                    }`}
-                  >
-                    M-Pesa
-                  </button>
-                </div>
+              <div className="grid grid-cols-2 gap-2">
+                <button 
+                  onClick={() => setPaymentMethod('cash')}
+                  className={`py-2 px-3 rounded-xl border-2 text-[10px] font-black uppercase tracking-widest transition-all ${
+                    paymentMethod === 'cash' ? 'border-blue-500 bg-white text-blue-600' : 'border-slate-200 text-slate-400 bg-transparent'
+                  }`}
+                >
+                  Cash
+                </button>
+                <button 
+                  onClick={() => setPaymentMethod('mpesa')}
+                  className={`py-2 px-3 rounded-xl border-2 text-[10px] font-black uppercase tracking-widest transition-all ${
+                    paymentMethod === 'mpesa' ? 'border-blue-500 bg-white text-blue-600' : 'border-slate-200 text-slate-400 bg-transparent'
+                  }`}
+                >
+                  M-Pesa
+                </button>
               </div>
 
               <button 
                 disabled={cart.length === 0}
                 onClick={handleCheckout}
-                className={`w-full py-5 rounded-2xl font-black text-lg flex items-center justify-center gap-2 shadow-xl transition-all active:scale-[0.98] ${
+                className={`w-full py-4 rounded-xl font-black text-xs uppercase tracking-[0.2em] flex items-center justify-center gap-2 shadow-lg transition-all active:scale-[0.98] ${
                   cart.length > 0 
-                  ? 'premium-gradient text-white shadow-blue-500/20 hover:shadow-blue-500/40' 
+                  ? 'bg-blue-600 text-white shadow-blue-500/20 hover:bg-blue-700' 
                   : 'bg-slate-200 text-slate-400 cursor-not-allowed shadow-none'
                 }`}
               >
-                Complete Recording <CheckCircle2 size={24} />
+                Complete Sale <CheckCircle2 size={18} />
               </button>
             </div>
           </div>
