@@ -10,11 +10,12 @@ const LandingPage = () => {
   return (
     <div className="min-h-screen bg-white selection:bg-black selection:text-white">
       <Header />
-
-      {/* Hero Section with Cinematic Background */}
-      <section className="relative h-screen flex items-center justify-center overflow-hidden">
-        <VideoBackground />
-      </section>
+      
+      <main className="pt-[114px]">
+        {/* Hero Section with Cinematic Background */}
+        <section className="relative h-[calc(100vh-114px)] flex items-center justify-center overflow-hidden">
+          <VideoBackground />
+        </section>
 
       {/* Core Pillars Section - Minimal & Demure */}
       <section className="py-32 px-6 md:px-12 bg-[#FBFBFB]">
@@ -145,6 +146,7 @@ const LandingPage = () => {
           100% { transform: translateY(100%); }
         }
       `}} />
+      </main>
     </div>
   );
 };
