@@ -87,13 +87,6 @@ const LandingPage = () => {
           </div>
         </div>
 
-        {/* Mobile Drawer Backdrop - Starts below header to keep it bright */}
-        <div 
-          className={`fixed inset-x-0 bottom-0 top-24 bg-black/40 backdrop-blur-sm z-[55] transition-opacity duration-500 ${
-            isMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
-          }`}
-          onClick={() => setIsMenuOpen(false)}
-        />
 
         {/* Mobile Corner Menu - Sharp & Professional (Under Header) */}
         <div className={`absolute top-full right-0 w-auto min-w-[240px] bg-white z-[60] shadow-2xl transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] origin-top-right border-t border-black/5 ${
