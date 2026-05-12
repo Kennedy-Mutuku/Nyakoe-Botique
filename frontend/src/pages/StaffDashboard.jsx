@@ -20,6 +20,7 @@ const StaffDashboard = () => {
   const [paymentMethod, setPaymentMethod] = useState('cash');
   const [discount, setDiscount] = useState(0);
   const [selectedSizes, setSelectedSizes] = useState({}); // Tracking selection per product {productId: variantIndex}
+  const [validationErrors, setValidationErrors] = useState({}); // Tracking errors per product {productId: true}
 
   // Load from LocalStorage to stay in sync with Inventory Page
   const [products, setProducts] = useState(() => {
@@ -43,7 +44,7 @@ const StaffDashboard = () => {
     
     if (product.variantsList && product.variantsList.length > 0) {
       if (sizeIndex === undefined) {
-        alert('⚠️ Please select a size first!');
+        setValidationErrors({...validationErrors, [product.id]: true});
         return;
       }
       const variant = product.variantsList[sizeIndex];
@@ -151,11 +152,30 @@ const StaffDashboard = () => {
                   
                   {product.variantsList && product.variantsList.length > 0 ? (
                     <div className="mt-3 mb-4 space-y-2">
-                      <label className="text-[9px] font-black text-slate-400 uppercase tracking-widest ml-1">Choose Size *</label>
+                      <div className="flex justify-between items-center px-1">
+                        <label className={`text-[9px] font-black uppercase tracking-widest ${validationErrors[product.id] ? 'text-rose-500' : 'text-slate-400'}`}>
+                          Choose Size *
+                        </label>
+                        {validationErrors[product.id] && (
+                          <span className="text-[8px] font-black text-rose-500 uppercase animate-pulse">Required *</span>
+                        )}
+                      </div>
                       <select 
                         value={selectedSizes[product.id] ?? ''}
-                        onChange={(e) => setSelectedSizes({...selectedSizes, [product.id]: e.target.value === '' ? undefined : parseInt(e.target.value)})}
-                        className="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-black text-slate-700 focus:ring-4 focus:ring-blue-500/10 focus:bg-white transition-all appearance-none cursor-pointer"
+                        onChange={(e) => {
+                          const val = e.target.value === '' ? undefined : parseInt(e.target.value);
+                          setSelectedSizes({...selectedSizes, [product.id]: val});
+                          if (val !== undefined) {
+                            const newErrors = {...validationErrors};
+                            delete newErrors[product.id];
+                            setValidationErrors(newErrors);
+                          }
+                        }}
+                        className={`w-full px-4 py-2 bg-slate-50 border rounded-xl text-xs font-black transition-all appearance-none cursor-pointer ${
+                          validationErrors[product.id] 
+                          ? 'border-rose-500 bg-rose-50/30 text-rose-700 ring-4 ring-rose-500/10' 
+                          : 'border-slate-200 text-slate-700 focus:ring-4 focus:ring-blue-500/10 focus:bg-white'
+                        }`}
                       >
                         <option value="">-- Select Size --</option>
                         {product.variantsList.map((v, vIdx) => (
