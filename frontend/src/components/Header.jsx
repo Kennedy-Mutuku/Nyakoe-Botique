@@ -112,7 +112,22 @@ const Header = () => {
         <div className="flex items-center gap-3 md:gap-6">
           {isLoggedIn ? (
             /* Logged In View - Simplified & Mobile Optimized */
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-3 md:gap-6">
+              {/* User Identity Badge - Professional & Contextual */}
+              <div className="hidden sm:flex items-center gap-3 px-4 py-2 bg-slate-50 rounded-2xl border border-slate-100">
+                <div className="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center text-white text-xs font-black shadow-sm">
+                  {user?.name?.charAt(0) || 'U'}
+                </div>
+                <div className="flex flex-col">
+                  <span className="text-[10px] font-black text-slate-900 uppercase tracking-tight leading-none">
+                    {user?.name || 'User'}
+                  </span>
+                  <span className="text-[8px] font-bold text-blue-600 uppercase tracking-tighter mt-1">
+                    {user?.role === 'admin' ? 'Super Admin' : 'Attendant Admin'}
+                  </span>
+                </div>
+              </div>
+
               <button 
                 onClick={() => window.dispatchEvent(new CustomEvent('toggleSidebar'))}
                 className="lg:hidden flex items-center justify-center p-2.5 bg-slate-50 text-blue-600 rounded-xl hover:bg-blue-50 transition-all active:scale-90 border border-slate-100"
@@ -126,7 +141,7 @@ const Header = () => {
                 className="flex items-center gap-2 px-4 md:px-6 py-2 md:py-2.5 text-[9px] md:text-[10px] uppercase tracking-[0.2em] md:tracking-[0.3em] font-black border border-rose-500 text-rose-500 hover:bg-rose-500 hover:text-white transition-all shadow-lg shadow-rose-500/10"
               >
                 <LogOut size={16} />
-                <span className="hidden md:inline">Log Out Securely</span>
+                <span className="hidden md:inline">Log Out</span>
               </button>
             </div>
           ) : (
