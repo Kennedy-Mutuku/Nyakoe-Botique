@@ -44,67 +44,67 @@ const Sidebar = () => {
 
   return (
     <>
-      {/* Mobile Toggle Button - Moved below header */}
+      {/* Mobile Toggle Button - Even more compact & demure */}
       <button 
         onClick={() => setIsOpen(!isOpen)}
-        className="lg:hidden fixed top-32 left-4 z-50 p-3 bg-white rounded-2xl shadow-xl border border-slate-100 text-slate-600 hover:text-blue-600 transition-all active:scale-90"
+        className="lg:hidden fixed top-32 left-4 z-50 p-2.5 bg-white/80 backdrop-blur-md rounded-xl shadow-lg border border-slate-100 text-slate-600 hover:text-blue-600 transition-all active:scale-90"
       >
-        {isOpen ? <X size={24} /> : <Menu size={24} />}
+        {isOpen ? <X size={20} /> : <Menu size={20} />}
       </button>
 
       {/* Overlay for mobile */}
       {isOpen && (
         <div 
           onClick={() => setIsOpen(false)}
-          className="lg:hidden fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-40 transition-opacity"
+          className="lg:hidden fixed inset-0 bg-slate-900/20 backdrop-blur-[2px] z-40 transition-opacity"
         />
       )}
 
-      {/* Sidebar Container - Adjusted for Header Height */}
+      {/* Sidebar Container - Compact width & Tight vertical flow */}
       <div className={`
         fixed left-0 top-[114px] h-[calc(100vh-114px)] bg-white border-r border-slate-100 flex flex-col z-40
         transition-all duration-300 ease-in-out
-        ${isOpen ? 'translate-x-0 w-72' : '-translate-x-full lg:translate-x-0 lg:w-72 lg:visible invisible'}
+        ${isOpen ? 'translate-x-0 w-56' : '-translate-x-full lg:translate-x-0 lg:w-56 lg:visible invisible'}
       `}>
-        <div className="p-8 border-b border-slate-50">
-          <p className="text-[10px] font-black text-blue-600 uppercase tracking-[0.2em]">Management Suite</p>
+        <div className="p-5 border-b border-slate-50">
+          <p className="text-[9px] font-black text-blue-600 uppercase tracking-[0.3em] opacity-80">Management</p>
         </div>
 
-        <div className="flex-1 px-4 py-4 space-y-2 overflow-y-auto">
-          <p className="px-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-4">Main Menu</p>
+        <div className="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
+          <p className="px-3 text-[9px] font-bold text-slate-400 uppercase tracking-widest mb-3 opacity-60">Menu</p>
           {menuItems.map((item, index) => (
             <NavLink
               key={index}
               to={item.path}
               onClick={() => setIsOpen(false)}
               className={({ isActive }) => `
-                flex items-center gap-3 px-4 py-3 rounded-2xl transition-all duration-200 group
+                flex items-center gap-3 px-3 py-2 rounded-xl transition-all duration-200 group
                 ${isActive 
-                  ? 'bg-blue-50 text-blue-600 font-semibold shadow-sm' 
+                  ? 'bg-blue-50/50 text-blue-600 font-bold' 
                   : 'text-slate-500 hover:bg-slate-50 hover:text-slate-800'}
               `}
             >
-              <span className="transition-transform group-hover:scale-110">{item.icon}</span>
-              <span className="text-sm">{item.label}</span>
+              <span className="transition-transform group-hover:scale-110 scale-90">{item.icon}</span>
+              <span className="text-[12px] tracking-tight">{item.label}</span>
             </NavLink>
           ))}
         </div>
 
-        <div className="p-6 border-t border-slate-50 space-y-4 bg-slate-50/50">
-          <div className="flex items-center gap-3 px-4 py-2">
-            <div className="w-10 h-10 rounded-full bg-white border border-slate-200 flex items-center justify-center text-blue-600 font-bold shadow-sm">
+        <div className="p-4 border-t border-slate-50 space-y-3 bg-slate-50/30">
+          <div className="flex items-center gap-3 px-2">
+            <div className="w-8 h-8 rounded-lg bg-white border border-slate-100 flex items-center justify-center text-blue-600 font-black shadow-sm text-xs">
               {user?.name?.charAt(0) || 'U'}
             </div>
             <div className="flex flex-col overflow-hidden">
-              <span className="text-sm font-bold text-slate-800 truncate">{user?.name || 'User'}</span>
-              <span className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider">{user?.role}</span>
+              <span className="text-[11px] font-black text-slate-800 truncate uppercase tracking-tight">{user?.name || 'User'}</span>
+              <span className="text-[8px] font-bold text-slate-400 uppercase tracking-tighter">{user?.role}</span>
             </div>
           </div>
           <button 
             onClick={handleSignOut}
-            className="w-full flex items-center gap-3 px-4 py-3 rounded-2xl text-rose-500 hover:bg-rose-50 transition-all font-semibold text-sm"
+            className="w-full flex items-center gap-2 px-3 py-2 rounded-xl text-rose-500 hover:bg-rose-50 transition-all font-bold text-[11px] uppercase tracking-wider"
           >
-            <LogOut size={18} />
+            <LogOut size={14} />
             <span>Sign Out</span>
           </button>
         </div>
