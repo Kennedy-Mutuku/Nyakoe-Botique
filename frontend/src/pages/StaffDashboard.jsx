@@ -41,22 +41,48 @@ const StaffDashboard = () => {
 
   const addToCart = (product) => {
     const sizeIndex = selectedSizes[product.id];
-    
+    let cartItemName = product.name;
+    let sellingPrice = product.selling || product.price;
+    let variantId = 'none';
+
     if (product.variantsList && product.variantsList.length > 0) {
       if (sizeIndex === undefined) {
         setValidationErrors({...validationErrors, [product.id]: true});
         return;
       }
       const variant = product.variantsList[sizeIndex];
-      setCart([...cart, { 
-        ...product, 
-        name: `${product.name} (${variant.size})`,
-        price: variant.price,
-        selectedSize: variant.size
-      }]);
-    } else {
-      setCart([...cart, { ...product, price: product.selling || product.price }]);
+      cartItemName = `${product.name} (${variant.size})`;
+      sellingPrice = variant.price;
+      variantId = `${sizeIndex}`;
     }
+
+    const existingItemIdx = cart.findIndex(item => item.id === product.id && item.variantId === variantId);
+
+    if (existingItemIdx > -1) {
+      const newCart = [...cart];
+      newCart[existingItemIdx].quantity += 1;
+      setCart(newCart);
+    } else {
+      const newItem = {
+        ...product,
+        cartName: cartItemName,
+        sellingPrice: sellingPrice,
+        variantId: variantId,
+        quantity: 1
+      };
+      setCart([...cart, newItem]);
+    }
+  };
+
+  const updateCartQty = (productId, variantId, delta) => {
+    const newCart = cart.map(item => {
+      if (item.id === productId && item.variantId === variantId) {
+        const nextQty = item.quantity + delta;
+        return nextQty > 0 ? { ...item, quantity: nextQty } : null;
+      }
+      return item;
+    }).filter(Boolean);
+    setCart(newCart);
   };
 
   const removeFromCart = (index) => {
@@ -65,7 +91,7 @@ const StaffDashboard = () => {
     setCart(newCart);
   };
 
-  const total = cart.reduce((sum, item) => sum + item.price, 0);
+  const total = cart.reduce((sum, item) => sum + (item.sellingPrice * item.quantity), 0);
   const finalTotal = Math.max(0, total - discount);
 
   const handleCheckout = () => {
@@ -73,7 +99,7 @@ const StaffDashboard = () => {
     
     // Reduce Stock Logic
     const updatedProducts = products.map(p => {
-      const itemsInCart = cart.filter(item => item.id === p.id).length;
+      const itemsInCart = cart.filter(item => item.id === p.id).reduce((sum, item) => sum + item.quantity, 0);
       return { ...p, stock: Math.max(0, p.stock - itemsInCart) };
     });
     
@@ -218,7 +244,7 @@ const StaffDashboard = () => {
           </div>
         </div>
 
-        {/* Cart Sidebar - More Compact & Demure */}
+        {/* Cart Sidebar */}
         <div className="lg:col-span-1">
           <div className="bg-white rounded-[2rem] shadow-xl shadow-slate-200/50 border border-slate-100 sticky top-32 overflow-hidden">
             <div className="p-5 border-b border-slate-50 bg-slate-50/30">
@@ -233,28 +259,46 @@ const StaffDashboard = () => {
               </div>
             </div>
 
-            <div className="p-4 min-h-[300px] max-h-[400px] overflow-y-auto">
+            <div className="p-4 min-h-[300px]">
               {cart.length === 0 ? (
                 <div className="h-full flex flex-col items-center justify-center text-slate-300 py-10">
                   <ShoppingCart size={40} strokeWidth={1} className="mb-3 opacity-20" />
                   <p className="text-[10px] font-black uppercase tracking-[0.2em] opacity-40">Ready for Sale</p>
                 </div>
               ) : (
-                <div className="space-y-3">
-                  {cart.map((item, index) => (
-                    <div key={index} className="flex items-center justify-between p-3 bg-slate-50 rounded-xl group hover:bg-blue-50 transition-colors">
-                      <div className="flex flex-col">
-                        <span className="text-xs font-black text-slate-800">{item.name}</span>
-                        <span className="text-[10px] font-bold text-blue-600">KSh {item.price.toLocaleString()}</span>
+                <div className="max-h-[350px] overflow-y-auto space-y-3 pr-2">
+                    {cart.map((item, idx) => (
+                      <div key={`${item.id}-${item.variantId || idx}`} className="flex items-center gap-3 bg-white p-3 rounded-2xl border border-slate-100 group hover:border-blue-200 transition-all">
+                        <div className="w-12 h-12 bg-slate-50 rounded-xl flex-shrink-0 overflow-hidden border border-slate-50">
+                          {item.image ? <img src={item.image} alt="" className="w-full h-full object-contain" /> : <Package className="w-full h-full p-3 text-slate-300" />}
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <h4 className="text-xs font-black text-slate-900 truncate uppercase tracking-tight">{item.cartName || item.name}</h4>
+                          <p className="text-[10px] font-bold text-blue-600">KSh {item.sellingPrice?.toLocaleString()}</p>
+                        </div>
+                        <div className="flex items-center gap-2 bg-slate-50 p-1 rounded-lg border border-slate-100">
+                          <button 
+                            onClick={() => updateCartQty(item.id, item.variantId, -1)}
+                            className="w-6 h-6 flex items-center justify-center bg-white text-slate-600 rounded-md shadow-sm hover:text-rose-500 transition-all"
+                          >
+                            <Minus size={12} strokeWidth={3} />
+                          </button>
+                          <span className="text-[10px] font-black text-slate-900 min-w-[12px] text-center">{item.quantity}</span>
+                          <button 
+                            onClick={() => updateCartQty(item.id, item.variantId, 1)}
+                            className="w-6 h-6 flex items-center justify-center bg-white text-slate-600 rounded-md shadow-sm hover:text-blue-600 transition-all"
+                          >
+                            <Plus size={12} strokeWidth={3} />
+                          </button>
+                        </div>
+                        <button 
+                          onClick={() => setCart(cart.filter((_, i) => i !== idx))}
+                          className="p-1.5 text-slate-300 hover:text-rose-500 opacity-0 group-hover:opacity-100 transition-all"
+                        >
+                          <Trash2 size={14} />
+                        </button>
                       </div>
-                      <button 
-                        onClick={() => removeFromCart(index)}
-                        className="p-1.5 text-slate-300 hover:text-rose-500 transition-colors"
-                      >
-                        <Trash2 size={14} />
-                      </button>
-                    </div>
-                  ))}
+                    ))}
                 </div>
               )}
             </div>
@@ -271,11 +315,12 @@ const StaffDashboard = () => {
                     placeholder="0"
                   />
                 </div>
-                <div className="space-y-1 pt-2 border-t border-slate-100">
-                  <div className="flex justify-between text-[10px] font-bold text-slate-400 uppercase tracking-widest">
-                    <span>Subtotal</span>
-                    <span>KSh {total.toLocaleString()}</span>
-                  </div>
+                
+                <div className="space-y-3 border-t border-slate-100 pt-5">
+                    <div className="flex justify-between items-center text-slate-400">
+                      <span className="text-[10px] font-black uppercase tracking-widest">Subtotal</span>
+                      <span className="text-xs font-black">KSh {cart.reduce((sum, item) => sum + (item.sellingPrice * item.quantity), 0).toLocaleString()}</span>
+                    </div>
                   {discount > 0 && (
                     <div className="flex justify-between text-[10px] font-bold text-rose-500 uppercase tracking-widest">
                       <span>Discount</span>
