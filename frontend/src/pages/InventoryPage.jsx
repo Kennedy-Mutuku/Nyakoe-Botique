@@ -19,6 +19,23 @@ const InventoryPage = () => {
   const { user } = useAuth();
   const [showModal, setShowModal] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
+  const [variants, setVariants] = useState([]);
+  const [newSize, setNewSize] = useState('');
+  const [newQty, setNewQty] = useState('');
+
+  const addVariant = () => {
+    if (newSize && newQty) {
+      setVariants([...variants, { size: newSize, qty: parseInt(newQty) }]);
+      setNewSize('');
+      setNewQty('');
+    }
+  };
+
+  const removeVariant = (index) => {
+    setVariants(variants.filter((_, i) => i !== index));
+  };
+
+  const totalStock = variants.reduce((sum, v) => sum + v.qty, 0);
 
   const inventory = [
     { id: 'PRD-001', name: 'Cotton Summer Dress', category: 'Dresses', buying: 1500, selling: 2500, stock: 15, supplier: 'Global Textiles' },
@@ -202,52 +219,166 @@ const InventoryPage = () => {
           </div>
         </div>
 
-        {/* Add Product Modal (Simplified) */}
+        {/* Add Product Modal (Professional & Comprehensive) */}
         {showModal && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-6 bg-slate-900/60 backdrop-blur-sm">
-            <div className="bg-white w-full max-w-2xl rounded-[3rem] shadow-2xl overflow-hidden fade-in">
-              <div className="p-8 border-b border-slate-100 flex justify-between items-center">
-                <h2 className="text-2xl font-black text-slate-900">Add New Product</h2>
-                <button onClick={() => setShowModal(false)} className="text-slate-400 hover:text-rose-500 transition-colors">✕</button>
+          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-6 bg-slate-900/60 backdrop-blur-sm">
+            <div className="bg-white w-full max-w-4xl max-h-[90vh] rounded-[2rem] shadow-2xl overflow-hidden flex flex-col fade-in">
+              {/* Modal Header */}
+              <div className="p-6 md:p-8 border-b border-slate-100 flex justify-between items-center bg-white sticky top-0 z-10">
+                <div>
+                  <h2 className="text-xl md:text-2xl font-black text-slate-900 leading-tight">New Stock Entry</h2>
+                  <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mt-1">Initialize product specifications professionally</p>
+                </div>
+                <button onClick={() => setShowModal(false)} className="p-2 bg-slate-50 text-slate-400 hover:text-rose-500 rounded-xl transition-all">✕</button>
               </div>
-              <div className="p-8 space-y-6">
-                <div className="space-y-2">
-                  <label className="text-sm font-bold text-slate-600 ml-1">Product Name</label>
-                  <input type="text" placeholder="Enter product name..." className="w-full px-5 py-3.5 bg-slate-50 border-none rounded-2xl focus:ring-4 focus:ring-blue-500/10 transition-all font-medium" />
-                </div>
-                <div className="grid grid-cols-2 gap-6">
-                  <div className="space-y-2">
-                    <label className="text-sm font-bold text-slate-600 ml-1">Category</label>
-                    <select className="w-full px-5 py-3.5 bg-slate-50 border-none rounded-2xl focus:ring-4 focus:ring-blue-500/10 transition-all font-medium appearance-none">
-                      <option>Dresses</option>
-                      <option>Suits</option>
-                      <option>Shirts</option>
-                      <option>Pants</option>
-                    </select>
+
+              {/* Modal Body - Scrollable */}
+              <div className="flex-1 overflow-y-auto p-6 md:p-8">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12">
+                  {/* Left Column: Visuals & Core Info */}
+                  <div className="space-y-8">
+                    {/* Image Upload Area */}
+                    <div className="space-y-3">
+                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Product Media</label>
+                      <div className="aspect-square bg-slate-50 border-2 border-dashed border-slate-200 rounded-[2.5rem] flex flex-col items-center justify-center gap-4 group hover:border-blue-400 hover:bg-blue-50/30 transition-all cursor-pointer">
+                        <div className="w-16 h-16 bg-white rounded-2xl shadow-sm flex items-center justify-center text-slate-300 group-hover:text-blue-500 transition-all">
+                          <Plus size={32} />
+                        </div>
+                        <div className="text-center">
+                          <p className="text-sm font-black text-slate-900">Upload Product Photo</p>
+                          <p className="text-[10px] font-bold text-slate-400 uppercase tracking-tight mt-1">PNG, JPG up to 10MB</p>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Basic Info Group */}
+                    <div className="space-y-6 bg-slate-50/50 p-6 rounded-3xl border border-slate-100">
+                      <div className="space-y-2">
+                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Product Name</label>
+                        <input type="text" placeholder="e.g., Luxury Silk Evening Gown" className="w-full px-5 py-3 bg-white border border-slate-200 rounded-xl focus:ring-4 focus:ring-blue-500/10 transition-all font-bold text-sm" />
+                      </div>
+                      <div className="grid grid-cols-2 gap-4">
+                        <div className="space-y-2">
+                          <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Category</label>
+                          <select className="w-full px-5 py-3 bg-white border border-slate-200 rounded-xl focus:ring-4 focus:ring-blue-500/10 transition-all font-bold text-sm appearance-none">
+                            <option>Dresses</option>
+                            <option>Suits</option>
+                            <option>Accessories</option>
+                            <option>Footwear</option>
+                          </select>
+                        </div>
+                        <div className="space-y-2">
+                          <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Supplier</label>
+                          <input type="text" placeholder="Global Garments Ltd" className="w-full px-5 py-3 bg-white border border-slate-200 rounded-xl focus:ring-4 focus:ring-blue-500/10 transition-all font-bold text-sm" />
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                  <div className="space-y-2">
-                    <label className="text-sm font-bold text-slate-600 ml-1">Initial Stock</label>
-                    <input type="number" placeholder="0" className="w-full px-5 py-3.5 bg-slate-50 border-none rounded-2xl focus:ring-4 focus:ring-blue-500/10 transition-all font-medium" />
-                  </div>
-                </div>
-                <div className="grid grid-cols-2 gap-6">
-                  <div className="space-y-2">
-                    <label className="text-sm font-bold text-slate-600 ml-1">Buying Price (KSh)</label>
-                    <input type="number" placeholder="0" className="w-full px-5 py-3.5 bg-slate-50 border-none rounded-2xl focus:ring-4 focus:ring-blue-500/10 transition-all font-medium" />
-                  </div>
-                  <div className="space-y-2">
-                    <label className="text-sm font-bold text-slate-600 ml-1">Selling Price (KSh)</label>
-                    <input type="number" placeholder="0" className="w-full px-5 py-3.5 bg-slate-50 border-none rounded-2xl focus:ring-4 focus:ring-blue-500/10 transition-all font-medium" />
+
+                  {/* Right Column: Pricing & Multi-Size Inventory */}
+                  <div className="space-y-8">
+                    {/* Financial Information */}
+                    <div className="space-y-4">
+                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Financial Specifications</label>
+                      <div className="grid grid-cols-2 gap-4">
+                        <div className="p-5 bg-emerald-50/30 border border-emerald-100 rounded-3xl space-y-2">
+                          <p className="text-[10px] font-black text-emerald-600 uppercase tracking-widest">Buying Price</p>
+                          <div className="flex items-center gap-2">
+                            <span className="text-sm font-black text-emerald-600/60">KSh</span>
+                            <input type="number" placeholder="0" className="w-full bg-transparent border-none p-0 focus:ring-0 text-xl font-black text-emerald-700 placeholder:text-emerald-200" />
+                          </div>
+                        </div>
+                        <div className="p-5 bg-blue-50/30 border border-blue-100 rounded-3xl space-y-2">
+                          <p className="text-[10px] font-black text-blue-600 uppercase tracking-widest">Selling Price</p>
+                          <div className="flex items-center gap-2">
+                            <span className="text-sm font-black text-blue-600/60">KSh</span>
+                            <input type="number" placeholder="0" className="w-full bg-transparent border-none p-0 focus:ring-0 text-xl font-black text-blue-700 placeholder:text-blue-200" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Multi-Size Inventory Management */}
+                    <div className="space-y-4">
+                      <div className="flex justify-between items-end px-1">
+                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Inventory by Size</label>
+                        <span className="text-[10px] font-black text-blue-600 uppercase">Total Stock: {totalStock} pcs</span>
+                      </div>
+                      
+                      <div className="bg-white border border-slate-200 rounded-3xl overflow-hidden shadow-sm">
+                        <div className="p-4 bg-slate-50 border-b border-slate-200 grid grid-cols-3 gap-4">
+                          <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Size Label</p>
+                          <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Quantity</p>
+                          <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest text-right">Action</p>
+                        </div>
+                        <div className="max-h-[200px] overflow-y-auto divide-y divide-slate-100">
+                          {/* Entry Row */}
+                          <div className="p-4 grid grid-cols-3 gap-4 items-center bg-blue-50/20">
+                            <input 
+                              type="text" 
+                              value={newSize}
+                              onChange={(e) => setNewSize(e.target.value)}
+                              placeholder="e.g. XL" 
+                              className="bg-white border border-slate-200 rounded-lg py-2 px-3 text-sm font-bold w-full" 
+                            />
+                            <input 
+                              type="number" 
+                              value={newQty}
+                              onChange={(e) => setNewQty(e.target.value)}
+                              placeholder="0" 
+                              className="bg-white border border-slate-200 rounded-lg py-2 px-3 text-sm font-bold w-full" 
+                            />
+                            <div className="flex justify-end">
+                              <button 
+                                onClick={addVariant}
+                                className="px-4 py-2 bg-blue-600 text-white rounded-lg transition-all font-black text-[10px] uppercase shadow-sm active:scale-95"
+                              >
+                                Add
+                              </button>
+                            </div>
+                          </div>
+
+                          {/* Dynamic List */}
+                          {variants.length === 0 ? (
+                            <div className="p-4 flex flex-col items-center justify-center text-slate-300 py-8 italic text-xs font-medium">
+                              No sizes added yet...
+                            </div>
+                          ) : (
+                            variants.map((v, idx) => (
+                              <div key={idx} className="p-4 grid grid-cols-3 gap-4 items-center hover:bg-slate-50 transition-colors">
+                                <span className="text-sm font-black text-slate-700 uppercase">{v.size}</span>
+                                <span className="text-sm font-black text-blue-600">{v.qty} <span className="text-[10px] text-slate-400 ml-1">PCS</span></span>
+                                <div className="flex justify-end">
+                                  <button onClick={() => removeVariant(idx)} className="p-2 text-rose-500 hover:bg-rose-50 rounded-lg transition-all">
+                                    <Trash2 size={14} />
+                                  </button>
+                                </div>
+                              </div>
+                            ))
+                          )}
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Quick Settings */}
+                    <div className="flex items-center gap-4 bg-amber-50/50 p-4 rounded-2xl border border-amber-100">
+                      <AlertTriangle size={18} className="text-amber-600" />
+                      <p className="text-[10px] font-bold text-amber-800 uppercase tracking-tight leading-snug">
+                        Stock levels below 5 units will trigger a 'Low Stock' alert automatically.
+                      </p>
+                    </div>
                   </div>
                 </div>
               </div>
-              <div className="p-8 bg-slate-50 border-t border-slate-100 flex justify-end gap-4">
-                <button onClick={() => setShowModal(false)} className="px-8 py-3 bg-white border border-slate-200 text-slate-600 rounded-2xl font-bold hover:bg-white/80 transition-all">Cancel</button>
+
+              {/* Modal Footer */}
+              <div className="p-6 md:p-8 bg-slate-50 border-t border-slate-100 flex justify-end gap-4 sticky bottom-0 z-10">
+                <button onClick={() => setShowModal(false)} className="px-6 py-3 bg-white border border-slate-200 text-slate-600 rounded-xl font-black text-xs hover:bg-white/80 transition-all uppercase tracking-widest">Cancel</button>
                 <button 
-                  onClick={() => { alert('🎉 Product Saved Successfully!'); setShowModal(false); }}
-                  className="px-10 py-3 premium-gradient text-white rounded-2xl font-black shadow-xl shadow-blue-500/20 hover:shadow-blue-500/40 transition-all"
+                  onClick={() => { alert('🎉 Product Successfully Added to Digital Vault!'); setShowModal(false); }}
+                  className="px-10 py-3 premium-gradient text-white rounded-xl font-black text-xs shadow-xl shadow-blue-500/20 hover:shadow-blue-500/40 transition-all uppercase tracking-[0.2em]"
                 >
-                  Save Product
+                  Confirm Entry
                 </button>
               </div>
             </div>
