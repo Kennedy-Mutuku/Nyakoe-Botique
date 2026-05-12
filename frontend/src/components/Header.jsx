@@ -73,15 +73,6 @@ const Header = () => {
           {isLoggedIn && (
             <div className="hidden lg:flex items-center justify-center flex-1 px-8">
               <div className="flex items-center gap-8 xl:gap-12">
-                <NavLink
-                  to={user?.role === 'admin' ? '/admin' : '/staff'}
-                  className={({ isActive }) => `
-                    text-[10px] font-black uppercase tracking-[0.3em] transition-all py-1 border-b-2
-                    ${isActive ? 'text-blue-600 border-blue-600' : 'text-slate-400 border-transparent hover:text-slate-900'}
-                  `}
-                >
-                  Home
-                </NavLink>
                 {menuItems.map((item, idx) => (
                   <NavLink
                     key={idx}
@@ -157,20 +148,26 @@ const Header = () => {
             </div>
           ) : (
             /* Public View - Portal Links */
-            <>
+            <div className="hidden lg:flex items-center gap-10">
+              <button 
+                onClick={() => navigate('/')}
+                className="text-[10px] uppercase tracking-[0.3em] font-bold text-slate-400 hover:text-black transition-all"
+              >
+                Home
+              </button>
               <button 
                 onClick={() => navigate('/login?role=admin')}
-                className="hidden md:block text-[10px] uppercase tracking-[0.3em] font-bold text-black hover:opacity-60 transition-all"
+                className="text-[10px] uppercase tracking-[0.3em] font-bold text-slate-400 hover:text-black transition-all"
               >
                 Admin Portal
               </button>
               <button 
                 onClick={() => navigate('/login?role=attendant')}
-                className="hidden sm:block px-8 py-2.5 text-[10px] uppercase tracking-[0.3em] font-bold border bg-black text-white border-black hover:bg-transparent hover:text-black transition-all"
+                className="px-8 py-2.5 text-[10px] uppercase tracking-[0.3em] font-bold border border-black bg-black text-white hover:bg-transparent hover:text-black transition-all shadow-xl shadow-black/10"
               >
                 Staff Login
               </button>
-            </>
+            </div>
           )}
           
           {/* Mobile Menu Toggle - Only if not logged in (sidebar handles dashboard mobile) */}

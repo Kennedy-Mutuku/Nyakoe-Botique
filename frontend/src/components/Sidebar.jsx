@@ -72,21 +72,6 @@ const Sidebar = () => {
 
         <div className="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
           <p className="px-3 text-[9px] font-bold text-slate-400 uppercase tracking-widest mb-3 opacity-60">Operations</p>
-          
-          <NavLink
-            to={user?.role === 'admin' ? '/admin' : '/staff'}
-            onClick={() => setIsOpen(false)}
-            className={({ isActive }) => `
-              flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 group
-              ${isActive 
-                ? 'bg-blue-50 text-blue-600 font-bold' 
-                : 'text-slate-500 hover:bg-slate-50 hover:text-slate-800'}
-            `}
-          >
-            <span className="transition-transform group-hover:scale-110 scale-90"><LayoutGrid size={16} /></span>
-            <span className="text-[12px] tracking-tight">Home</span>
-          </NavLink>
-
           {menuItems.map((item, index) => (
             <NavLink
               key={index}
