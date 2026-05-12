@@ -464,56 +464,56 @@ const InventoryPage = () => {
                     {/* Right: Pricing & Variants (7 cols) */}
                     <div className="md:col-span-7 space-y-6">
                       <div className="grid grid-cols-2 gap-3">
-                        <div className={`p-4 border rounded-2xl space-y-1 transition-all ${
-                          formErrors.buying 
-                          ? 'border-rose-500 bg-rose-50/30' 
-                          : 'bg-emerald-50/30 border-emerald-100'
-                        }`}>
-                          <p className={`text-[9px] font-black uppercase tracking-widest ${formErrors.buying ? 'text-rose-600' : 'text-emerald-600'}`}>Buy Price {formErrors.buying && '*'}</p>
-                          <div className="flex items-center gap-2">
-                            <span className={`text-[10px] font-black ${formErrors.buying ? 'text-rose-600/60' : 'text-emerald-600/60'}`}>KSh</span>
-                            <input 
-                              type="number" 
-                              required 
-                              value={buyingPrice}
-                              onChange={(e) => {
-                                setBuyingPrice(e.target.value);
-                                if(e.target.value) {
-                                  const newErrs = {...formErrors};
-                                  delete newErrs.buying;
-                                  setFormErrors(newErrs);
-                                }
-                              }}
-                              placeholder="0" 
-                              className={`w-full bg-transparent border-none p-0 focus:ring-0 text-base font-black placeholder:text-emerald-200 ${formErrors.buying ? 'text-rose-700' : 'text-emerald-700'}`} 
-                            />
+                          <div className={`p-4 border rounded-2xl space-y-1 transition-all ${
+                            formErrors.buying 
+                            ? 'border-rose-500 bg-rose-50/30' 
+                            : 'bg-emerald-50/30 border-emerald-100'
+                          }`}>
+                            <p className={`text-[9px] font-black uppercase tracking-widest ${formErrors.buying ? 'text-rose-600' : 'text-emerald-600'}`}>Buy Price {formErrors.buying && '*'}</p>
+                            <div className="flex items-center gap-1.5">
+                              <span className={`text-[10px] font-black whitespace-nowrap flex-shrink-0 ${formErrors.buying ? 'text-rose-600/60' : 'text-emerald-600/60'}`}>KSh</span>
+                              <input 
+                                type="number" 
+                                required 
+                                value={buyingPrice}
+                                onChange={(e) => {
+                                  setBuyingPrice(e.target.value);
+                                  if(e.target.value) {
+                                    const newErrs = {...formErrors};
+                                    delete newErrs.buying;
+                                    setFormErrors(newErrs);
+                                  }
+                                }}
+                                placeholder="0" 
+                                className={`w-full bg-transparent border-none p-0 focus:ring-0 text-base font-black placeholder:text-emerald-200 ${formErrors.buying ? 'text-rose-700' : 'text-emerald-700'}`} 
+                              />
+                            </div>
                           </div>
-                        </div>
-                        <div className={`p-4 border rounded-2xl space-y-1 transition-all ${
-                          formErrors.selling 
-                          ? 'border-rose-500 bg-rose-50/30' 
-                          : 'bg-blue-50/30 border-blue-100'
-                        }`}>
-                          <p className={`text-[9px] font-black uppercase tracking-widest ${formErrors.selling ? 'text-rose-600' : 'text-blue-600'}`}>Sell Price {formErrors.selling && '*'}</p>
-                          <div className="flex items-center gap-2">
-                            <span className={`text-[10px] font-black ${formErrors.selling ? 'text-rose-600/60' : 'text-blue-600/60'}`}>KSh</span>
-                            <input 
-                              type="number" 
-                              required 
-                              value={sellingPrice}
-                              onChange={(e) => {
-                                setSellingPrice(e.target.value);
-                                if(e.target.value) {
-                                  const newErrs = {...formErrors};
-                                  delete newErrs.selling;
-                                  setFormErrors(newErrs);
-                                }
-                              }}
-                              placeholder="0" 
-                              className={`w-full bg-transparent border-none p-0 focus:ring-0 text-base font-black placeholder:text-blue-200 ${formErrors.selling ? 'text-rose-700' : 'text-blue-700'}`} 
-                            />
+                          <div className={`p-4 border rounded-2xl space-y-1 transition-all ${
+                            formErrors.selling 
+                            ? 'border-rose-500 bg-rose-50/30' 
+                            : 'bg-blue-50/30 border-blue-100'
+                          }`}>
+                            <p className={`text-[9px] font-black uppercase tracking-widest ${formErrors.selling ? 'text-rose-600' : 'text-blue-600'}`}>Sell Price {formErrors.selling && '*'}</p>
+                            <div className="flex items-center gap-1.5">
+                              <span className={`text-[10px] font-black whitespace-nowrap flex-shrink-0 ${formErrors.selling ? 'text-rose-600/60' : 'text-blue-600/60'}`}>KSh</span>
+                              <input 
+                                type="number" 
+                                required 
+                                value={sellingPrice}
+                                onChange={(e) => {
+                                  setSellingPrice(e.target.value);
+                                  if(e.target.value) {
+                                    const newErrs = {...formErrors};
+                                    delete newErrs.selling;
+                                    setFormErrors(newErrs);
+                                  }
+                                }}
+                                placeholder="0" 
+                                className={`w-full bg-transparent border-none p-0 focus:ring-0 text-base font-black placeholder:text-blue-200 ${formErrors.selling ? 'text-rose-700' : 'text-blue-700'}`} 
+                              />
+                            </div>
                           </div>
-                        </div>
                       </div>
 
                       <div className="space-y-3">
