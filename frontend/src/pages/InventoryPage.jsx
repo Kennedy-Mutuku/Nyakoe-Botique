@@ -34,25 +34,25 @@ const InventoryPage = () => {
       <Sidebar />
       
       <main className="w-full p-3 md:p-8 pt-44 lg:pt-40 overflow-x-hidden">
-        <header className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-10">
+        <header className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
           <div>
-            <h1 className="text-2xl md:text-3xl font-extrabold text-slate-900 leading-tight">Inventory Management</h1>
-            <p className="text-slate-500 font-medium mt-1 text-sm md:text-base">Manage stock, prices, and suppliers professionally.</p>
+            <h1 className="text-xl md:text-2xl font-black text-slate-900 leading-tight">Inventory Management</h1>
+            <p className="text-slate-500 font-bold mt-0.5 text-xs md:text-sm tracking-tight">Manage stock, prices, and suppliers professionally.</p>
           </div>
           <div className="flex gap-4">
             <button 
               onClick={() => alert('Inventory CSV Export started...')}
-              className="px-5 py-3 bg-white border border-slate-200 text-slate-600 rounded-2xl font-bold flex items-center gap-2 hover:bg-slate-50 transition-all shadow-sm"
+              className="px-4 py-2 text-xs bg-white border border-slate-200 text-slate-600 rounded-xl font-black flex items-center gap-2 hover:bg-slate-50 transition-all shadow-sm"
             >
-              <Download size={20} />
+              <Download size={16} />
               <span>Export CSV</span>
             </button>
             {user?.role === 'admin' && (
               <button 
                 onClick={() => setShowModal(true)}
-                className="px-6 py-3 premium-gradient text-white rounded-2xl font-bold flex items-center gap-2 shadow-xl hover:shadow-blue-500/20 hover:-translate-y-0.5 transition-all active:scale-95"
+                className="px-5 py-2 text-xs premium-gradient text-white rounded-xl font-black flex items-center gap-2 shadow-xl hover:shadow-blue-500/20 hover:-translate-y-0.5 transition-all active:scale-95"
               >
-                <Plus size={20} />
+                <Plus size={16} />
                 <span>Add Product</span>
               </button>
             )}
@@ -60,106 +60,105 @@ const InventoryPage = () => {
         </header>
 
         {/* Inventory Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
           {[
-            { label: 'Total Products', value: '1,245', icon: <Package className="text-blue-500" />, color: 'bg-blue-50' },
-            { label: 'Total Value', value: 'KSh 1.2M', icon: <Package className="text-emerald-500" />, color: 'bg-emerald-50' },
-            { label: 'Low Stock Items', value: '12', icon: <AlertTriangle className="text-rose-500" />, color: 'bg-rose-50' },
+            { label: 'Total Products', value: '1,245', icon: <Package size={20} className="text-blue-500" />, color: 'bg-blue-50' },
+            { label: 'Total Value', value: 'KSh 1.2M', icon: <Package size={20} className="text-emerald-500" />, color: 'bg-emerald-50' },
+            { label: 'Low Stock Items', value: '12', icon: <AlertTriangle size={20} className="text-rose-500" />, color: 'bg-rose-50' },
           ].map((stat, i) => (
-            <div key={i} className="bg-white p-6 rounded-[2rem] border border-slate-100 shadow-sm flex items-center gap-6">
-              <div className={`w-14 h-14 ${stat.color} rounded-2xl flex items-center justify-center`}>
+            <div key={i} className="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm flex items-center gap-4">
+              <div className={`w-11 h-11 ${stat.color} rounded-xl flex items-center justify-center`}>
                 {stat.icon}
               </div>
               <div>
-                <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{stat.label}</p>
-                <h3 className="text-2xl font-black text-slate-900">{stat.value}</h3>
+                <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest leading-none">{stat.label}</p>
+                <h3 className="text-xl font-black text-slate-900 mt-1">{stat.value}</h3>
               </div>
             </div>
           ))}
         </div>
 
         {/* Filter & Search Bar */}
-        <div className="bg-white p-4 rounded-3xl border border-slate-100 shadow-sm mb-8 flex flex-col md:flex-row gap-4 items-center">
+        <div className="bg-white p-2 rounded-2xl border border-slate-100 shadow-sm mb-6 flex flex-col md:flex-row gap-2 items-center">
           <div className="relative flex-1 group w-full">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-500 transition-colors" size={20} />
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-500 transition-colors" size={16} />
             <input 
               type="text" 
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              placeholder="Search products by name, ID or category..."
-              className="w-full pl-12 pr-4 py-3 bg-slate-50 border border-transparent rounded-2xl focus:bg-white focus:border-blue-500 focus:ring-4 focus:ring-blue-500/5 transition-all font-medium"
+              placeholder="Search products..."
+              className="w-full pl-10 pr-4 py-2.5 bg-slate-50 border-none rounded-xl focus:bg-white focus:ring-4 focus:ring-blue-500/5 transition-all text-sm font-bold"
             />
           </div>
-          <button className="px-6 py-3 bg-slate-50 text-slate-600 rounded-2xl font-bold flex items-center gap-2 hover:bg-slate-100 transition-all border border-transparent">
-            <Filter size={20} />
+          <button className="px-4 py-2.5 bg-slate-50 text-slate-600 rounded-xl font-black text-[10px] uppercase tracking-widest flex items-center gap-2 hover:bg-slate-100 transition-all border border-transparent">
+            <Filter size={16} />
             <span>Category</span>
           </button>
-          <button className="px-6 py-3 bg-slate-50 text-slate-600 rounded-2xl font-bold flex items-center gap-2 hover:bg-slate-100 transition-all border border-transparent">
-            <ArrowUpDown size={20} />
+          <button className="px-4 py-2.5 bg-slate-50 text-slate-600 rounded-xl font-black text-[10px] uppercase tracking-widest flex items-center gap-2 hover:bg-slate-100 transition-all border border-transparent">
+            <ArrowUpDown size={16} />
             <span>Sort by</span>
           </button>
         </div>
 
         {/* Inventory Table (Desktop) / Cards (Mobile) */}
-        <div className="bg-white rounded-[2.5rem] border border-slate-100 shadow-sm overflow-hidden">
+        <div className="bg-white rounded-[1.5rem] border border-slate-100 shadow-sm overflow-hidden">
           <div className="hidden md:block overflow-x-auto">
             <table className="w-full text-left">
-              {/* ... table content remains ... */}
               <thead>
                 <tr className="bg-slate-50/50">
-                  <th className="px-8 py-4 text-xs font-bold text-slate-400 uppercase tracking-widest">Product</th>
-                  <th className="px-8 py-4 text-xs font-bold text-slate-400 uppercase tracking-widest">Category</th>
-                  <th className="px-8 py-4 text-xs font-bold text-slate-400 uppercase tracking-widest">Buying Price</th>
-                  <th className="px-8 py-4 text-xs font-bold text-slate-400 uppercase tracking-widest">Selling Price</th>
-                  <th className="px-8 py-4 text-xs font-bold text-slate-400 uppercase tracking-widest">Stock</th>
-                  <th className="px-8 py-4 text-xs font-bold text-slate-400 uppercase tracking-widest">Status</th>
-                  <th className="px-8 py-4 w-20 text-right"></th>
+                  <th className="px-6 py-3 text-[9px] font-black text-slate-400 uppercase tracking-[0.2em]">Product</th>
+                  <th className="px-6 py-3 text-[9px] font-black text-slate-400 uppercase tracking-[0.2em]">Category</th>
+                  <th className="px-6 py-3 text-[9px] font-black text-slate-400 uppercase tracking-[0.2em]">Buying Price</th>
+                  <th className="px-6 py-3 text-[9px] font-black text-slate-400 uppercase tracking-[0.2em]">Selling Price</th>
+                  <th className="px-6 py-3 text-[9px] font-black text-slate-400 uppercase tracking-[0.2em]">Stock</th>
+                  <th className="px-6 py-3 text-[9px] font-black text-slate-400 uppercase tracking-[0.2em]">Status</th>
+                  <th className="px-6 py-3 w-20 text-right"></th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-50">
                 {inventory.filter(p => p.name.toLowerCase().includes(searchTerm.toLowerCase()) || p.id.toLowerCase().includes(searchTerm.toLowerCase())).map((row) => (
                   <tr key={row.id} className="hover:bg-slate-50/50 transition-colors group">
-                    <td className="px-8 py-6">
-                      <div className="flex items-center gap-4">
-                        <div className="w-12 h-12 rounded-xl bg-slate-100 flex items-center justify-center text-slate-400 font-bold">
-                          <Package size={24} />
+                    <td className="px-6 py-3">
+                      <div className="flex items-center gap-3">
+                        <div className="w-9 h-9 rounded-lg bg-slate-100 flex items-center justify-center text-slate-400 font-bold">
+                          <Package size={18} />
                         </div>
                         <div>
-                          <p className="font-bold text-slate-800">{row.name}</p>
-                          <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mt-0.5">{row.id}</p>
+                          <p className="text-sm font-black text-slate-800">{row.name}</p>
+                          <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mt-0.5">{row.id}</p>
                         </div>
                       </div>
                     </td>
-                    <td className="px-8 py-6">
-                      <span className="px-3 py-1 bg-slate-100 text-slate-600 rounded-full text-[10px] font-black uppercase tracking-widest">
+                    <td className="px-6 py-3">
+                      <span className="px-2.5 py-0.5 bg-slate-100 text-slate-600 rounded-full text-[8px] font-black uppercase tracking-widest">
                         {row.category}
                       </span>
                     </td>
-                    <td className="px-8 py-6 text-slate-500 font-bold">KSh {row.buying.toLocaleString()}</td>
-                    <td className="px-8 py-6 text-slate-900 font-black">KSh {row.selling.toLocaleString()}</td>
-                    <td className="px-8 py-6">
-                      <span className="font-black text-slate-900">{row.stock}</span>
-                      <span className="text-slate-400 text-xs font-bold ml-1">units</span>
+                    <td className="px-6 py-3 text-xs text-slate-500 font-bold">KSh {row.buying.toLocaleString()}</td>
+                    <td className="px-6 py-3 text-sm text-slate-900 font-black">KSh {row.selling.toLocaleString()}</td>
+                    <td className="px-6 py-3">
+                      <span className="text-sm font-black text-slate-900">{row.stock}</span>
+                      <span className="text-slate-400 text-[10px] font-bold ml-1 uppercase">qty</span>
                     </td>
-                    <td className="px-8 py-6">
-                      <span className={`px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest ${
+                    <td className="px-6 py-3">
+                      <span className={`px-2.5 py-0.5 rounded-full text-[8px] font-black uppercase tracking-widest ${
                         row.stock < 10 ? 'bg-rose-50 text-rose-600' : 'bg-emerald-50 text-emerald-600'
                       }`}>
                         {row.stock < 10 ? 'Low Stock' : 'In Stock'}
                       </span>
                     </td>
-                    <td className="px-8 py-6 text-right">
+                    <td className="px-6 py-3 text-right">
                       {user?.role === 'admin' ? (
-                        <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity justify-end">
-                          <button className="p-2 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all">
-                            <Edit3 size={18} />
+                        <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity justify-end">
+                          <button className="p-1.5 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all">
+                            <Edit3 size={14} />
                           </button>
-                          <button className="p-2 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-all">
-                            <Trash2 size={18} />
+                          <button className="p-1.5 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-all">
+                            <Trash2 size={14} />
                           </button>
                         </div>
                       ) : (
-                        <span className="text-[10px] font-bold text-slate-400 uppercase">View Only</span>
+                        <span className="text-[9px] font-black text-slate-400 uppercase tracking-tight">View Only</span>
                       )}
                     </td>
                   </tr>
