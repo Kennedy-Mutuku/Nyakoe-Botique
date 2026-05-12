@@ -28,9 +28,10 @@ const monthlyData = [
 const ReportsPage = () => {
   return (
     <div className="bg-slate-50 min-h-screen relative overflow-x-hidden">
+      <Header />
       <Sidebar />
       
-      <main className="w-full lg:pl-72 p-4 md:p-8 pt-20 lg:pt-8">
+      <main className="w-full lg:pl-72 p-4 md:p-8 pt-36 lg:pt-32">
         <header className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-10">
           <div>
             <h1 className="text-3xl font-extrabold text-slate-900">Professional Analytics</h1>
