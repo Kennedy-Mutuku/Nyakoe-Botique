@@ -73,8 +73,17 @@ const VideoBackground = () => {
   }, []);
 
   return (
-    <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none z-0 scale-[1.3]">
-      <div id="youtube-player" className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full aspect-video min-w-[100vw] min-h-[100vh] pointer-events-none" />
+    <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none z-0">
+      <div 
+        id="youtube-player" 
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none transition-opacity duration-1000"
+        style={{
+          width: '100vw',
+          height: '56.25vw', /* 16:9 aspect ratio */
+          minHeight: '100vh',
+          minWidth: '177.77vh', /* 100 * 1.777 */
+        }}
+      />
       <div className="absolute inset-0 video-overlay z-10" />
     </div>
   );
