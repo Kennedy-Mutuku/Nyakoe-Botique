@@ -182,9 +182,9 @@ const StaffDashboard = () => {
                     </div>
                     <button 
                       onClick={() => addToCart(product)}
-                      disabled={product.stock <= 0 || (product.variantsList && product.variantsList.length > 0 && selectedSizes[product.id] === undefined)}
+                      disabled={product.stock <= 0}
                       className={`p-2 rounded-lg transition-all active:scale-95 ${
-                        product.stock > 0 && (product.variantsList ? selectedSizes[product.id] !== undefined : true)
+                        product.stock > 0 
                         ? 'bg-slate-900 text-white hover:bg-blue-600 shadow-lg shadow-slate-900/10' 
                         : 'bg-slate-100 text-slate-300 cursor-not-allowed'
                       }`}
