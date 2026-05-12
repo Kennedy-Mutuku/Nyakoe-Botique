@@ -44,10 +44,10 @@ const Sidebar = () => {
 
   return (
     <>
-      {/* Mobile Toggle Button */}
+      {/* Mobile Toggle Button - Moved below header */}
       <button 
         onClick={() => setIsOpen(!isOpen)}
-        className="lg:hidden fixed top-4 left-4 z-50 p-3 bg-white rounded-2xl shadow-xl border border-slate-100 text-slate-600 hover:text-blue-600 transition-all active:scale-90"
+        className="lg:hidden fixed top-32 left-4 z-50 p-3 bg-white rounded-2xl shadow-xl border border-slate-100 text-slate-600 hover:text-blue-600 transition-all active:scale-90"
       >
         {isOpen ? <X size={24} /> : <Menu size={24} />}
       </button>
@@ -60,17 +60,14 @@ const Sidebar = () => {
         />
       )}
 
-      {/* Sidebar Container */}
+      {/* Sidebar Container - Adjusted for Header Height */}
       <div className={`
-        fixed left-0 top-0 h-screen bg-white border-r border-slate-100 flex flex-col z-40
+        fixed left-0 top-[114px] h-[calc(100vh-114px)] bg-white border-r border-slate-100 flex flex-col z-40
         transition-all duration-300 ease-in-out
         ${isOpen ? 'translate-x-0 w-72' : '-translate-x-full lg:translate-x-0 lg:w-72 lg:visible invisible'}
       `}>
-        <div className="p-8 flex items-center gap-3">
-          <div className="w-10 h-10 premium-gradient rounded-xl flex items-center justify-center text-white shadow-lg">
-            <ShoppingBag size={24} />
-          </div>
-          <span className="text-xl font-bold tracking-tight text-slate-800">Nyakoe <span className="premium-text-gradient">Boutique</span></span>
+        <div className="p-8 border-b border-slate-50">
+          <p className="text-[10px] font-black text-blue-600 uppercase tracking-[0.2em]">Management Suite</p>
         </div>
 
         <div className="flex-1 px-4 py-4 space-y-2 overflow-y-auto">
