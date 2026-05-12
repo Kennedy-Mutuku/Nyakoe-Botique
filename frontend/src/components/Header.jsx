@@ -41,10 +41,10 @@ const Header = () => {
               />
             </div>
             <div className="flex flex-col leading-none">
-              <span className="text-2xl md:text-4xl font-black tracking-[-0.05em] uppercase text-black">
+              <span className="text-xl md:text-4xl font-black tracking-[-0.05em] uppercase text-black">
                 NYAKOE
               </span>
-              <span className="serif-font italic text-lg md:text-xl font-light text-amber-800">
+              <span className="serif-font italic text-sm md:text-xl font-light text-amber-800">
                 Boutique
               </span>
             </div>
@@ -68,13 +68,13 @@ const Header = () => {
 
         <div className="flex items-center gap-6">
           {isLoggedIn ? (
-            /* Logged In View - Simplified */
+            /* Logged In View - Simplified & Mobile Optimized */
             <button 
               onClick={handleSignOut}
-              className="flex items-center gap-2 px-6 py-2.5 text-[10px] uppercase tracking-[0.3em] font-bold border border-rose-500 text-rose-500 hover:bg-rose-500 hover:text-white transition-all shadow-lg shadow-rose-500/10"
+              className="flex items-center gap-2 px-4 md:px-6 py-2 md:py-2.5 text-[9px] md:text-[10px] uppercase tracking-[0.2em] md:tracking-[0.3em] font-black border border-rose-500 text-rose-500 hover:bg-rose-500 hover:text-white transition-all shadow-lg shadow-rose-500/10"
             >
-              <LogOut size={14} />
-              <span>Log Out Securely</span>
+              <LogOut size={16} />
+              <span className="hidden md:inline">Log Out Securely</span>
             </button>
           ) : (
             /* Public View - Portal Links */
