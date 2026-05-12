@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate, NavLink } from 'react-router-dom';
+import { useNavigate, NavLink, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { 
   Menu, X, LogOut, LayoutGrid,
@@ -9,6 +9,7 @@ import logo from '../assets/logo bq.png';
 
 const Header = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const { user, logout } = useAuth();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -111,18 +112,21 @@ const Header = () => {
                   { label: 'Tailoring', path: '/login?role=attendant' },
                   { label: 'Inventory', path: '/login?role=attendant&view=inventory' },
                   { label: 'Insights', path: '/login?role=admin&view=reports' }
-                ].map((item) => (
-                  <NavLink 
-                    key={item.label}
-                    to={item.path}
-                    className={({ isActive }) => `
-                      text-[10px] font-black uppercase tracking-[0.3em] transition-all py-6 border-b-2
-                      ${isActive ? 'text-blue-600 border-blue-600' : 'text-slate-400 border-transparent hover:text-slate-900 hover:border-slate-200'}
-                    `}
-                  >
-                    {item.label}
-                  </NavLink>
-                ))}
+                ].map((item) => {
+                  const isActive = location.pathname + location.search === item.path;
+                  return (
+                    <NavLink 
+                      key={item.label}
+                      to={item.path}
+                      className={`
+                        text-[10px] font-black uppercase tracking-[0.3em] transition-all py-6 border-b-2
+                        ${isActive ? 'text-blue-600 border-blue-600' : 'text-slate-400 border-transparent hover:text-slate-900 hover:border-slate-200'}
+                      `}
+                    >
+                      {item.label}
+                    </NavLink>
+                  );
+                })}
               </div>
             </div>
           )}
