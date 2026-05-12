@@ -1,3 +1,5 @@
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { Menu, X, LogOut } from 'lucide-react';
 import logo from '../assets/logo bq.png';
@@ -141,7 +143,7 @@ const Header = () => {
             </button>
           </div>
         </div>
-      </div>
+      )}
     </nav>
   );
 };
