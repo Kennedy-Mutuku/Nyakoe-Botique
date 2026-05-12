@@ -53,10 +53,6 @@ const AdminDashboard = () => {
               <h1 className="text-3xl font-black text-slate-900 tracking-tight">Admin Overview</h1>
               <p className="text-slate-500 font-bold text-xs uppercase tracking-widest mt-1">Real-time Performance Insights</p>
             </div>
-            <div className="inline-flex items-center gap-2 bg-blue-600 text-white px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-[0.2em] shadow-lg shadow-blue-500/20">
-              <div className="w-1.5 h-1.5 bg-white rounded-full animate-pulse" />
-              Super Admin
-            </div>
           </div>
           <div className="flex items-center gap-4 w-full lg:w-auto">
             <div className="relative group flex-1 lg:flex-none">

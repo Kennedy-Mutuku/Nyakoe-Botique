@@ -53,13 +53,9 @@ const StaffDashboard = () => {
         {/* Main Recording Area */}
         <div className="lg:col-span-2 space-y-6 md:space-y-8 max-w-full">
           <header className="flex flex-col sm:flex-row sm:items-center gap-4">
-            <div>
+            <div className="flex flex-col">
               <h1 className="text-2xl md:text-3xl font-black text-slate-900 tracking-tight leading-tight">New Sale Recording</h1>
               <p className="text-slate-500 font-bold text-[10px] uppercase tracking-[0.2em] mt-1">Nyakoe Retail Interface</p>
-            </div>
-            <div className="inline-flex items-center gap-2 bg-slate-900 text-white px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-[0.2em] shadow-lg shadow-slate-900/10">
-              <div className="w-1.5 h-1.5 bg-blue-400 rounded-full animate-pulse" />
-              Attendant Admin
             </div>
           </header>
 
