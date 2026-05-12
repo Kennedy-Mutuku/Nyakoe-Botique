@@ -138,6 +138,7 @@ const Header = () => {
             <button 
               onClick={() => { navigate('/login?role=admin'); setIsMenuOpen(false); }}
               className="text-[10px] uppercase tracking-[0.3em] font-bold text-black/60 hover:text-black transition-colors"
+            >
               Admin Portal
             </button>
           </div>
