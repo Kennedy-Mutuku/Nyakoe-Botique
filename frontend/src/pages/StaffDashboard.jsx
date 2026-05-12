@@ -48,6 +48,7 @@ const StaffDashboard = () => {
     let cartItemName = product.name;
     let sellingPrice = product.selling || product.price;
     let variantId = 'none';
+    let availableStock = product.stock;
 
     if (product.variantsList && product.variantsList.length > 0) {
       if (sizeIndex === undefined) {
@@ -58,21 +59,28 @@ const StaffDashboard = () => {
       cartItemName = `${product.name} (${variant.size})`;
       sellingPrice = variant.price;
       variantId = `${sizeIndex}`;
+      availableStock = variant.qty;
     }
 
     const existingItemIdx = cart.findIndex(item => item.id === product.id && item.variantId === variantId);
 
     if (existingItemIdx > -1) {
+      if (cart[existingItemIdx].quantity >= availableStock) {
+        // Option: Show a subtle feedback or just block
+        return; 
+      }
       const newCart = [...cart];
       newCart[existingItemIdx].quantity += 1;
       setCart(newCart);
     } else {
+      if (availableStock <= 0) return;
       const newItem = {
         ...product,
         cartName: cartItemName,
         sellingPrice: sellingPrice,
         variantId: variantId,
-        quantity: 1
+        quantity: 1,
+        maxStock: availableStock
       };
       setCart([...cart, newItem]);
     }
@@ -82,6 +90,7 @@ const StaffDashboard = () => {
     const newCart = cart.map(item => {
       if (item.id === productId && item.variantId === variantId) {
         const nextQty = item.quantity + delta;
+        if (delta > 0 && nextQty > item.maxStock) return item;
         return nextQty > 0 ? { ...item, quantity: nextQty } : null;
       }
       return item;
@@ -149,9 +158,12 @@ const StaffDashboard = () => {
             </button>
           </div>
 
-          {/* Product Grid (High Density) */}
+          {/* Product Grid (High Density) - Only showing items with stock */}
           <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3 md:gap-4">
-            {products.filter(p => p.name.toLowerCase().includes(searchTerm.toLowerCase())).map((product) => (
+            {products
+              .filter(p => p.stock > 0)
+              .filter(p => p.name.toLowerCase().includes(searchTerm.toLowerCase()))
+              .map((product) => (
               <div key={product.id} className="bg-white rounded-[1.5rem] shadow-lg shadow-slate-200/40 border border-slate-100 overflow-hidden flex flex-col group hover:border-blue-500/50 transition-all">
                 {/* Visual Area (More Compact) */}
                 <div className="aspect-[4/3] bg-slate-50 relative overflow-hidden">
@@ -290,7 +302,12 @@ const StaffDashboard = () => {
                           <span className="text-[10px] font-black text-slate-900 min-w-[12px] text-center">{item.quantity}</span>
                           <button 
                             onClick={() => updateCartQty(item.id, item.variantId, 1)}
-                            className="w-6 h-6 flex items-center justify-center bg-white text-slate-600 rounded-md shadow-sm hover:text-blue-600 transition-all"
+                            disabled={item.quantity >= item.maxStock}
+                            className={`w-6 h-6 flex items-center justify-center bg-white rounded-md shadow-sm transition-all ${
+                              item.quantity >= item.maxStock 
+                              ? 'text-slate-200 cursor-not-allowed' 
+                              : 'text-slate-600 hover:text-blue-600'
+                            }`}
                           >
                             <Plus size={12} strokeWidth={3} />
                           </button>
