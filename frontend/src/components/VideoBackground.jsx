@@ -78,10 +78,10 @@ const VideoBackground = () => {
         id="youtube-player" 
         className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none transition-opacity duration-1000"
         style={{
-          width: '100vw',
-          height: '56.25vw', /* 16:9 aspect ratio */
-          minHeight: '100vh',
-          minWidth: '177.77vh', /* 100 * 1.777 */
+          width: '120vw',
+          height: '67.5vw', /* 16:9 at 120% */
+          minHeight: '120vh',
+          minWidth: '213.33vh', /* 120 * 1.777 */
         }}
       />
       <div className="absolute inset-0 video-overlay z-10" />
