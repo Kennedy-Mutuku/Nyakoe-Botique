@@ -3,13 +3,17 @@ import Sidebar from '../components/Sidebar';
 import { 
   Search, 
   Plus, 
+  Minus,
   ShoppingCart, 
   Package, 
   User, 
   ChevronRight,
   Filter,
   CheckCircle2,
-  Trash2
+  Trash2,
+  CreditCard,
+  Wallet,
+  ArrowRight
 } from 'lucide-react';
 
 import Header from '../components/Header';
