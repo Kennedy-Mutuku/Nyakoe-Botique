@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { 
   LayoutDashboard, 
@@ -19,6 +19,12 @@ const Sidebar = () => {
   const navigate = useNavigate();
   const { user, logout } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
+
+  useEffect(() => {
+    const handleToggle = () => setIsOpen(prev => !prev);
+    window.addEventListener('toggleSidebar', handleToggle);
+    return () => window.removeEventListener('toggleSidebar', handleToggle);
+  }, []);
   
   const role = user?.role || 'attendant';
   const isAdmin = role === 'admin';
@@ -44,29 +50,21 @@ const Sidebar = () => {
 
   return (
     <>
-      {/* Mobile Toggle Button - Even more compact & demure */}
-      <button 
-        onClick={() => setIsOpen(!isOpen)}
-        className="lg:hidden fixed top-32 left-4 z-50 p-2.5 bg-white/80 backdrop-blur-md rounded-xl shadow-lg border border-slate-100 text-slate-600 hover:text-blue-600 transition-all active:scale-90"
-      >
-        {isOpen ? <X size={20} /> : <Menu size={20} />}
-      </button>
-
       {/* Overlay for mobile */}
       {isOpen && (
         <div 
           onClick={() => setIsOpen(false)}
-          className="lg:hidden fixed inset-0 bg-slate-900/20 backdrop-blur-[2px] z-40 transition-opacity"
+          className="lg:hidden fixed inset-0 bg-slate-900/10 backdrop-blur-[1px] z-40 transition-opacity"
         />
       )}
 
-      {/* Sidebar Container - Floating Dropdown style for Mobile */}
+      {/* Sidebar Container - Floating Dropdown style for Mobile (on the Right) */}
       <div className={`
-        fixed left-0 top-[114px] bg-white border-r border-slate-100 flex flex-col z-40
+        fixed right-0 top-[114px] bg-white border-l border-slate-100 flex flex-col z-40
         transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)]
         ${isOpen 
-          ? 'translate-x-0 w-56 h-auto max-h-[calc(100vh-140px)] rounded-br-[2.5rem] shadow-2xl visible' 
-          : '-translate-x-full lg:translate-x-0 lg:w-56 lg:h-[calc(100vh-114px)] lg:visible invisible'}
+          ? 'translate-x-0 w-56 h-auto max-h-[calc(100vh-140px)] rounded-bl-[2.5rem] shadow-2xl visible' 
+          : 'translate-x-full lg:translate-x-0 lg:w-56 lg:h-[calc(100vh-114px)] lg:visible invisible'}
       `}>
         <div className="p-5 border-b border-slate-50">
           <p className="text-[9px] font-black text-blue-600 uppercase tracking-[0.3em] opacity-80">Management</p>

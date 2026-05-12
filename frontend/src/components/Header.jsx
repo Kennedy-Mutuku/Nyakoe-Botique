@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { Menu, X, LogOut } from 'lucide-react';
+import { Menu, X, LogOut, LayoutGrid } from 'lucide-react';
 import logo from '../assets/logo bq.png';
 
 const Header = () => {
@@ -66,16 +66,26 @@ const Header = () => {
           )}
         </div>
 
-        <div className="flex items-center gap-6">
+        <div className="flex items-center gap-3 md:gap-6">
           {isLoggedIn ? (
             /* Logged In View - Simplified & Mobile Optimized */
-            <button 
-              onClick={handleSignOut}
-              className="flex items-center gap-2 px-4 md:px-6 py-2 md:py-2.5 text-[9px] md:text-[10px] uppercase tracking-[0.2em] md:tracking-[0.3em] font-black border border-rose-500 text-rose-500 hover:bg-rose-500 hover:text-white transition-all shadow-lg shadow-rose-500/10"
-            >
-              <LogOut size={16} />
-              <span className="hidden md:inline">Log Out Securely</span>
-            </button>
+            <div className="flex items-center gap-3">
+              <button 
+                onClick={() => window.dispatchEvent(new CustomEvent('toggleSidebar'))}
+                className="lg:hidden flex items-center justify-center p-2.5 bg-slate-50 text-blue-600 rounded-xl hover:bg-blue-50 transition-all active:scale-90 border border-slate-100"
+                title="Management Menu"
+              >
+                <LayoutGrid size={20} />
+              </button>
+              
+              <button 
+                onClick={handleSignOut}
+                className="flex items-center gap-2 px-4 md:px-6 py-2 md:py-2.5 text-[9px] md:text-[10px] uppercase tracking-[0.2em] md:tracking-[0.3em] font-black border border-rose-500 text-rose-500 hover:bg-rose-500 hover:text-white transition-all shadow-lg shadow-rose-500/10"
+              >
+                <LogOut size={16} />
+                <span className="hidden md:inline">Log Out Securely</span>
+              </button>
+            </div>
           ) : (
             /* Public View - Portal Links */
             <>
