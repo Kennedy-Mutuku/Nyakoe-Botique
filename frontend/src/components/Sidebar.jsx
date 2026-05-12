@@ -67,19 +67,7 @@ const Sidebar = () => {
           : 'translate-x-full invisible lg:hidden'}
       `}>
         <div className="p-5 border-b border-slate-50 bg-slate-50/50">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center text-white text-sm font-black shadow-lg shadow-blue-500/20">
-              {user?.name?.charAt(0) || 'U'}
-            </div>
-            <div className="flex flex-col">
-              <span className="text-xs font-black text-slate-900 uppercase tracking-tight leading-none">
-                {user?.name || 'User'}
-              </span>
-              <span className="text-[9px] font-bold text-blue-600 uppercase tracking-widest mt-1">
-                {user?.role === 'admin' ? 'Super Admin' : 'Attendant Admin'}
-              </span>
-            </div>
-          </div>
+          <p className="text-[9px] font-black text-blue-600 uppercase tracking-[0.3em] opacity-80">Management Menu</p>
         </div>
 
         <div className="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
