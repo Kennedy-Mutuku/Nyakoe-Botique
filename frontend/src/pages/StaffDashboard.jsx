@@ -114,82 +114,86 @@ const StaffDashboard = () => {
           </div>
         </div>
 
-        {/* Cart & Checkout - Compact & Professional */}
-        <div className="space-y-6 max-w-full">
-          <div className="bg-white rounded-[2rem] border border-slate-100 shadow-xl overflow-hidden flex flex-col h-auto lg:h-[calc(100vh-160px)] lg:sticky lg:top-36">
-            <div className="p-6 border-b border-slate-50">
-              <div className="flex items-center gap-2 mb-1">
-                <ShoppingCart className="text-blue-500" size={20} />
-                <h2 className="text-lg font-black text-slate-900 uppercase tracking-tight">Active Cart</h2>
+        {/* Cart Sidebar - More Compact & Demure */}
+        <div className="lg:col-span-1">
+          <div className="bg-white rounded-[2rem] shadow-xl shadow-slate-200/50 border border-slate-100 sticky top-32 overflow-hidden">
+            <div className="p-5 border-b border-slate-50 bg-slate-50/30">
+              <div className="flex items-center gap-3">
+                <div className="p-2 bg-blue-600 rounded-lg text-white">
+                  <ShoppingCart size={18} />
+                </div>
+                <div>
+                  <h2 className="text-sm font-black text-slate-900 uppercase tracking-tight">Active Cart</h2>
+                  <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{cart.length} Items</p>
+                </div>
               </div>
-              <p className="text-slate-400 text-[10px] font-black uppercase tracking-widest">{cart.length} items</p>
             </div>
 
-            <div className="flex-1 overflow-y-auto p-4 space-y-2">
+            <div className="p-4 min-h-[300px] max-h-[400px] overflow-y-auto">
               {cart.length === 0 ? (
-                <div className="h-full flex flex-col items-center justify-center text-center opacity-30 py-10">
-                  <ShoppingCart size={48} className="mb-2" />
-                  <p className="text-xs font-bold uppercase tracking-widest">Ready for sale</p>
+                <div className="h-full flex flex-col items-center justify-center text-slate-300 py-10">
+                  <ShoppingCart size={40} strokeWidth={1} className="mb-3 opacity-20" />
+                  <p className="text-[10px] font-black uppercase tracking-[0.2em] opacity-40">Ready for Sale</p>
                 </div>
               ) : (
-                cart.map((item, idx) => (
-                  <div key={idx} className="flex items-center gap-3 p-3 bg-slate-50 rounded-xl group transition-all">
-                    <div className="flex-1 min-w-0">
-                      <p className="text-xs font-bold text-slate-800 truncate">{item.name}</p>
-                      <p className="text-[10px] font-black text-blue-600 uppercase tracking-tight">KSh {item.price.toLocaleString()}</p>
+                <div className="space-y-3">
+                  {cart.map((item, index) => (
+                    <div key={index} className="flex items-center justify-between p-3 bg-slate-50 rounded-xl group hover:bg-blue-50 transition-colors">
+                      <div className="flex flex-col">
+                        <span className="text-xs font-black text-slate-800">{item.name}</span>
+                        <span className="text-[10px] font-bold text-blue-600">KSh {item.price.toLocaleString()}</span>
+                      </div>
+                      <button 
+                        onClick={() => removeFromCart(index)}
+                        className="p-1.5 text-slate-300 hover:text-rose-500 transition-colors"
+                      >
+                        <Trash2 size={14} />
+                      </button>
                     </div>
-                    <button 
-                      onClick={() => removeFromCart(idx)}
-                      className="p-1.5 text-slate-300 hover:text-rose-500 transition-colors"
-                    >
-                      <Trash2 size={14} />
-                    </button>
-                  </div>
-                ))
+                  ))}
+                </div>
               )}
             </div>
 
-            <div className="p-6 bg-slate-50 border-t border-slate-100 space-y-4">
+            <div className="p-5 border-t border-slate-50 space-y-4 bg-slate-50/30">
               <div className="space-y-1">
-                <div className="flex justify-between text-slate-500 font-bold text-[10px] uppercase">
+                <div className="flex justify-between text-[10px] font-bold text-slate-400 uppercase tracking-widest">
                   <span>Subtotal</span>
                   <span>KSh {total.toLocaleString()}</span>
                 </div>
-                <div className="flex justify-between text-slate-900 font-black text-xl pt-1">
+                <div className="flex justify-between text-lg font-black text-slate-900 tracking-tight">
                   <span>Total</span>
                   <span className="text-blue-600">KSh {total.toLocaleString()}</span>
                 </div>
               </div>
 
               <div className="grid grid-cols-2 gap-2">
-                <button 
-                  onClick={() => setPaymentMethod('cash')}
-                  className={`py-2 px-3 rounded-xl border-2 text-[10px] font-black uppercase tracking-widest transition-all ${
-                    paymentMethod === 'cash' ? 'border-blue-500 bg-white text-blue-600' : 'border-slate-200 text-slate-400 bg-transparent'
-                  }`}
-                >
-                  Cash
-                </button>
-                <button 
-                  onClick={() => setPaymentMethod('mpesa')}
-                  className={`py-2 px-3 rounded-xl border-2 text-[10px] font-black uppercase tracking-widest transition-all ${
-                    paymentMethod === 'mpesa' ? 'border-blue-500 bg-white text-blue-600' : 'border-slate-200 text-slate-400 bg-transparent'
-                  }`}
-                >
-                  M-Pesa
-                </button>
+                {['cash', 'm-pesa'].map((method) => (
+                  <button
+                    key={method}
+                    onClick={() => setPaymentMethod(method)}
+                    className={`py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all border ${
+                      paymentMethod === method 
+                        ? 'bg-blue-600 text-white border-blue-600 shadow-lg shadow-blue-500/20' 
+                        : 'bg-white text-slate-400 border-slate-100 hover:border-blue-200'
+                    }`}
+                  >
+                    {method}
+                  </button>
+                ))}
               </div>
 
               <button 
                 disabled={cart.length === 0}
                 onClick={handleCheckout}
-                className={`w-full py-4 rounded-xl font-black text-xs uppercase tracking-[0.2em] flex items-center justify-center gap-2 shadow-lg transition-all active:scale-[0.98] ${
-                  cart.length > 0 
-                  ? 'bg-blue-600 text-white shadow-blue-500/20 hover:bg-blue-700' 
-                  : 'bg-slate-200 text-slate-400 cursor-not-allowed shadow-none'
+                className={`w-full flex items-center justify-center gap-2 py-3 rounded-xl font-black text-[11px] uppercase tracking-[0.2em] transition-all ${
+                  cart.length > 0
+                    ? 'bg-slate-900 text-white hover:bg-blue-600 shadow-xl shadow-slate-900/10'
+                    : 'bg-slate-100 text-slate-400 cursor-not-allowed'
                 }`}
               >
-                Complete Sale <CheckCircle2 size={18} />
+                <span>Complete Sale</span>
+                <CheckCircle2 size={16} />
               </button>
             </div>
           </div>
