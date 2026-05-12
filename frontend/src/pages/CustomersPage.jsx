@@ -38,7 +38,7 @@ const CustomersPage = () => {
       <Header />
       <Sidebar />
       
-      <main className="w-full p-4 md:p-8 pt-36 lg:pt-32">
+      <main className="w-full p-4 md:p-8 pt-44 lg:pt-40">
         <header className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-10">
           <div>
             <h1 className="text-3xl font-extrabold text-slate-900">Customer CRM</h1>

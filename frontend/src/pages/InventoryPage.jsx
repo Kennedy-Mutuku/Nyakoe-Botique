@@ -33,7 +33,7 @@ const InventoryPage = () => {
       <Header />
       <Sidebar />
       
-      <main className="w-full p-3 md:p-8 pt-36 lg:pt-32 overflow-x-hidden">
+      <main className="w-full p-3 md:p-8 pt-44 lg:pt-40 overflow-x-hidden">
         <header className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-10">
           <div>
             <h1 className="text-2xl md:text-3xl font-extrabold text-slate-900 leading-tight">Inventory Management</h1>

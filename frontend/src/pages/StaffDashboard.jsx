@@ -49,7 +49,7 @@ const StaffDashboard = () => {
       <Header />
       <Sidebar />
       
-      <main className="flex-1 w-full p-3 md:p-8 pt-36 lg:pt-32 grid lg:grid-cols-3 gap-6 md:gap-8 overflow-x-hidden">
+      <main className="flex-1 w-full p-3 md:p-8 pt-44 lg:pt-40 grid lg:grid-cols-3 gap-6 md:gap-8 overflow-x-hidden">
         {/* Main Recording Area */}
         <div className="lg:col-span-2 space-y-6 md:space-y-8 max-w-full">
           <header className="flex flex-col sm:flex-row sm:items-center gap-4">
