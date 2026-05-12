@@ -20,9 +20,7 @@ const LandingPage = () => {
   return (
     <div className="min-h-screen bg-white selection:bg-black selection:text-white">
       {/* Navigation - Demure & Transparent */}
-      <nav className={`fixed top-0 left-0 right-0 z-[60] transition-all duration-700 ${
-        (isScrolled || isMenuOpen) ? 'bg-white border-b border-black/5' : 'bg-transparent'
-      }`}>
+      <nav className="fixed top-0 left-0 right-0 z-[60] bg-white border-b border-black/5">
         {/* Top Contact Strip - Vibrant Bright Blue */}
         <div className="bg-blue-600 text-white py-2 px-6 md:px-12 flex justify-between items-center text-[9px] md:text-[10px] tracking-[0.2em] uppercase font-medium border-b border-white/5">
           <div className="flex items-center gap-6">
@@ -34,23 +32,21 @@ const LandingPage = () => {
           </div>
         </div>
 
-        <div className={`max-w-[1600px] mx-auto px-6 md:px-12 flex items-center justify-between transition-all duration-700 ${
-          (isScrolled || isMenuOpen) ? 'py-4' : 'py-8'
-        }`}>
+        <div className="max-w-[1600px] mx-auto px-6 md:px-12 flex items-center justify-between py-4">
           <div className="flex items-center gap-12">
             <div className="flex items-center gap-6 cursor-pointer group" onClick={() => navigate('/')}>
               <div className="relative">
                 <img 
                   src={logo} 
                   alt="Logo" 
-                  className={`h-12 md:h-16 w-auto transition-all duration-500 ${(isScrolled || isMenuOpen) ? 'mix-blend-multiply' : 'invert brightness-200 mix-blend-screen'}`}
+                  className="h-12 md:h-16 w-auto mix-blend-multiply"
                 />
               </div>
               <div className="flex flex-col leading-none">
-                <span className={`text-2xl md:text-4xl font-black tracking-[-0.05em] uppercase transition-colors duration-500 ${(isScrolled || isMenuOpen) ? 'text-black' : 'text-white'}`}>
+                <span className="text-2xl md:text-4xl font-black tracking-[-0.05em] uppercase text-black">
                   NYAKOE
                 </span>
-                <span className={`serif-font italic text-lg md:text-xl font-light transition-colors duration-500 ${(isScrolled || isMenuOpen) ? 'text-amber-800' : 'text-amber-200/80'}`}>
+                <span className="serif-font italic text-lg md:text-xl font-light text-amber-800">
                   Boutique
                 </span>
               </div>
@@ -61,7 +57,7 @@ const LandingPage = () => {
                 <a 
                   key={item} 
                   href="#" 
-                  className={`text-[10px] uppercase tracking-[0.3em] font-bold transition-all duration-500 ${(isScrolled || isMenuOpen) ? 'text-black hover:opacity-60' : 'text-white hover:opacity-60'}`}
+                  className="text-[10px] uppercase tracking-[0.3em] font-bold text-black hover:opacity-60 transition-all"
                 >
                   {item}
                 </a>
@@ -72,25 +68,19 @@ const LandingPage = () => {
           <div className="flex items-center gap-6">
             <button 
               onClick={() => navigate('/login?role=admin')}
-              className={`hidden md:block text-[10px] uppercase tracking-[0.3em] font-bold transition-all duration-500 ${(isScrolled || isMenuOpen) ? 'text-black hover:opacity-60' : 'text-white hover:opacity-60'}`}
+              className="hidden md:block text-[10px] uppercase tracking-[0.3em] font-bold text-black hover:opacity-60 transition-all"
             >
               Admin Portal
             </button>
             <button 
               onClick={() => navigate('/login?role=attendant')}
-              className={`hidden sm:block px-8 py-2.5 text-[10px] uppercase tracking-[0.3em] font-bold border transition-all duration-500 ${
-                (isScrolled || isMenuOpen)
-                ? 'bg-black text-white border-black hover:bg-transparent hover:text-black' 
-                : 'bg-white text-black border-white hover:bg-transparent hover:text-white'
-              }`}
+              className="hidden sm:block px-8 py-2.5 text-[10px] uppercase tracking-[0.3em] font-bold border bg-black text-white border-black hover:bg-transparent hover:text-black transition-all"
             >
               Staff Login
             </button>
             <button 
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className={`lg:hidden transition-all duration-500 relative z-[60] ${
-                isMenuOpen ? 'text-black' : (isScrolled ? 'text-black' : 'text-white')
-              }`}
+              className="lg:hidden transition-all relative z-[60] text-black"
             >
               {isMenuOpen ? <X size={28} strokeWidth={1.5} /> : <Menu size={28} strokeWidth={1.5} />}
             </button>
