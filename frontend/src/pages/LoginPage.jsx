@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import { ShoppingBag, Lock, User, Eye, EyeOff, ArrowLeft } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
-import logo from '../assets/logo bq.png';
+import Header from '../components/Header';
 
 const LoginPage = () => {
   const [searchParams] = useSearchParams();
@@ -32,33 +32,22 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 flex items-center justify-center p-6 relative overflow-hidden">
+    <div className="min-h-screen bg-slate-50 flex flex-col relative overflow-hidden">
+      <Header />
+      
       {/* Background Decor */}
       <div className="absolute top-0 right-0 w-96 h-96 bg-blue-400/5 blur-3xl rounded-full -translate-y-1/2 translate-x-1/2 pointer-events-none"></div>
       <div className="absolute bottom-0 left-0 w-96 h-96 bg-purple-400/5 blur-3xl rounded-full translate-y-1/2 -translate-x-1/2 pointer-events-none"></div>
 
-      <div className="w-full max-w-md fade-in">
-        <button 
-          onClick={() => navigate('/')}
-          className="flex items-center gap-2 text-slate-500 hover:text-slate-800 transition-colors mb-8 group"
-        >
-          <ArrowLeft size={20} className="group-hover:-translate-x-1 transition-transform" />
-          <span>Back to Landing</span>
-        </button>
-
-        <div className="glass rounded-[2rem] p-6 md:p-8 border border-white shadow-2xl">
-          <div className="text-center mb-6 flex flex-col items-center">
-            <div className="mb-2">
-              <img src={logo} alt="NYAKOE" className="h-14 w-auto mix-blend-multiply" />
+      <div className="flex-1 flex items-center justify-center p-6 pt-32">
+        <div className="w-full max-w-md fade-in">
+          <div className="glass rounded-[2rem] p-6 md:p-8 border border-white shadow-2xl">
+            <div className="text-center mb-6 flex flex-col items-center">
+              <h1 className="text-2xl font-black text-slate-900 mb-1">
+                {isAdmin ? 'Admin Portal' : 'Staff Portal'}
+              </h1>
+              <p className="text-slate-500 text-sm">Sign in to manage your boutique</p>
             </div>
-            <span className="serif-font italic text-amber-800 tracking-wide text-xs mb-4">
-              Nyakoe Boutique
-            </span>
-            <h1 className="text-2xl font-black text-slate-900 mb-1">
-              {isAdmin ? 'Admin Portal' : 'Staff Portal'}
-            </h1>
-            <p className="text-slate-500 text-sm">Sign in to manage your boutique</p>
-          </div>
 
           <form onSubmit={handleLogin} className="space-y-4">
             <div>
