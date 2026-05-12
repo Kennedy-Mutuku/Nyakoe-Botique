@@ -97,20 +97,31 @@ const Header = () => {
             /* Public Navigation - Home First, then Management links */
             <div className="hidden lg:flex items-center justify-center flex-1 px-8">
               <div className="flex items-center gap-8 xl:gap-12">
-                <button 
-                  onClick={() => navigate('/')}
-                  className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400 hover:text-black transition-all py-1 border-b-2 border-transparent hover:border-black"
+                <NavLink 
+                  to="/"
+                  className={({ isActive }) => `
+                    text-[10px] font-black uppercase tracking-[0.3em] transition-all py-6 border-b-2
+                    ${isActive ? 'text-blue-600 border-blue-600' : 'text-slate-400 border-transparent hover:text-slate-900 hover:border-slate-200'}
+                  `}
                 >
                   Home
-                </button>
-                {['Management', 'Tailoring', 'Inventory', 'Insights'].map((item) => (
-                  <button 
-                    key={item}
-                    onClick={() => navigate(item === 'Management' ? '/login?role=admin' : '/login?role=attendant')}
-                    className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400 hover:text-black transition-all py-1 border-b-2 border-transparent hover:border-black"
+                </NavLink>
+                {[
+                  { label: 'Management', path: '/login?role=admin' },
+                  { label: 'Tailoring', path: '/login?role=attendant' },
+                  { label: 'Inventory', path: '/login?role=attendant&view=inventory' },
+                  { label: 'Insights', path: '/login?role=admin&view=reports' }
+                ].map((item) => (
+                  <NavLink 
+                    key={item.label}
+                    to={item.path}
+                    className={({ isActive }) => `
+                      text-[10px] font-black uppercase tracking-[0.3em] transition-all py-6 border-b-2
+                      ${isActive ? 'text-blue-600 border-blue-600' : 'text-slate-400 border-transparent hover:text-slate-900 hover:border-slate-200'}
+                    `}
                   >
-                    {item}
-                  </button>
+                    {item.label}
+                  </NavLink>
                 ))}
               </div>
             </div>
