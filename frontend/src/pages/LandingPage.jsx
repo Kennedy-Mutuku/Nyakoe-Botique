@@ -21,9 +21,22 @@ const LandingPage = () => {
     <div className="min-h-screen bg-white selection:bg-black selection:text-white">
       {/* Navigation - Demure & Transparent */}
       <nav className={`fixed top-0 left-0 right-0 z-[60] transition-all duration-700 ${
-        (isScrolled || isMenuOpen) ? 'bg-white py-4 border-b border-black/5' : 'bg-transparent py-8'
+        (isScrolled || isMenuOpen) ? 'bg-white border-b border-black/5' : 'bg-transparent'
       }`}>
-        <div className="max-w-[1600px] mx-auto px-6 md:px-12 flex items-center justify-between">
+        {/* Top Contact Strip - Demure Navy Blue */}
+        <div className="bg-[#0A1A3B] text-white py-2 px-6 md:px-12 flex justify-between items-center text-[9px] md:text-[10px] tracking-[0.2em] uppercase font-medium border-b border-white/5">
+          <div className="flex items-center gap-6">
+            <span className="opacity-80">PH: +254 762 053 876</span>
+            <span className="hidden sm:inline opacity-80 border-l border-white/20 pl-6 uppercase">info.nyakoeboutique@gmail.com</span>
+          </div>
+          <div className="hidden md:block opacity-60 italic serif-font lowercase tracking-normal text-xs">
+            Elegance in every stitch
+          </div>
+        </div>
+
+        <div className={`max-w-[1600px] mx-auto px-6 md:px-12 flex items-center justify-between transition-all duration-700 ${
+          (isScrolled || isMenuOpen) ? 'py-4' : 'py-8'
+        }`}>
           <div className="flex items-center gap-12">
             <div className="flex items-center gap-6 cursor-pointer group" onClick={() => navigate('/')}>
               <div className="relative">
