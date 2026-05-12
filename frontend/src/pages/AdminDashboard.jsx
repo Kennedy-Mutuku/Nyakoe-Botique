@@ -39,17 +39,34 @@ const COLORS = ['#0ea5e9', '#8b5cf6', '#f59e0b', '#10b981'];
 const AdminDashboard = () => {
   return (
     <div className="bg-slate-50 min-h-screen relative overflow-x-hidden">
+      {/* Top Contact Strip - Branded Consistency */}
+      <div className="fixed top-0 left-0 right-0 z-[70] bg-blue-600 text-white py-1.5 px-6 md:px-12 flex justify-between items-center text-[8px] md:text-[9px] tracking-[0.2em] uppercase font-medium border-b border-white/5">
+        <div className="flex items-center gap-6">
+          <span className="opacity-80 uppercase">SYSTEM: NYAKOE BOUTIQUE ERP</span>
+          <span className="hidden sm:inline opacity-60 border-l border-white/20 pl-6 lowercase tracking-normal">info.nyakoeboutique@gmail.com</span>
+        </div>
+        <div className="hidden md:block opacity-60 italic serif-font lowercase tracking-normal text-[10px]">
+          Elevated Administrative Access
+        </div>
+      </div>
+
       <Sidebar />
       
-      <main className="w-full lg:pl-72 p-4 md:p-8 pt-20 lg:pt-8">
+      <main className="w-full lg:pl-72 p-4 md:p-8 pt-24 lg:pt-20">
         {/* Header */}
-        <header className="flex justify-between items-center mb-10">
-          <div>
-            <h1 className="text-3xl font-extrabold text-slate-900">Admin Overview</h1>
-            <p className="text-slate-500 font-medium mt-1">Monitor your business performance in real-time.</p>
+        <header className="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-10 gap-6">
+          <div className="flex flex-col sm:flex-row sm:items-center gap-4">
+            <div>
+              <h1 className="text-3xl font-black text-slate-900 tracking-tight">Admin Overview</h1>
+              <p className="text-slate-500 font-bold text-xs uppercase tracking-widest mt-1">Real-time Performance Insights</p>
+            </div>
+            <div className="inline-flex items-center gap-2 bg-blue-600 text-white px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-[0.2em] shadow-lg shadow-blue-500/20">
+              <div className="w-1.5 h-1.5 bg-white rounded-full animate-pulse" />
+              Super Admin
+            </div>
           </div>
-          <div className="flex flex-col md:flex-row items-center gap-4 w-full lg:w-auto">
-            <div className="relative group w-full md:w-auto">
+          <div className="flex items-center gap-4 w-full lg:w-auto">
+            <div className="relative group flex-1 lg:flex-none">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-500 transition-colors" size={20} />
               <input 
                 type="text" 
@@ -57,8 +74,14 @@ const AdminDashboard = () => {
                 className="pl-10 pr-4 py-2.5 bg-white border border-slate-200 rounded-xl focus:outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all w-full md:w-64"
               />
             </div>
-            <div className="w-11 h-11 premium-gradient rounded-xl flex items-center justify-center text-white shadow-lg font-bold">
-              K
+            <div className="flex items-center gap-3 bg-white p-1.5 pr-4 border border-slate-100 rounded-2xl shadow-sm">
+              <div className="w-10 h-10 premium-gradient rounded-xl flex items-center justify-center text-white shadow-md font-bold">
+                K
+              </div>
+              <div className="hidden sm:block">
+                <p className="text-xs font-black text-slate-900 uppercase tracking-tight">Kennedy</p>
+                <p className="text-[9px] font-bold text-blue-600 uppercase tracking-widest">Super Admin</p>
+              </div>
             </div>
           </div>
         </header>
