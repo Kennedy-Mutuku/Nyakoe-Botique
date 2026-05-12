@@ -12,6 +12,8 @@ import {
   Trash2
 } from 'lucide-react';
 
+import Header from '../components/Header';
+
 const StaffDashboard = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [cart, setCart] = useState([]);
@@ -44,14 +46,21 @@ const StaffDashboard = () => {
 
   return (
     <div className="bg-slate-50 min-h-screen relative overflow-x-hidden">
+      <Header />
       <Sidebar />
       
-      <main className="flex-1 w-full lg:pl-72 p-3 md:p-8 pt-20 lg:pt-8 grid lg:grid-cols-3 gap-6 md:gap-8 overflow-x-hidden">
+      <main className="flex-1 w-full lg:pl-72 p-3 md:p-8 pt-36 lg:pt-32 grid lg:grid-cols-3 gap-6 md:gap-8 overflow-x-hidden">
         {/* Main Recording Area */}
         <div className="lg:col-span-2 space-y-6 md:space-y-8 max-w-full">
-          <header>
-            <h1 className="text-2xl md:text-3xl font-extrabold text-slate-900 leading-tight">New Sale Recording</h1>
-            <p className="text-slate-500 font-medium mt-1 text-sm md:text-base">Search products and add to cart for checkout.</p>
+          <header className="flex flex-col sm:flex-row sm:items-center gap-4">
+            <div>
+              <h1 className="text-2xl md:text-3xl font-black text-slate-900 tracking-tight leading-tight">New Sale Recording</h1>
+              <p className="text-slate-500 font-bold text-[10px] uppercase tracking-[0.2em] mt-1">Nyakoe Retail Interface</p>
+            </div>
+            <div className="inline-flex items-center gap-2 bg-slate-900 text-white px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-[0.2em] shadow-lg shadow-slate-900/10">
+              <div className="w-1.5 h-1.5 bg-blue-400 rounded-full animate-pulse" />
+              Attendant Admin
+            </div>
           </header>
 
           {/* Search & Filter */}
