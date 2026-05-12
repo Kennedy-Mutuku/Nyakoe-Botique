@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, NavLink } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { Menu, X, LogOut, LayoutGrid } from 'lucide-react';
+import { 
+  Menu, X, LogOut, LayoutGrid,
+  LayoutDashboard, TrendingUp, Package, Scissors, Users, Receipt
+} from 'lucide-react';
 import logo from '../assets/logo bq.png';
 
 const Header = () => {
@@ -10,6 +13,22 @@ const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const isLoggedIn = !!user;
+  const role = user?.role || 'attendant';
+  const isAdmin = role === 'admin';
+
+  const menuItems = isAdmin ? [
+    { icon: <LayoutDashboard size={14} />, label: 'Dashboard', path: '/admin/dashboard' },
+    { icon: <TrendingUp size={14} />, label: 'Reports', path: '/admin/reports' },
+    { icon: <Package size={14} />, label: 'Inventory', path: '/admin/inventory' },
+    { icon: <Scissors size={14} />, label: 'Tailoring', path: '/admin/tailoring' },
+    { icon: <Users size={14} />, label: 'Customers', path: '/admin/customers' },
+    { icon: <Receipt size={14} />, label: 'Expenses', path: '/admin/expenses' },
+  ] : [
+    { icon: <LayoutDashboard size={14} />, label: 'Dashboard', path: '/staff/dashboard' },
+    { icon: <Package size={14} />, label: 'Stock View', path: '/staff/inventory' },
+    { icon: <Scissors size={14} />, label: 'Tailoring', path: '/staff/tailoring' },
+    { icon: <Users size={14} />, label: 'Customers', path: '/staff/customers' },
+  ];
 
   const handleSignOut = () => {
     logout();
@@ -50,7 +69,28 @@ const Header = () => {
             </div>
           </div>
           
-          {/* Navigation Links - ONLY for landing page (not logged in) */}
+          {/* Management Desktop Navigation - ONLY for Desktop when logged in */}
+          {isLoggedIn && (
+            <div className="hidden lg:flex items-center gap-1 bg-slate-50/50 p-1 rounded-2xl border border-slate-100">
+              {menuItems.map((item, idx) => (
+                <NavLink
+                  key={idx}
+                  to={item.path}
+                  className={({ isActive }) => `
+                    flex items-center gap-2 px-4 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all
+                    ${isActive 
+                      ? 'bg-white text-blue-600 shadow-sm border border-slate-100' 
+                      : 'text-slate-400 hover:text-slate-900 hover:bg-white/50'}
+                  `}
+                >
+                  {item.icon}
+                  <span>{item.label}</span>
+                </NavLink>
+              ))}
+            </div>
+          )}
+
+          {/* Public Navigation Links - ONLY for landing page (not logged in) */}
           {!isLoggedIn && (
             <div className="hidden lg:flex items-center gap-8">
               {['Management', 'Tailoring', 'Inventory', 'Insights'].map((item) => (

@@ -45,7 +45,7 @@ const AdminDashboard = () => {
 
       <Sidebar />
       
-      <main className="w-full lg:pl-72 p-4 md:p-8 pt-36 lg:pt-32">
+      <main className="w-full p-4 md:p-8 pt-36 lg:pt-32">
         {/* Header */}
         <header className="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-10 gap-6">
           <div className="flex flex-col sm:flex-row sm:items-center gap-4">

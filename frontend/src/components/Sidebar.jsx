@@ -64,7 +64,7 @@ const Sidebar = () => {
         transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)]
         ${isOpen 
           ? 'translate-x-0 w-56 h-auto max-h-[calc(100vh-140px)] rounded-bl-[2.5rem] shadow-2xl visible' 
-          : 'translate-x-full lg:translate-x-0 lg:w-56 lg:h-[calc(100vh-114px)] lg:visible invisible'}
+          : 'translate-x-full invisible lg:hidden'}
       `}>
         <div className="p-5 border-b border-slate-50">
           <p className="text-[9px] font-black text-blue-600 uppercase tracking-[0.3em] opacity-80">Management</p>
