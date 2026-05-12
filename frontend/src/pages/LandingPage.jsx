@@ -71,9 +71,9 @@ const LandingPage = () => {
           </div>
         </div>
 
-        {/* Mobile Drawer Backdrop */}
+        {/* Mobile Drawer Backdrop - Starts below header to keep it bright */}
         <div 
-          className={`fixed inset-0 bg-black/40 backdrop-blur-sm z-[55] transition-opacity duration-500 ${
+          className={`fixed inset-x-0 bottom-0 top-24 bg-black/40 backdrop-blur-sm z-[55] transition-opacity duration-500 ${
             isMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
           }`}
           onClick={() => setIsMenuOpen(false)}
