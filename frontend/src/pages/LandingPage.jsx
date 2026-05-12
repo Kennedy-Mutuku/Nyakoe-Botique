@@ -83,26 +83,20 @@ const LandingPage = () => {
           onClick={() => setIsMenuOpen(false)}
         />
 
-        {/* Mobile Side Drawer - Demure & Refined */}
-        <div className={`fixed top-0 right-0 h-full w-[300px] bg-white z-[60] shadow-2xl transition-transform duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] ${
-          isMenuOpen ? 'translate-x-0' : 'translate-x-full'
+        {/* Mobile Compact Dropdown - Demure & Floating */}
+        <div className={`absolute top-24 right-6 w-64 bg-white/95 backdrop-blur-md z-[60] shadow-2xl transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] origin-top-right ${
+          isMenuOpen ? 'opacity-100 scale-100' : 'opacity-0 scale-95 pointer-events-none'
         }`}>
-          <div className="p-8 h-full flex flex-col">
-            <div className="flex justify-end mb-16">
-              <button onClick={() => setIsMenuOpen(false)} className="text-black">
-                <X size={28} strokeWidth={1} />
-              </button>
-            </div>
-
-            <div className="space-y-8 flex-1">
+          <div className="p-8 flex flex-col gap-6">
+            <div className="flex flex-col gap-4">
               {['Management', 'Tailoring', 'Inventory', 'Insights'].map((item, i) => (
                 <a 
                   key={item} 
                   href="#" 
-                  className={`block text-2xl serif-font italic transition-all duration-500 hover:translate-x-2 ${
+                  className={`block text-xl serif-font italic transition-all duration-500 hover:translate-x-2 ${
                     isMenuOpen ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-4'
                   }`}
-                  style={{ transitionDelay: `${i * 100}ms` }}
+                  style={{ transitionDelay: `${i * 50}ms` }}
                   onClick={() => setIsMenuOpen(false)}
                 >
                   {item}
@@ -110,18 +104,18 @@ const LandingPage = () => {
               ))}
             </div>
             
-            <div className={`mt-auto pt-8 border-t border-black/5 flex flex-col gap-4 transition-all duration-700 ${
-              isMenuOpen ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+            <div className={`pt-6 border-t border-black/5 flex flex-col gap-3 transition-all duration-700 ${
+              isMenuOpen ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
             }`}>
               <button 
                 onClick={() => { navigate('/login?role=attendant'); setIsMenuOpen(false); }}
-                className="btn-minimal btn-minimal-black text-[10px] w-full"
+                className="text-[10px] uppercase tracking-[0.2em] font-bold text-black hover:opacity-50 transition-opacity text-left"
               >
                 Staff Login
               </button>
               <button 
                 onClick={() => { navigate('/login?role=admin'); setIsMenuOpen(false); }}
-                className="btn-minimal text-[10px] w-full"
+                className="text-[10px] uppercase tracking-[0.2em] font-bold text-black/50 hover:text-black transition-colors text-left"
               >
                 Admin Portal
               </button>
