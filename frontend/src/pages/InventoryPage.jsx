@@ -305,63 +305,59 @@ const InventoryPage = () => {
           </div>
         </div>
 
-        {/* Add Product Modal (Professional & Comprehensive) */}
+        {/* Add Product Modal (Sleek & Compact) */}
         {showModal && (
-          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-6 bg-slate-900/60 backdrop-blur-sm">
-            <div className="bg-white w-full max-w-4xl max-h-[90vh] rounded-[2rem] shadow-2xl overflow-hidden flex flex-col fade-in">
+          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm">
+            <div className="bg-white w-full max-w-3xl max-h-[95vh] rounded-[2rem] shadow-2xl overflow-hidden flex flex-col fade-in">
               {/* Modal Header */}
-              <div className="p-6 md:p-8 border-b border-slate-100 flex justify-between items-center bg-white sticky top-0 z-10">
+              <div className="p-5 md:p-6 border-b border-slate-100 flex justify-between items-center bg-white sticky top-0 z-10">
                 <div>
-                  <h2 className="text-xl md:text-2xl font-black text-slate-900 leading-tight">New Stock Entry</h2>
-                  <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mt-1">Initialize product specifications professionally</p>
+                  <h2 className="text-lg md:text-xl font-black text-slate-900 leading-tight">New Stock Entry</h2>
+                  <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-0.5">Initialize product specifications</p>
                 </div>
                 <button onClick={() => setShowModal(false)} className="p-2 bg-slate-50 text-slate-400 hover:text-rose-500 rounded-xl transition-all">✕</button>
               </div>
 
               {/* Modal Body - Scrollable */}
-              <div className="flex-1 overflow-y-auto p-6 md:p-8">
-                <div className="space-y-8">
-                  {/* Section 1: Core Product Identity (Mandatory First) */}
-                  <div className="space-y-6">
-                    <div className="space-y-2">
-                      <div className="flex justify-between items-center px-1">
-                        <label className={`text-[10px] font-black uppercase tracking-widest flex items-center gap-2 ${formErrors.name ? 'text-rose-500' : 'text-slate-400'}`}>
-                          Product Identity *
-                        </label>
-                        {formErrors.name && <span className="text-[10px] font-black text-rose-500 uppercase animate-pulse">Required *</span>}
-                      </div>
-                      <input 
-                        type="text" 
-                        required
-                        value={prodName}
-                        onChange={(e) => {
-                          setProdName(e.target.value);
-                          if(e.target.value) {
-                            const newErrs = {...formErrors};
-                            delete newErrs.name;
-                            setFormErrors(newErrs);
-                          }
-                        }}
-                        placeholder="e.g., Luxury Silk Evening Gown" 
-                        className={`w-full px-6 py-4 border rounded-2xl transition-all font-black text-lg placeholder:font-bold placeholder:text-slate-300 ${
-                          formErrors.name 
-                          ? 'border-rose-500 bg-rose-50/30 text-rose-700 ring-4 ring-rose-500/10' 
-                          : 'bg-slate-50 border-slate-200 focus:ring-4 focus:ring-blue-500/10 focus:bg-white focus:border-blue-50'
-                        }`} 
-                      />
+              <div className="flex-1 overflow-y-auto p-5 md:p-7">
+                <div className="space-y-6">
+                  {/* Section 1: Core Product Identity */}
+                  <div className="space-y-2">
+                    <div className="flex justify-between items-center px-1">
+                      <label className={`text-[9px] font-black uppercase tracking-widest flex items-center gap-2 ${formErrors.name ? 'text-rose-500' : 'text-slate-400'}`}>
+                        Product Identity *
+                      </label>
+                      {formErrors.name && <span className="text-[9px] font-black text-rose-500 uppercase animate-pulse">Required *</span>}
                     </div>
+                    <input 
+                      type="text" 
+                      required
+                      value={prodName}
+                      onChange={(e) => {
+                        setProdName(e.target.value);
+                        if(e.target.value) {
+                          const newErrs = {...formErrors};
+                          delete newErrs.name;
+                          setFormErrors(newErrs);
+                        }
+                      }}
+                      placeholder="e.g., Luxury Silk Evening Gown" 
+                      className={`w-full px-5 py-3.5 border rounded-2xl transition-all font-black text-base placeholder:font-bold placeholder:text-slate-300 ${
+                        formErrors.name 
+                        ? 'border-rose-500 bg-rose-50/30 text-rose-700 ring-4 ring-rose-500/10' 
+                        : 'bg-slate-50 border-slate-200 focus:ring-4 focus:ring-blue-500/10 focus:bg-white focus:border-blue-50'
+                      }`} 
+                    />
                   </div>
 
-                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12">
-                    {/* Left Column: Media & Classification */}
-                    <div className="space-y-8">
-                      {/* Image Upload Area */}
+                  <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
+                    {/* Left: Media & Basic Info (5 cols) */}
+                    <div className="md:col-span-5 space-y-6">
                       <div className="space-y-3">
                         <div className="flex justify-between items-center px-1">
-                          <label className={`text-[10px] font-black uppercase tracking-widest flex items-center gap-2 ${formErrors.image ? 'text-rose-500' : 'text-slate-400'}`}>
+                          <label className={`text-[9px] font-black uppercase tracking-widest flex items-center gap-2 ${formErrors.image ? 'text-rose-500' : 'text-slate-400'}`}>
                             Visual Representation *
                           </label>
-                          {formErrors.image && <span className="text-[10px] font-black text-rose-500 uppercase animate-pulse">Required *</span>}
                         </div>
                         <input 
                           type="file" 
@@ -378,7 +374,7 @@ const InventoryPage = () => {
                         />
                         <label 
                           htmlFor="photo-upload"
-                          className={`aspect-square border-2 border-dashed rounded-[2.5rem] flex flex-col items-center justify-center gap-4 group transition-all cursor-pointer overflow-hidden relative ${
+                          className={`aspect-square border-2 border-dashed rounded-[2rem] flex flex-col items-center justify-center gap-3 group transition-all cursor-pointer overflow-hidden relative ${
                             formErrors.image 
                             ? 'border-rose-500 bg-rose-50/30' 
                             : 'bg-slate-50 border-slate-200 hover:border-blue-400 hover:bg-blue-50/30'
@@ -388,198 +384,168 @@ const InventoryPage = () => {
                             <img src={prodImage} alt="Preview" className="w-full h-full object-cover" />
                           ) : (
                             <>
-                              <div className="w-16 h-16 bg-white rounded-2xl shadow-sm flex items-center justify-center text-slate-300 group-hover:text-blue-500 transition-all">
-                                <Plus size={32} />
+                              <div className="w-12 h-12 bg-white rounded-xl shadow-sm flex items-center justify-center text-slate-300 group-hover:text-blue-500 transition-all">
+                                <Plus size={24} />
                               </div>
-                              <div className="text-center px-6">
-                                <p className="text-sm font-black text-slate-900">Upload Photo or Use Camera</p>
-                                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-tight mt-1">PNG, JPG or Instant Snap</p>
+                              <div className="text-center px-4">
+                                <p className="text-xs font-black text-slate-900 leading-tight">Upload Photo</p>
+                                <p className="text-[9px] font-bold text-slate-400 uppercase tracking-tight mt-1">PNG, JPG, Camera</p>
                               </div>
                             </>
                           )}
-                          {/* Camera Icon Overlay */}
-                          <div className="absolute bottom-6 right-6 p-3 bg-white shadow-lg rounded-xl text-slate-400 group-hover:text-blue-500 transition-all">
-                            <Camera size={20} />
+                          <div className="absolute bottom-4 right-4 p-2.5 bg-white shadow-lg rounded-xl text-slate-400 group-hover:text-blue-500 transition-all">
+                            <Camera size={16} />
                           </div>
                         </label>
                       </div>
 
-                      {/* Classification */}
-                      <div className="space-y-6 bg-slate-50/50 p-6 rounded-3xl border border-slate-100">
-                        <div className="grid grid-cols-2 gap-4">
-                          <div className="space-y-2">
-                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Category *</label>
-                            <select 
-                              required 
-                              value={prodCategory}
-                              onChange={(e) => setProdCategory(e.target.value)}
-                              className="w-full px-5 py-3 bg-white border border-slate-200 rounded-xl focus:ring-4 focus:ring-blue-500/10 transition-all font-bold text-sm appearance-none"
-                            >
-                              <option>Dresses</option>
-                              <option>Suits</option>
-                              <option>Shirts</option>
-                              <option>Pants</option>
-                              <option>Accessories</option>
-                              <option>Footwear</option>
-                            </select>
-                          </div>
-                          <div className="space-y-2">
-                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Supplier *</label>
-                            <input 
-                              type="text" 
-                              required 
-                              value={prodSupplier}
-                              onChange={(e) => setProdSupplier(e.target.value)}
-                              placeholder="Global Garments Ltd" 
-                              className="w-full px-5 py-3 bg-white border border-slate-200 rounded-xl focus:ring-4 focus:ring-blue-500/10 transition-all font-bold text-sm" 
-                            />
-                          </div>
+                      <div className="space-y-4 bg-slate-50/50 p-4 rounded-3xl border border-slate-100">
+                        <div className="space-y-1.5">
+                          <label className="text-[9px] font-black text-slate-400 uppercase tracking-widest ml-1">Category *</label>
+                          <select 
+                            required 
+                            value={prodCategory}
+                            onChange={(e) => setProdCategory(e.target.value)}
+                            className="w-full px-4 py-2.5 bg-white border border-slate-200 rounded-xl transition-all font-bold text-xs appearance-none cursor-pointer"
+                          >
+                            <option>Dresses</option>
+                            <option>Suits</option>
+                            <option>Shirts</option>
+                            <option>Pants</option>
+                            <option>Accessories</option>
+                            <option>Footwear</option>
+                          </select>
+                        </div>
+                        <div className="space-y-1.5">
+                          <label className="text-[9px] font-black text-slate-400 uppercase tracking-widest ml-1">Supplier *</label>
+                          <input 
+                            type="text" 
+                            required 
+                            value={prodSupplier}
+                            onChange={(e) => setProdSupplier(e.target.value)}
+                            placeholder="Supplier name..." 
+                            className="w-full px-4 py-2.5 bg-white border border-slate-200 rounded-xl transition-all font-bold text-xs" 
+                          />
                         </div>
                       </div>
                     </div>
 
-                    {/* Right Column: Pricing & Multi-Size Inventory */}
-                    <div className="space-y-8">
-                      {/* Financial Information */}
-                      <div className="space-y-4">
-                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Financial Specifications *</label>
-                        <div className="grid grid-cols-2 gap-4">
-                          <div className={`p-5 border rounded-3xl space-y-2 transition-all ${
-                            formErrors.buying 
-                            ? 'border-rose-500 bg-rose-50/30 ring-4 ring-rose-500/10' 
-                            : 'bg-emerald-50/30 border-emerald-100 focus-within:ring-4 focus-within:ring-emerald-500/10'
-                          }`}>
-                            <p className={`text-[10px] font-black uppercase tracking-widest ${formErrors.buying ? 'text-rose-600' : 'text-emerald-600'}`}>Buying Price {formErrors.buying && '*'}</p>
-                            <div className="flex items-center gap-2">
-                              <span className={`text-sm font-black ${formErrors.buying ? 'text-rose-600/60' : 'text-emerald-600/60'}`}>KSh</span>
-                              <input 
-                                type="number" 
-                                required 
-                                value={buyingPrice}
-                                onChange={(e) => {
-                                  setBuyingPrice(e.target.value);
-                                  if(e.target.value) {
-                                    const newErrs = {...formErrors};
-                                    delete newErrs.buying;
-                                    setFormErrors(newErrs);
-                                  }
-                                }}
-                                placeholder="0" 
-                                className={`w-full bg-transparent border-none p-0 focus:ring-0 text-xl font-black placeholder:text-emerald-200 ${formErrors.buying ? 'text-rose-700' : 'text-emerald-700'}`} 
-                              />
-                            </div>
+                    {/* Right: Pricing & Variants (7 cols) */}
+                    <div className="md:col-span-7 space-y-6">
+                      <div className="grid grid-cols-2 gap-3">
+                        <div className={`p-4 border rounded-2xl space-y-1 transition-all ${
+                          formErrors.buying 
+                          ? 'border-rose-500 bg-rose-50/30' 
+                          : 'bg-emerald-50/30 border-emerald-100'
+                        }`}>
+                          <p className={`text-[9px] font-black uppercase tracking-widest ${formErrors.buying ? 'text-rose-600' : 'text-emerald-600'}`}>Buy Price {formErrors.buying && '*'}</p>
+                          <div className="flex items-center gap-2">
+                            <span className={`text-[10px] font-black ${formErrors.buying ? 'text-rose-600/60' : 'text-emerald-600/60'}`}>KSh</span>
+                            <input 
+                              type="number" 
+                              required 
+                              value={buyingPrice}
+                              onChange={(e) => {
+                                setBuyingPrice(e.target.value);
+                                if(e.target.value) {
+                                  const newErrs = {...formErrors};
+                                  delete newErrs.buying;
+                                  setFormErrors(newErrs);
+                                }
+                              }}
+                              placeholder="0" 
+                              className={`w-full bg-transparent border-none p-0 focus:ring-0 text-base font-black placeholder:text-emerald-200 ${formErrors.buying ? 'text-rose-700' : 'text-emerald-700'}`} 
+                            />
                           </div>
-                          <div className={`p-5 border rounded-3xl space-y-2 transition-all ${
-                            formErrors.selling 
-                            ? 'border-rose-500 bg-rose-50/30 ring-4 ring-rose-500/10' 
-                            : 'bg-blue-50/30 border-blue-100 focus-within:ring-4 focus-within:ring-blue-500/10'
-                          }`}>
-                            <p className={`text-[10px] font-black uppercase tracking-widest ${formErrors.selling ? 'text-rose-600' : 'text-blue-600'}`}>Selling Price {formErrors.selling && '*'}</p>
-                            <div className="flex items-center gap-2">
-                              <span className={`text-sm font-black ${formErrors.selling ? 'text-rose-600/60' : 'text-blue-600/60'}`}>KSh</span>
-                              <input 
-                                type="number" 
-                                required 
-                                value={sellingPrice}
-                                onChange={(e) => {
-                                  setSellingPrice(e.target.value);
-                                  if(e.target.value) {
-                                    const newErrs = {...formErrors};
-                                    delete newErrs.selling;
-                                    setFormErrors(newErrs);
-                                  }
-                                }}
-                                placeholder="0" 
-                                className={`w-full bg-transparent border-none p-0 focus:ring-0 text-xl font-black placeholder:text-blue-200 ${formErrors.selling ? 'text-rose-700' : 'text-blue-700'}`} 
-                              />
-                            </div>
+                        </div>
+                        <div className={`p-4 border rounded-2xl space-y-1 transition-all ${
+                          formErrors.selling 
+                          ? 'border-rose-500 bg-rose-50/30' 
+                          : 'bg-blue-50/30 border-blue-100'
+                        }`}>
+                          <p className={`text-[9px] font-black uppercase tracking-widest ${formErrors.selling ? 'text-rose-600' : 'text-blue-600'}`}>Sell Price {formErrors.selling && '*'}</p>
+                          <div className="flex items-center gap-2">
+                            <span className={`text-[10px] font-black ${formErrors.selling ? 'text-rose-600/60' : 'text-blue-600/60'}`}>KSh</span>
+                            <input 
+                              type="number" 
+                              required 
+                              value={sellingPrice}
+                              onChange={(e) => {
+                                setSellingPrice(e.target.value);
+                                if(e.target.value) {
+                                  const newErrs = {...formErrors};
+                                  delete newErrs.selling;
+                                  setFormErrors(newErrs);
+                                }
+                              }}
+                              placeholder="0" 
+                              className={`w-full bg-transparent border-none p-0 focus:ring-0 text-base font-black placeholder:text-blue-200 ${formErrors.selling ? 'text-rose-700' : 'text-blue-700'}`} 
+                            />
                           </div>
                         </div>
                       </div>
 
-                      {/* Multi-Size Inventory Management */}
-                      <div className="space-y-4">
+                      <div className="space-y-3">
                         <div className="flex justify-between items-end px-1">
-                          <label className={`text-[10px] font-black uppercase tracking-widest ${formErrors.variants ? 'text-rose-500' : 'text-slate-400'}`}>
-                            Mandatory Size Entry *
+                          <label className={`text-[9px] font-black uppercase tracking-widest ${formErrors.variants ? 'text-rose-500' : 'text-slate-400'}`}>
+                            Size Variants *
                           </label>
-                          <div className="flex flex-col items-end">
-                            {formErrors.variants && <span className="text-[8px] font-black text-rose-500 uppercase animate-pulse mb-1">Add at least one size variant *</span>}
-                            <span className="text-[10px] font-black text-blue-600 uppercase">Total Stock: {totalStock} pcs</span>
-                          </div>
+                          <span className="text-[9px] font-black text-blue-600 uppercase">Stock: {totalStock}</span>
                         </div>
                         
-                        <div className={`bg-white border rounded-3xl overflow-hidden shadow-sm transition-all ${formErrors.variants ? 'border-rose-500 ring-4 ring-rose-500/10' : 'border-slate-200'}`}>
-                          <div className="p-4 bg-slate-50 border-b border-slate-200 grid grid-cols-4 gap-3">
-                            <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Size Label</p>
-                            <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Quantity</p>
-                            <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Price</p>
-                            <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest text-right">Action</p>
+                        <div className={`bg-white border rounded-2xl overflow-hidden shadow-sm transition-all ${formErrors.variants ? 'border-rose-500 ring-4 ring-rose-500/10' : 'border-slate-200'}`}>
+                          <div className="p-3 bg-slate-50 border-b border-slate-200 grid grid-cols-4 gap-2">
+                            <p className="text-[8px] font-black text-slate-400 uppercase tracking-widest">Size</p>
+                            <p className="text-[8px] font-black text-slate-400 uppercase tracking-widest">Qty</p>
+                            <p className="text-[8px] font-black text-slate-400 uppercase tracking-widest">Price</p>
+                            <p className="text-[8px] font-black text-slate-400 uppercase tracking-widest text-right">Action</p>
                           </div>
-                          <div className="max-h-[200px] overflow-y-auto divide-y divide-slate-100">
-                            {/* Entry Row */}
-                            <div className="p-4 grid grid-cols-1 md:grid-cols-4 gap-3 items-center bg-blue-50/10">
+                          
+                          <div className="max-h-[160px] overflow-y-auto divide-y divide-slate-100">
+                            <div className="p-3 grid grid-cols-4 gap-2 items-center bg-blue-50/5">
                               <select 
                                 value={newSize}
                                 onChange={(e) => setNewSize(e.target.value)}
-                                className="bg-white border border-slate-200 rounded-lg py-2 px-3 text-sm font-black w-full appearance-none cursor-pointer"
+                                className="bg-white border border-slate-200 rounded-lg py-1.5 px-2 text-[11px] font-black w-full"
                               >
-                                <option value="">Size</option>
-                                <optgroup label="Letters">
-                                  <option>XS</option><option>S</option><option>M</option><option>L</option><option>XL</option><option>XXL</option>
-                                </optgroup>
-                                <optgroup label="Trousers/Suits">
-                                  <option>28</option><option>30</option><option>32</option><option>34</option><option>36</option><option>38</option><option>40</option><option>42</option>
-                                </optgroup>
-                                <optgroup label="Shoes">
-                                  <option>38</option><option>39</option><option>40</option><option>41</option><option>42</option><option>43</option><option>44</option><option>45</option>
-                                </optgroup>
+                                <option value="">S</option>
+                                <option>XS</option><option>S</option><option>M</option><option>L</option><option>XL</option><option>XXL</option>
+                                <option>28</option><option>30</option><option>32</option><option>34</option><option>36</option><option>38</option><option>40</option><option>42</option>
                               </select>
                               <input 
                                 type="number" 
                                 value={newQty}
                                 onChange={(e) => setNewQty(e.target.value)}
-                                placeholder="Qty" 
-                                className="bg-white border border-slate-200 rounded-lg py-2 px-3 text-sm font-bold w-full" 
+                                placeholder="0" 
+                                className="bg-white border border-slate-200 rounded-lg py-1.5 px-2 text-[11px] font-bold w-full" 
                               />
                               <input 
                                 type="number" 
                                 value={newPrice}
                                 onChange={(e) => setNewPrice(e.target.value)}
-                                placeholder="Price" 
-                                className="bg-white border border-slate-200 rounded-lg py-2 px-3 text-sm font-bold w-full" 
+                                placeholder="0" 
+                                className="bg-white border border-slate-200 rounded-lg py-1.5 px-2 text-[11px] font-bold w-full" 
                               />
-                              <div className="flex justify-end">
-                                <button 
-                                  onClick={addVariant}
-                                  className="w-full md:w-auto px-6 py-2 bg-blue-600 text-white rounded-lg transition-all font-black text-[10px] uppercase shadow-sm active:scale-95 disabled:opacity-50"
-                                  disabled={!newSize || !newQty || !newPrice}
-                                >
-                                  Add Size
-                                </button>
-                              </div>
+                              <button 
+                                onClick={addVariant}
+                                className="w-full bg-slate-900 text-white rounded-lg py-1.5 text-[8px] font-black uppercase hover:bg-blue-600 transition-all"
+                              >
+                                Add
+                              </button>
                             </div>
 
-                            {/* Dynamic List */}
-                            {variants.length === 0 ? (
-                              <div className="p-4 flex flex-col items-center justify-center text-slate-300 py-8 italic text-xs font-medium text-center">
-                                Minimum 1 size variant required...<br/>
-                                <span className="text-[10px] uppercase mt-2 font-black not-italic text-blue-400">Add size, quantity and specific price above</span>
-                              </div>
-                            ) : (
-                              variants.map((v, idx) => (
-                                <div key={idx} className="p-4 grid grid-cols-1 md:grid-cols-4 gap-3 items-center hover:bg-slate-50 transition-colors">
-                                  <span className="text-sm font-black text-slate-700 uppercase">{v.size}</span>
-                                  <span className="text-sm font-black text-blue-600">{v.qty} <span className="text-[10px] text-slate-400 ml-1 uppercase">pieces</span></span>
-                                  <span className="text-sm font-black text-emerald-600">KSh {Number(v.price).toLocaleString()}</span>
-                                  <div className="flex justify-end">
-                                    <button onClick={() => removeVariant(idx)} className="p-2 text-rose-500 hover:bg-rose-50 rounded-lg transition-all">
-                                      <Trash2 size={14} />
-                                    </button>
-                                  </div>
+                            {variants.map((v, idx) => (
+                              <div key={idx} className="p-3 grid grid-cols-4 gap-2 items-center hover:bg-slate-50 transition-colors">
+                                <span className="text-[11px] font-black text-slate-700 uppercase">{v.size}</span>
+                                <span className="text-[11px] font-bold text-blue-600">{v.qty}</span>
+                                <span className="text-[11px] font-black text-emerald-600">KSh {Number(v.price).toLocaleString()}</span>
+                                <div className="flex justify-end">
+                                  <button onClick={() => removeVariant(idx)} className="p-1.5 text-rose-500 hover:bg-rose-50 rounded-lg transition-all">
+                                    <Trash2 size={12} />
+                                  </button>
                                 </div>
-                              ))
-                            )}
+                              </div>
+                            ))}
                           </div>
                         </div>
                       </div>
@@ -589,11 +555,11 @@ const InventoryPage = () => {
               </div>
 
               {/* Modal Footer */}
-              <div className="p-6 md:p-8 bg-slate-50 border-t border-slate-100 flex justify-end gap-4 sticky bottom-0 z-10">
-                <button onClick={() => setShowModal(false)} className="px-6 py-3 bg-white border border-slate-200 text-slate-600 rounded-xl font-black text-xs hover:bg-white/80 transition-all uppercase tracking-widest">Cancel</button>
+              <div className="p-5 md:p-6 bg-slate-50 border-t border-slate-100 flex justify-end gap-3 sticky bottom-0 z-10">
+                <button onClick={() => setShowModal(false)} className="px-5 py-2.5 bg-white border border-slate-200 text-slate-600 rounded-xl font-black text-[10px] hover:bg-white/80 transition-all uppercase tracking-widest">Cancel</button>
                 <button 
                   onClick={handleSaveProduct}
-                  className="px-10 py-3 premium-gradient text-white rounded-xl font-black text-xs shadow-xl shadow-blue-500/20 hover:shadow-blue-500/40 transition-all uppercase tracking-[0.2em]"
+                  className="px-8 py-2.5 premium-gradient text-white rounded-xl font-black text-[10px] shadow-xl shadow-blue-500/20 hover:shadow-blue-500/40 transition-all uppercase tracking-[0.2em]"
                 >
                   Initialize Stock
                 </button>
