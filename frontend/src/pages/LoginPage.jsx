@@ -46,26 +46,26 @@ const LoginPage = () => {
           <span>Back to Landing</span>
         </button>
 
-        <div className="glass rounded-[2.5rem] p-8 md:p-10 border border-white shadow-2xl">
-          <div className="text-center mb-10 flex flex-col items-center">
-            <div className="mb-4">
-              <img src={logo} alt="NYAKOE" className="h-16 w-auto mix-blend-multiply" />
+        <div className="glass rounded-[2rem] p-6 md:p-8 border border-white shadow-2xl">
+          <div className="text-center mb-6 flex flex-col items-center">
+            <div className="mb-2">
+              <img src={logo} alt="NYAKOE" className="h-14 w-auto mix-blend-multiply" />
             </div>
-            <span className="serif-font italic text-amber-800 tracking-wide text-sm mb-6">
+            <span className="serif-font italic text-amber-800 tracking-wide text-xs mb-4">
               Nyakoe Boutique
             </span>
-            <h1 className="text-3xl font-extrabold text-slate-900 mb-2">
+            <h1 className="text-2xl font-black text-slate-900 mb-1">
               {isAdmin ? 'Admin Portal' : 'Staff Portal'}
             </h1>
-            <p className="text-slate-500">Welcome back to Nyakoe Boutique</p>
+            <p className="text-slate-500 text-sm">Sign in to manage your boutique</p>
           </div>
 
-          <form onSubmit={handleLogin} className="space-y-6">
+          <form onSubmit={handleLogin} className="space-y-4">
             <div>
-              <label className="block text-sm font-semibold text-slate-700 mb-2 ml-1">Email Address</label>
+              <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-1.5 ml-1">Email Address</label>
               <div className="relative group">
                 <div className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-500 transition-colors">
-                  <User size={20} />
+                  <User size={18} />
                 </div>
                 <input 
                   type="email" 
@@ -73,16 +73,16 @@ const LoginPage = () => {
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="name@example.com"
                   required
-                  className="w-full pl-12 pr-4 py-4 bg-white/50 border border-slate-200 rounded-2xl focus:outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all"
+                  className="w-full pl-12 pr-4 py-3 bg-white/50 border border-slate-200 rounded-xl focus:outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all text-sm"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-sm font-semibold text-slate-700 mb-2 ml-1">Password</label>
+              <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-1.5 ml-1">Password</label>
               <div className="relative group">
                 <div className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-500 transition-colors">
-                  <Lock size={20} />
+                  <Lock size={18} />
                 </div>
                 <input 
                   type={showPassword ? "text" : "password"} 
@@ -90,40 +90,40 @@ const LoginPage = () => {
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••••••"
                   required
-                  className="w-full pl-12 pr-12 py-4 bg-white/50 border border-slate-200 rounded-2xl focus:outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all"
+                  className="w-full pl-12 pr-12 py-3 bg-white/50 border border-slate-200 rounded-xl focus:outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all text-sm"
                 />
                 <button 
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
                   className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition-colors"
                 >
-                  {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                  {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                 </button>
               </div>
             </div>
 
-            <div className="flex items-center justify-between text-sm px-1">
+            <div className="flex items-center justify-between text-[11px] px-1">
               <label className="flex items-center gap-2 cursor-pointer group">
-                <input type="checkbox" className="w-4 h-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500" />
-                <span className="text-slate-600 group-hover:text-slate-800 transition-colors">Remember me</span>
+                <input type="checkbox" className="w-3.5 h-3.5 rounded border-slate-300 text-blue-600 focus:ring-blue-500" />
+                <span className="text-slate-500 group-hover:text-slate-800 transition-colors">Remember me</span>
               </label>
-              <a href="#" className="font-semibold text-blue-600 hover:text-blue-700 transition-colors">Forgot Password?</a>
+              <a href="#" className="font-bold text-blue-600 hover:text-blue-700 transition-colors">Forgot Password?</a>
             </div>
 
             <button 
               type="submit"
-              className="w-full py-4 premium-gradient text-white rounded-2xl font-bold text-lg shadow-xl shadow-blue-500/20 hover:shadow-blue-500/40 hover:-translate-y-0.5 transition-all active:scale-[0.98]"
+              className="w-full py-3.5 premium-gradient text-white rounded-xl font-bold text-base shadow-lg shadow-blue-500/20 hover:shadow-blue-500/40 hover:-translate-y-0.5 transition-all active:scale-[0.98] mt-2"
             >
               Log In to Dashboard
             </button>
           </form>
 
-          <div className="mt-8 pt-8 border-t border-slate-100 text-center">
-            <p className="text-slate-500 text-sm">
+          <div className="mt-6 pt-6 border-t border-slate-100 text-center">
+            <p className="text-slate-500 text-[11px] tracking-wide uppercase font-medium">
               Not {isAdmin ? 'an admin' : 'staff'}? {' '}
               <button 
                 onClick={() => navigate(`/login?role=${isAdmin ? 'attendant' : 'admin'}`)}
-                className="font-bold text-slate-800 hover:text-blue-600 transition-colors"
+                className="font-black text-slate-800 hover:text-blue-600 transition-colors underline underline-offset-4 decoration-blue-500/30"
               >
                 Switch to {isAdmin ? 'Staff Portal' : 'Admin Portal'}
               </button>
