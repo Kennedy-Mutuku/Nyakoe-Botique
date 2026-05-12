@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ShoppingBag, Scissors, BarChart3, ChevronRight, Menu, X, ArrowRight } from 'lucide-react';
 import VideoBackground from '../components/VideoBackground';
+import logo from '../assets/logo bq.png';
 
 const LandingPage = () => {
   const navigate = useNavigate();
@@ -25,9 +26,11 @@ const LandingPage = () => {
         <div className="max-w-[1600px] mx-auto px-6 md:px-12 flex items-center justify-between">
           <div className="flex items-center gap-12">
             <div className="flex items-center gap-2 cursor-pointer group" onClick={() => navigate('/')}>
-              <span className={`text-2xl font-black tracking-tighter transition-colors duration-500 ${(isScrolled || isMenuOpen) ? 'text-black' : 'text-white'}`}>
-                NYAKOE <span className="serif-font italic font-light lowercase tracking-normal">Boutique</span>
-              </span>
+              <img 
+                src={logo} 
+                alt="NYAKOE Boutique" 
+                className={`h-12 md:h-16 w-auto transition-all duration-500 ${(isScrolled || isMenuOpen) ? 'brightness-100' : 'brightness-0 invert'}`}
+              />
             </div>
             
             <div className="hidden lg:flex items-center gap-8">
@@ -80,10 +83,15 @@ const LandingPage = () => {
         />
 
         {/* Mobile Corner Menu - Sharp & Professional (Under Header) */}
-        <div className={`absolute top-full right-0 w-72 bg-white/95 backdrop-blur-md z-[60] shadow-2xl transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] origin-top-right border-t border-black/5 ${
+        <div className={`absolute top-full right-0 w-72 bg-white z-[60] shadow-2xl transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] origin-top-right border-t border-black/5 ${
           isMenuOpen ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4 pointer-events-none'
         }`}>
           <div className="p-10 flex flex-col gap-10">
+            {/* Mobile Menu Logo */}
+            <div className="border-b border-black/5 pb-6">
+              <img src={logo} alt="NYAKOE" className="h-10 w-auto grayscale" />
+            </div>
+
             <div className="flex flex-col gap-6">
               {['Management', 'Tailoring', 'Inventory', 'Insights'].map((item, i) => (
                 <a 
