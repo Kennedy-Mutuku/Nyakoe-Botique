@@ -93,7 +93,7 @@ const LandingPage = () => {
         />
 
         {/* Mobile Corner Menu - Sharp & Professional (Under Header) */}
-        <div className={`absolute top-full right-0 w-72 bg-white z-[60] shadow-2xl transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] origin-top-right border-t border-black/5 ${
+        <div className={`absolute top-full right-0 w-auto min-w-[240px] bg-white z-[60] shadow-2xl transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] origin-top-right border-t border-black/5 ${
           isMenuOpen ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4 pointer-events-none'
         }`}>
           <div className="p-10 flex flex-col gap-10">
