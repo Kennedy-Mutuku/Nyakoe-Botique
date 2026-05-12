@@ -24,6 +24,21 @@ const InventoryPage = () => {
   const [newSize, setNewSize] = useState('');
   const [newQty, setNewQty] = useState('');
 
+  const [inventoryData, setInventoryData] = useState([
+    { id: 'PRD-001', name: 'Cotton Summer Dress', category: 'Dresses', buying: 1500, selling: 2500, stock: 15, supplier: 'Global Textiles' },
+    { id: 'PRD-002', name: 'Men Silk Tie', category: 'Accessories', buying: 500, selling: 1200, stock: 42, supplier: 'Silk Road' },
+    { id: 'PRD-003', name: 'Linen Trousers', category: 'Pants', buying: 2200, selling: 3800, stock: 8, supplier: 'Quality Linens' },
+    { id: 'PRD-004', name: 'Classic White Shirt', category: 'Shirts', buying: 1200, selling: 2200, stock: 25, supplier: 'Shirt Co.' },
+    { id: 'PRD-005', name: 'School Uniform Set', category: 'Uniforms', buying: 1800, selling: 3500, stock: 5, supplier: 'Local Garments' },
+  ]);
+
+  // Form States
+  const [prodName, setProdName] = useState('');
+  const [prodCategory, setProdCategory] = useState('Dresses');
+  const [prodSupplier, setProdSupplier] = useState('');
+  const [buyingPrice, setBuyingPrice] = useState('');
+  const [sellingPrice, setSellingPrice] = useState('');
+
   const addVariant = () => {
     if (newSize && newQty) {
       setVariants([...variants, { size: newSize, qty: parseInt(newQty) }]);
@@ -38,13 +53,38 @@ const InventoryPage = () => {
 
   const totalStock = variants.reduce((sum, v) => sum + v.qty, 0);
 
-  const inventory = [
-    { id: 'PRD-001', name: 'Cotton Summer Dress', category: 'Dresses', buying: 1500, selling: 2500, stock: 15, supplier: 'Global Textiles' },
-    { id: 'PRD-002', name: 'Men Silk Tie', category: 'Accessories', buying: 500, selling: 1200, stock: 42, supplier: 'Silk Road' },
-    { id: 'PRD-003', name: 'Linen Trousers', category: 'Pants', buying: 2200, selling: 3800, stock: 8, supplier: 'Quality Linens' },
-    { id: 'PRD-004', name: 'Classic White Shirt', category: 'Shirts', buying: 1200, selling: 2200, stock: 25, supplier: 'Shirt Co.' },
-    { id: 'PRD-005', name: 'School Uniform Set', category: 'Uniforms', buying: 1800, selling: 3500, stock: 5, supplier: 'Local Garments' },
-  ];
+  const handleSaveProduct = () => {
+    if (!prodName || !buyingPrice || !sellingPrice || variants.length === 0) {
+      alert('❌ Please complete all mandatory fields and add at least one size!');
+      return;
+    }
+
+    const newProduct = {
+      id: `PRD-00${inventoryData.length + 1}`,
+      name: prodName,
+      category: prodCategory,
+      buying: parseInt(buyingPrice),
+      selling: parseInt(sellingPrice),
+      stock: totalStock,
+      supplier: prodSupplier
+    };
+
+    setInventoryData([newProduct, ...inventoryData]);
+    setShowModal(false);
+    
+    // Reset Form
+    setProdName('');
+    setProdSupplier('');
+    setBuyingPrice('');
+    setSellingPrice('');
+    setVariants([]);
+    
+    alert('🎉 Product Successfully Added to Digital Vault!');
+  };
+
+  const totalProductsCount = inventoryData.length;
+  const totalInventoryValue = inventoryData.reduce((sum, item) => sum + (item.selling * item.stock), 0);
+  const lowStockCount = inventoryData.filter(item => item.stock < 10).length;
 
   return (
     <div className="bg-slate-50 min-h-screen relative overflow-x-hidden">
@@ -80,9 +120,9 @@ const InventoryPage = () => {
         {/* Inventory Stats */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
           {[
-            { label: 'Total Products', value: '1,245', icon: <Package size={20} className="text-blue-500" />, color: 'bg-blue-50' },
-            { label: 'Total Value', value: 'KSh 1.2M', icon: <Package size={20} className="text-emerald-500" />, color: 'bg-emerald-50' },
-            { label: 'Low Stock Items', value: '12', icon: <AlertTriangle size={20} className="text-rose-500" />, color: 'bg-rose-50' },
+            { label: 'Total Products', value: totalProductsCount.toLocaleString(), icon: <Package size={20} className="text-blue-500" />, color: 'bg-blue-50' },
+            { label: 'Total Value', value: `KSh ${(totalInventoryValue / 1000000).toFixed(1)}M`, icon: <Package size={20} className="text-emerald-500" />, color: 'bg-emerald-50' },
+            { label: 'Low Stock Items', value: lowStockCount.toString(), icon: <AlertTriangle size={20} className="text-rose-500" />, color: 'bg-rose-50' },
           ].map((stat, i) => (
             <div key={i} className="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm flex items-center gap-4">
               <div className={`w-11 h-11 ${stat.color} rounded-xl flex items-center justify-center`}>
@@ -134,7 +174,7 @@ const InventoryPage = () => {
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-50">
-                {inventory.filter(p => p.name.toLowerCase().includes(searchTerm.toLowerCase()) || p.id.toLowerCase().includes(searchTerm.toLowerCase())).map((row) => (
+                {inventoryData.filter(p => p.name.toLowerCase().includes(searchTerm.toLowerCase()) || p.id.toLowerCase().includes(searchTerm.toLowerCase())).map((row) => (
                   <tr key={row.id} className="hover:bg-slate-50/50 transition-colors group">
                     <td className="px-6 py-3">
                       <div className="flex items-center gap-3">
@@ -245,6 +285,8 @@ const InventoryPage = () => {
                       <input 
                         type="text" 
                         required
+                        value={prodName}
+                        onChange={(e) => setProdName(e.target.value)}
                         placeholder="e.g., Luxury Silk Evening Gown" 
                         className="w-full px-6 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-4 focus:ring-blue-500/10 focus:bg-white focus:border-blue-500 transition-all font-black text-lg placeholder:font-bold placeholder:text-slate-300" 
                       />
@@ -283,8 +325,12 @@ const InventoryPage = () => {
                         <div className="grid grid-cols-2 gap-4">
                           <div className="space-y-2">
                             <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Category *</label>
-                            <select required className="w-full px-5 py-3 bg-white border border-slate-200 rounded-xl focus:ring-4 focus:ring-blue-500/10 transition-all font-bold text-sm appearance-none">
-                              <option value="">Select Category</option>
+                            <select 
+                              required 
+                              value={prodCategory}
+                              onChange={(e) => setProdCategory(e.target.value)}
+                              className="w-full px-5 py-3 bg-white border border-slate-200 rounded-xl focus:ring-4 focus:ring-blue-500/10 transition-all font-bold text-sm appearance-none"
+                            >
                               <option>Dresses</option>
                               <option>Suits</option>
                               <option>Shirts</option>
@@ -295,7 +341,14 @@ const InventoryPage = () => {
                           </div>
                           <div className="space-y-2">
                             <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Supplier *</label>
-                            <input type="text" required placeholder="Global Garments Ltd" className="w-full px-5 py-3 bg-white border border-slate-200 rounded-xl focus:ring-4 focus:ring-blue-500/10 transition-all font-bold text-sm" />
+                            <input 
+                              type="text" 
+                              required 
+                              value={prodSupplier}
+                              onChange={(e) => setProdSupplier(e.target.value)}
+                              placeholder="Global Garments Ltd" 
+                              className="w-full px-5 py-3 bg-white border border-slate-200 rounded-xl focus:ring-4 focus:ring-blue-500/10 transition-all font-bold text-sm" 
+                            />
                           </div>
                         </div>
                       </div>
@@ -311,14 +364,28 @@ const InventoryPage = () => {
                             <p className="text-[10px] font-black text-emerald-600 uppercase tracking-widest">Buying Price</p>
                             <div className="flex items-center gap-2">
                               <span className="text-sm font-black text-emerald-600/60">KSh</span>
-                              <input type="number" required placeholder="0" className="w-full bg-transparent border-none p-0 focus:ring-0 text-xl font-black text-emerald-700 placeholder:text-emerald-200" />
+                              <input 
+                                type="number" 
+                                required 
+                                value={buyingPrice}
+                                onChange={(e) => setBuyingPrice(e.target.value)}
+                                placeholder="0" 
+                                className="w-full bg-transparent border-none p-0 focus:ring-0 text-xl font-black text-emerald-700 placeholder:text-emerald-200" 
+                              />
                             </div>
                           </div>
                           <div className="p-5 bg-blue-50/30 border border-blue-100 rounded-3xl space-y-2 focus-within:ring-4 focus-within:ring-blue-500/10 transition-all">
                             <p className="text-[10px] font-black text-blue-600 uppercase tracking-widest">Selling Price</p>
                             <div className="flex items-center gap-2">
                               <span className="text-sm font-black text-blue-600/60">KSh</span>
-                              <input type="number" required placeholder="0" className="w-full bg-transparent border-none p-0 focus:ring-0 text-xl font-black text-blue-700 placeholder:text-blue-200" />
+                              <input 
+                                type="number" 
+                                required 
+                                value={sellingPrice}
+                                onChange={(e) => setSellingPrice(e.target.value)}
+                                placeholder="0" 
+                                className="w-full bg-transparent border-none p-0 focus:ring-0 text-xl font-black text-blue-700 placeholder:text-blue-200" 
+                              />
                             </div>
                           </div>
                         </div>
@@ -404,14 +471,7 @@ const InventoryPage = () => {
               <div className="p-6 md:p-8 bg-slate-50 border-t border-slate-100 flex justify-end gap-4 sticky bottom-0 z-10">
                 <button onClick={() => setShowModal(false)} className="px-6 py-3 bg-white border border-slate-200 text-slate-600 rounded-xl font-black text-xs hover:bg-white/80 transition-all uppercase tracking-widest">Cancel</button>
                 <button 
-                  onClick={() => { 
-                    if (variants.length === 0) {
-                      alert('❌ Mandatory Size Entry Required!');
-                      return;
-                    }
-                    alert('🎉 Stock Initialized Successfully! Items are now active in dispatch.'); 
-                    setShowModal(false); 
-                  }}
+                  onClick={handleSaveProduct}
                   className="px-10 py-3 premium-gradient text-white rounded-xl font-black text-xs shadow-xl shadow-blue-500/20 hover:shadow-blue-500/40 transition-all uppercase tracking-[0.2em]"
                 >
                   Initialize Stock
