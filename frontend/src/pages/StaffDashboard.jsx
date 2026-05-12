@@ -149,45 +149,43 @@ const StaffDashboard = () => {
             </button>
           </div>
 
-          {/* Product Grid - Dynamic & Synced */}
-          <div className="grid sm:grid-cols-2 xl:grid-cols-3 gap-4">
+          {/* Product Grid (High Density) */}
+          <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3 md:gap-4">
             {products.filter(p => p.name.toLowerCase().includes(searchTerm.toLowerCase())).map((product) => (
-              <div key={product.id} className="bg-white p-0 rounded-3xl border border-slate-100 shadow-sm hover:shadow-lg transition-all group overflow-hidden">
-                {/* Product Image Area */}
-                <div className="aspect-[4/3] bg-slate-100 relative overflow-hidden">
-                  <div className="absolute inset-0 flex items-center justify-center text-slate-300">
-                    {product.image ? (
-                      <img src={product.image} alt={product.name} className="w-full h-full object-cover" />
-                    ) : (
-                      <Package size={40} strokeWidth={1.5} />
-                    )}
+              <div key={product.id} className="bg-white rounded-[1.5rem] shadow-lg shadow-slate-200/40 border border-slate-100 overflow-hidden flex flex-col group hover:border-blue-500/50 transition-all">
+                {/* Visual Area (More Compact) */}
+                <div className="aspect-[4/3] bg-slate-50 relative overflow-hidden">
+                  {product.image ? (
+                    <img src={product.image} alt={product.name} className="w-full h-full object-contain p-2 group-hover:scale-105 transition-transform duration-500" />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center text-slate-200">
+                      <Package size={32} strokeWidth={1} />
+                    </div>
+                  )}
+                  {/* Stock Badge (Slim) */}
+                  <div className="absolute top-2 right-2 px-2 py-0.5 bg-white/90 backdrop-blur-md rounded-full border border-slate-100 shadow-sm">
+                    <p className={`text-[8px] font-black uppercase tracking-tight ${product.stock > 10 ? 'text-emerald-600' : 'text-rose-600'}`}>
+                      {product.stock} IN STOCK
+                    </p>
                   </div>
-                  <div className="absolute top-3 right-3">
-                    <span className={`px-2 py-1 rounded-lg text-[9px] font-black uppercase tracking-widest shadow-sm ${
-                      product.stock < 10 ? 'bg-rose-500 text-white' : 'bg-white/90 text-emerald-600 backdrop-blur-sm'
-                    }`}>
-                      {product.stock} in stock
-                    </span>
-                  </div>
-                  {/* Category Tag Overlay */}
-                  <div className="absolute bottom-3 left-3">
-                    <span className="px-2 py-1 bg-slate-900/40 backdrop-blur-md text-white rounded-lg text-[8px] font-black uppercase tracking-widest">
-                      {product.category}
-                    </span>
+                  {/* Category Chip (Mini) */}
+                  <div className="absolute bottom-2 left-2 px-2 py-0.5 bg-slate-900/10 backdrop-blur-md rounded-lg border border-white/20">
+                    <p className="text-[7px] font-black text-slate-700 uppercase tracking-widest">{product.category}</p>
                   </div>
                 </div>
 
-                <div className="p-4">
-                  <h3 className="text-sm font-black text-slate-900 truncate">{product.name}</h3>
+                {/* Content Area (High Density) */}
+                <div className="p-3 flex-1 flex flex-col">
+                  <h3 className="text-[11px] font-black text-slate-900 truncate uppercase tracking-tight mb-2">{product.name}</h3>
                   
                   {product.variantsList && product.variantsList.length > 0 ? (
-                    <div className="mt-3 mb-4 space-y-2">
-                      <div className="flex justify-between items-center px-1">
-                        <label className={`text-[9px] font-black uppercase tracking-widest ${validationErrors[product.id] ? 'text-rose-500' : 'text-slate-400'}`}>
-                          Choose Size *
+                    <div className="mb-3 space-y-1.5">
+                      <div className="flex justify-between items-center px-0.5">
+                        <label className={`text-[8px] font-black uppercase tracking-widest ${validationErrors[product.id] ? 'text-rose-500' : 'text-slate-400'}`}>
+                          Size *
                         </label>
                         {validationErrors[product.id] && (
-                          <span className="text-[8px] font-black text-rose-500 uppercase animate-pulse">Required *</span>
+                          <span className="text-[7px] font-black text-rose-500 uppercase animate-pulse">Required</span>
                         )}
                       </div>
                       <select 
@@ -201,13 +199,13 @@ const StaffDashboard = () => {
                             setValidationErrors(newErrors);
                           }
                         }}
-                        className={`w-full px-4 py-2 bg-slate-50 border rounded-xl text-xs font-black transition-all appearance-none cursor-pointer ${
+                        className={`w-full px-2 py-1.5 bg-slate-50 border rounded-lg text-[10px] font-black transition-all appearance-none cursor-pointer ${
                           validationErrors[product.id] 
-                          ? 'border-rose-500 bg-rose-50/30 text-rose-700 ring-4 ring-rose-500/10' 
-                          : 'border-slate-200 text-slate-700 focus:ring-4 focus:ring-blue-500/10 focus:bg-white'
+                          ? 'border-rose-500 bg-rose-50/30 text-rose-700' 
+                          : 'border-slate-200 text-slate-700 focus:ring-4 focus:ring-blue-500/10'
                         }`}
                       >
-                        <option value="">-- Select Size --</option>
+                        <option value="">-- Choose --</option>
                         {product.variantsList.map((v, vIdx) => (
                           <option key={vIdx} value={vIdx}>
                             {v.size} - KSh {v.price.toLocaleString()}
@@ -216,13 +214,15 @@ const StaffDashboard = () => {
                       </select>
                     </div>
                   ) : (
-                    <p className="text-[10px] text-blue-600 font-black uppercase tracking-widest mt-0.5 mb-3">Size: {product.size || 'N/A'}</p>
+                    <div className="mb-3 h-[38px] flex items-center">
+                       <p className="text-[9px] text-blue-600 font-black uppercase tracking-widest">Size: {product.size || 'N/A'}</p>
+                    </div>
                   )}
                   
-                  <div className="flex justify-between items-center pt-3 border-t border-slate-50">
+                  <div className="mt-auto pt-2 border-t border-slate-50 flex justify-between items-center">
                     <div>
-                      <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">Price</p>
-                      <span className="text-sm font-black text-slate-900">
+                      <p className="text-[7px] font-black text-slate-400 uppercase tracking-widest mb-0.5">Price</p>
+                      <span className="text-xs font-black text-slate-900">
                         KSh {
                           product.variantsList && selectedSizes[product.id] !== undefined
                           ? product.variantsList[selectedSizes[product.id]].price.toLocaleString()
@@ -233,13 +233,13 @@ const StaffDashboard = () => {
                     <button 
                       onClick={() => addToCart(product)}
                       disabled={product.stock <= 0}
-                      className={`p-2 rounded-lg transition-all active:scale-95 ${
+                      className={`p-1.5 rounded-lg transition-all active:scale-95 ${
                         product.stock > 0 
-                        ? 'bg-slate-900 text-white hover:bg-blue-600 shadow-lg shadow-slate-900/10' 
+                        ? 'bg-slate-900 text-white hover:bg-blue-600 shadow-md' 
                         : 'bg-slate-100 text-slate-300 cursor-not-allowed'
                       }`}
                     >
-                      <Plus size={16} />
+                      <Plus size={14} />
                     </button>
                   </div>
                 </div>
