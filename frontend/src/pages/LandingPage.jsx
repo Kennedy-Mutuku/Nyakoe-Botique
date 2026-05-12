@@ -97,11 +97,6 @@ const LandingPage = () => {
           isMenuOpen ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4 pointer-events-none'
         }`}>
           <div className="p-10 flex flex-col gap-10">
-            {/* Mobile Menu Logo */}
-            <div className="border-b border-black/5 pb-6">
-              <img src={logo} alt="NYAKOE" className="h-10 w-auto grayscale" />
-            </div>
-
             <div className="flex flex-col gap-6">
               {['Management', 'Tailoring', 'Inventory', 'Insights'].map((item, i) => (
                 <a 
