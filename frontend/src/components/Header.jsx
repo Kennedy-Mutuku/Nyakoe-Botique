@@ -71,25 +71,36 @@ const Header = () => {
           
           {/* Management Desktop Navigation - Expansive & Underlined */}
           {isLoggedIn && (
-            <div className="hidden lg:flex items-center gap-6 xl:gap-10 ml-8">
-              {menuItems.map((item, idx) => (
+            <div className="hidden lg:flex items-center justify-center flex-1 px-8">
+              <div className="flex items-center gap-8 xl:gap-12">
                 <NavLink
-                  key={idx}
-                  to={item.path}
+                  to={user?.role === 'admin' ? '/admin' : '/staff'}
                   className={({ isActive }) => `
-                    flex items-center gap-2.5 py-6 px-1 text-[10px] font-black uppercase tracking-[0.2em] transition-all relative group
-                    border-b-2 
-                    ${isActive 
-                      ? 'text-blue-600 border-blue-600' 
-                      : 'text-slate-400 border-transparent hover:text-slate-900 hover:border-slate-200'}
+                    text-[10px] font-black uppercase tracking-[0.3em] transition-all py-1 border-b-2
+                    ${isActive ? 'text-blue-600 border-blue-600' : 'text-slate-400 border-transparent hover:text-slate-900'}
                   `}
                 >
-                  <span className={`transition-transform group-hover:-translate-y-0.5`}>
-                    {item.icon}
-                  </span>
-                  <span>{item.label}</span>
+                  Home
                 </NavLink>
-              ))}
+                {menuItems.map((item, idx) => (
+                  <NavLink
+                    key={idx}
+                    to={item.path}
+                    className={({ isActive }) => `
+                      flex items-center gap-2.5 py-6 px-1 text-[10px] font-black uppercase tracking-[0.2em] transition-all relative group
+                      border-b-2 
+                      ${isActive 
+                        ? 'text-blue-600 border-blue-600' 
+                        : 'text-slate-400 border-transparent hover:text-slate-900 hover:border-slate-200'}
+                    `}
+                  >
+                    <span className={`transition-transform group-hover:-translate-y-0.5`}>
+                      {item.icon}
+                    </span>
+                    <span>{item.label}</span>
+                  </NavLink>
+                ))}
+              </div>
             </div>
           )}
 
