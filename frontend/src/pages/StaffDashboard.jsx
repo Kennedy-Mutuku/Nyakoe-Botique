@@ -108,7 +108,11 @@ const StaffDashboard = () => {
                 {/* Product Image Area */}
                 <div className="aspect-[4/3] bg-slate-100 relative overflow-hidden">
                   <div className="absolute inset-0 flex items-center justify-center text-slate-300">
-                    <Package size={40} strokeWidth={1.5} />
+                    {product.image ? (
+                      <img src={product.image} alt={product.name} className="w-full h-full object-cover" />
+                    ) : (
+                      <Package size={40} strokeWidth={1.5} />
+                    )}
                   </div>
                   <div className="absolute top-3 right-3">
                     <span className={`px-2 py-1 rounded-lg text-[9px] font-black uppercase tracking-widest shadow-sm ${

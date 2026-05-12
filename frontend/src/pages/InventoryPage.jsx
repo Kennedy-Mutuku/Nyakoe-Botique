@@ -49,6 +49,18 @@ const InventoryPage = () => {
   const [prodSupplier, setProdSupplier] = useState('');
   const [buyingPrice, setBuyingPrice] = useState('');
   const [sellingPrice, setSellingPrice] = useState('');
+  const [prodImage, setProdImage] = useState(null);
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setProdImage(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
   const addVariant = () => {
     if (newSize && newQty) {
@@ -77,7 +89,8 @@ const InventoryPage = () => {
       buying: parseInt(buyingPrice),
       selling: parseInt(sellingPrice),
       stock: totalStock,
-      supplier: prodSupplier
+      supplier: prodSupplier,
+      image: prodImage
     };
 
     setInventoryData([newProduct, ...inventoryData]);
@@ -89,6 +102,7 @@ const InventoryPage = () => {
     setBuyingPrice('');
     setSellingPrice('');
     setVariants([]);
+    setProdImage(null);
     
     alert('🎉 Product Successfully Added to Digital Vault!');
   };
@@ -189,8 +203,12 @@ const InventoryPage = () => {
                   <tr key={row.id} className="hover:bg-slate-50/50 transition-colors group">
                     <td className="px-6 py-3">
                       <div className="flex items-center gap-3">
-                        <div className="w-9 h-9 rounded-lg bg-slate-100 flex items-center justify-center text-slate-400 font-bold">
-                          <Package size={18} />
+                        <div className="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center text-slate-400 font-bold overflow-hidden">
+                          {row.image ? (
+                            <img src={row.image} alt="" className="w-full h-full object-cover" />
+                          ) : (
+                            <Package size={18} />
+                          )}
                         </div>
                         <div>
                           <p className="text-sm font-black text-slate-800">{row.name}</p>
@@ -312,18 +330,31 @@ const InventoryPage = () => {
                         <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1 flex items-center gap-2">
                           Visual Representation <span className="text-rose-500">* REQUIRED</span>
                         </label>
-                        <input type="file" id="photo-upload" className="hidden" accept="image/*" capture="environment" />
+                        <input 
+                          type="file" 
+                          id="photo-upload" 
+                          className="hidden" 
+                          accept="image/*" 
+                          capture="environment" 
+                          onChange={handleImageChange}
+                        />
                         <label 
                           htmlFor="photo-upload"
                           className="aspect-square bg-slate-50 border-2 border-dashed border-slate-200 rounded-[2.5rem] flex flex-col items-center justify-center gap-4 group hover:border-blue-400 hover:bg-blue-50/30 transition-all cursor-pointer overflow-hidden relative"
                         >
-                          <div className="w-16 h-16 bg-white rounded-2xl shadow-sm flex items-center justify-center text-slate-300 group-hover:text-blue-500 transition-all">
-                            <Plus size={32} />
-                          </div>
-                          <div className="text-center px-6">
-                            <p className="text-sm font-black text-slate-900">Upload Photo or Use Camera</p>
-                            <p className="text-[10px] font-bold text-slate-400 uppercase tracking-tight mt-1">PNG, JPG or Instant Snap</p>
-                          </div>
+                          {prodImage ? (
+                            <img src={prodImage} alt="Preview" className="w-full h-full object-cover" />
+                          ) : (
+                            <>
+                              <div className="w-16 h-16 bg-white rounded-2xl shadow-sm flex items-center justify-center text-slate-300 group-hover:text-blue-500 transition-all">
+                                <Plus size={32} />
+                              </div>
+                              <div className="text-center px-6">
+                                <p className="text-sm font-black text-slate-900">Upload Photo or Use Camera</p>
+                                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-tight mt-1">PNG, JPG or Instant Snap</p>
+                              </div>
+                            </>
+                          )}
                           {/* Camera Icon Overlay */}
                           <div className="absolute bottom-6 right-6 p-3 bg-white shadow-lg rounded-xl text-slate-400 group-hover:text-blue-500 transition-all">
                             <Camera size={20} />
