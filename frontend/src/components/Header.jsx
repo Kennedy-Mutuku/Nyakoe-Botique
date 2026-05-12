@@ -115,6 +115,14 @@ const Header = () => {
           {isLoggedIn ? (
             /* Logged In View - Simplified & Mobile Optimized */
             <div className="flex items-center gap-3 md:gap-6">
+              {/* Persistent Home Anchor */}
+              <button 
+                onClick={() => navigate('/')}
+                className="hidden md:block text-[10px] font-black uppercase tracking-[0.3em] text-slate-400 hover:text-black transition-all mr-2"
+              >
+                Home
+              </button>
+
               {/* User Identity Badge - Desktop Only */}
               <div className="hidden md:flex items-center gap-3 px-4 py-2 bg-slate-50 rounded-2xl border border-slate-100">
                 <div className="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center text-white text-xs font-black shadow-sm">
