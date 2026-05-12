@@ -448,7 +448,6 @@ const InventoryPage = () => {
                         </div>
                         
                         <div className="bg-white border border-slate-200 rounded-3xl overflow-hidden shadow-sm">
-                          <div className="p-4 bg-slate-50 border-b border-slate-200 grid grid-cols-3 gap-4">
                           <div className="p-4 bg-slate-50 border-b border-slate-200 grid grid-cols-4 gap-3">
                             <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Size Label</p>
                             <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Quantity</p>
