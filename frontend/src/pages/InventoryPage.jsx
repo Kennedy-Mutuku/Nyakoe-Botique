@@ -64,13 +64,15 @@ const InventoryPage = () => {
               <Download size={16} />
               <span>Export CSV</span>
             </button>
-            <button 
-              onClick={() => setShowModal(true)}
-              className="px-5 py-2 text-xs premium-gradient text-white rounded-xl font-black flex items-center gap-2 shadow-xl hover:shadow-blue-500/20 hover:-translate-y-0.5 transition-all active:scale-95"
-            >
-              <Plus size={16} />
-              <span>Add Product</span>
-            </button>
+            {user?.role === 'attendant' && (
+              <button 
+                onClick={() => setShowModal(true)}
+                className="px-5 py-2 text-xs premium-gradient text-white rounded-xl font-black flex items-center gap-2 shadow-xl hover:shadow-blue-500/20 hover:-translate-y-0.5 transition-all active:scale-95"
+              >
+                <Plus size={16} />
+                <span>Add Product</span>
+              </button>
+            )}
           </div>
         </header>
 
@@ -163,14 +165,18 @@ const InventoryPage = () => {
                       </span>
                     </td>
                     <td className="px-6 py-3 text-right">
-                      <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity justify-end">
-                        <button className="p-1.5 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all">
-                          <Edit3 size={14} />
-                        </button>
-                        <button className="p-1.5 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-all">
-                          <Trash2 size={14} />
-                        </button>
-                      </div>
+                      {user?.role === 'attendant' ? (
+                        <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity justify-end">
+                          <button className="p-1.5 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all">
+                            <Edit3 size={14} />
+                          </button>
+                          <button className="p-1.5 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-all">
+                            <Trash2 size={14} />
+                          </button>
+                        </div>
+                      ) : (
+                        <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest opacity-60">Read Only View</span>
+                      )}
                     </td>
                   </tr>
                 ))}
