@@ -75,18 +75,32 @@ const LandingPage = () => {
           </div>
         </div>
 
-        {/* Mobile Menu Overlay - Demure & Full Screen */}
-        <div className={`fixed inset-0 bg-white z-[55] transition-all duration-700 ease-[cubic-bezier(0.86,0,0.07,1)] ${
-          isMenuOpen ? 'translate-y-0' : '-translate-y-full'
+        {/* Mobile Drawer Backdrop */}
+        <div 
+          className={`fixed inset-0 bg-black/40 backdrop-blur-sm z-[55] transition-opacity duration-500 ${
+            isMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
+          }`}
+          onClick={() => setIsMenuOpen(false)}
+        />
+
+        {/* Mobile Side Drawer - Demure & Refined */}
+        <div className={`fixed top-0 right-0 h-full w-[300px] bg-white z-[60] shadow-2xl transition-transform duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] ${
+          isMenuOpen ? 'translate-x-0' : 'translate-x-full'
         }`}>
-          <div className="h-full flex flex-col justify-center px-12">
-            <div className="space-y-8">
+          <div className="p-8 h-full flex flex-col">
+            <div className="flex justify-end mb-16">
+              <button onClick={() => setIsMenuOpen(false)} className="text-black">
+                <X size={28} strokeWidth={1} />
+              </button>
+            </div>
+
+            <div className="space-y-8 flex-1">
               {['Management', 'Tailoring', 'Inventory', 'Insights'].map((item, i) => (
                 <a 
                   key={item} 
                   href="#" 
-                  className={`block text-5xl serif-font italic hover:translate-x-4 transition-transform duration-500 ${
-                    isMenuOpen ? 'opacity-100' : 'opacity-0'
+                  className={`block text-2xl serif-font italic transition-all duration-500 hover:translate-x-2 ${
+                    isMenuOpen ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-4'
                   }`}
                   style={{ transitionDelay: `${i * 100}ms` }}
                   onClick={() => setIsMenuOpen(false)}
@@ -96,18 +110,18 @@ const LandingPage = () => {
               ))}
             </div>
             
-            <div className={`mt-20 pt-12 border-t border-black/5 flex flex-col gap-6 transition-all duration-1000 ${
+            <div className={`mt-auto pt-8 border-t border-black/5 flex flex-col gap-4 transition-all duration-700 ${
               isMenuOpen ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
             }`}>
               <button 
                 onClick={() => { navigate('/login?role=attendant'); setIsMenuOpen(false); }}
-                className="btn-minimal btn-minimal-black w-full"
+                className="btn-minimal btn-minimal-black text-[10px] w-full"
               >
                 Staff Login
               </button>
               <button 
                 onClick={() => { navigate('/login?role=admin'); setIsMenuOpen(false); }}
-                className="btn-minimal w-full"
+                className="btn-minimal text-[10px] w-full"
               >
                 Admin Portal
               </button>
