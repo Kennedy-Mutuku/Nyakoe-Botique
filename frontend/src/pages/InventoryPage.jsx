@@ -23,6 +23,7 @@ const InventoryPage = () => {
   const [variants, setVariants] = useState([]);
   const [newSize, setNewSize] = useState('');
   const [newQty, setNewQty] = useState('');
+  const [newPrice, setNewPrice] = useState('');
 
   // Initial Data
   const initialItems = [
@@ -63,10 +64,15 @@ const InventoryPage = () => {
   };
 
   const addVariant = () => {
-    if (newSize && newQty) {
-      setVariants([...variants, { size: newSize, qty: parseInt(newQty) }]);
+    if (newSize && newQty && newPrice) {
+      setVariants([...variants, { 
+        size: newSize, 
+        qty: parseInt(newQty), 
+        price: parseInt(newPrice) 
+      }]);
       setNewSize('');
       setNewQty('');
+      setNewPrice('');
     }
   };
 
@@ -90,7 +96,8 @@ const InventoryPage = () => {
       selling: parseInt(sellingPrice),
       stock: totalStock,
       supplier: prodSupplier,
-      image: prodImage
+      image: prodImage,
+      variantsList: variants // Store the detailed variants
     };
 
     setInventoryData([newProduct, ...inventoryData]);
@@ -442,13 +449,15 @@ const InventoryPage = () => {
                         
                         <div className="bg-white border border-slate-200 rounded-3xl overflow-hidden shadow-sm">
                           <div className="p-4 bg-slate-50 border-b border-slate-200 grid grid-cols-3 gap-4">
+                          <div className="p-4 bg-slate-50 border-b border-slate-200 grid grid-cols-4 gap-3">
                             <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Size Label</p>
                             <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Quantity</p>
+                            <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Price</p>
                             <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest text-right">Action</p>
                           </div>
                           <div className="max-h-[200px] overflow-y-auto divide-y divide-slate-100">
                             {/* Entry Row */}
-                            <div className="p-4 grid grid-cols-3 gap-4 items-center bg-blue-50/10">
+                            <div className="p-4 grid grid-cols-1 md:grid-cols-4 gap-3 items-center bg-blue-50/10">
                               <select 
                                 value={newSize}
                                 onChange={(e) => setNewSize(e.target.value)}
@@ -472,27 +481,36 @@ const InventoryPage = () => {
                                 placeholder="Qty" 
                                 className="bg-white border border-slate-200 rounded-lg py-2 px-3 text-sm font-bold w-full" 
                               />
+                              <input 
+                                type="number" 
+                                value={newPrice}
+                                onChange={(e) => setNewPrice(e.target.value)}
+                                placeholder="Price" 
+                                className="bg-white border border-slate-200 rounded-lg py-2 px-3 text-sm font-bold w-full" 
+                              />
                               <div className="flex justify-end">
                                 <button 
                                   onClick={addVariant}
-                                  className="px-4 py-2 bg-blue-600 text-white rounded-lg transition-all font-black text-[10px] uppercase shadow-sm active:scale-95 disabled:opacity-50"
-                                  disabled={!newSize || !newQty}
+                                  className="w-full md:w-auto px-6 py-2 bg-blue-600 text-white rounded-lg transition-all font-black text-[10px] uppercase shadow-sm active:scale-95 disabled:opacity-50"
+                                  disabled={!newSize || !newQty || !newPrice}
                                 >
-                                  Add
+                                  Add Size
                                 </button>
                               </div>
                             </div>
 
                             {/* Dynamic List */}
                             {variants.length === 0 ? (
-                              <div className="p-4 flex flex-col items-center justify-center text-slate-300 py-8 italic text-xs font-medium">
-                                Minimum 1 size variant required...
+                              <div className="p-4 flex flex-col items-center justify-center text-slate-300 py-8 italic text-xs font-medium text-center">
+                                Minimum 1 size variant required...<br/>
+                                <span className="text-[10px] uppercase mt-2 font-black not-italic text-blue-400">Add size, quantity and specific price above</span>
                               </div>
                             ) : (
                               variants.map((v, idx) => (
-                                <div key={idx} className="p-4 grid grid-cols-3 gap-4 items-center hover:bg-slate-50 transition-colors">
+                                <div key={idx} className="p-4 grid grid-cols-1 md:grid-cols-4 gap-3 items-center hover:bg-slate-50 transition-colors">
                                   <span className="text-sm font-black text-slate-700 uppercase">{v.size}</span>
                                   <span className="text-sm font-black text-blue-600">{v.qty} <span className="text-[10px] text-slate-400 ml-1 uppercase">pieces</span></span>
+                                  <span className="text-sm font-black text-emerald-600">KSh {Number(v.price).toLocaleString()}</span>
                                   <div className="flex justify-end">
                                     <button onClick={() => removeVariant(idx)} className="p-2 text-rose-500 hover:bg-rose-50 rounded-lg transition-all">
                                       <Trash2 size={14} />

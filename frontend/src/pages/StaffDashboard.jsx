@@ -19,6 +19,7 @@ const StaffDashboard = () => {
   const [cart, setCart] = useState([]);
   const [paymentMethod, setPaymentMethod] = useState('cash');
   const [discount, setDiscount] = useState(0);
+  const [selectedSizes, setSelectedSizes] = useState({}); // Tracking selection per product {productId: variantIndex}
 
   // Load from LocalStorage to stay in sync with Inventory Page
   const [products, setProducts] = useState(() => {
@@ -38,7 +39,23 @@ const StaffDashboard = () => {
   }, [products]);
 
   const addToCart = (product) => {
-    setCart([...cart, { ...product, price: product.selling || product.price }]);
+    const sizeIndex = selectedSizes[product.id];
+    
+    if (product.variantsList && product.variantsList.length > 0) {
+      if (sizeIndex === undefined) {
+        alert('⚠️ Please select a size first!');
+        return;
+      }
+      const variant = product.variantsList[sizeIndex];
+      setCart([...cart, { 
+        ...product, 
+        name: `${product.name} (${variant.size})`,
+        price: variant.price,
+        selectedSize: variant.size
+      }]);
+    } else {
+      setCart([...cart, { ...product, price: product.selling || product.price }]);
+    }
   };
 
   const removeFromCart = (index) => {
@@ -131,10 +148,41 @@ const StaffDashboard = () => {
 
                 <div className="p-4">
                   <h3 className="text-sm font-black text-slate-900 truncate">{product.name}</h3>
-                  <p className="text-[10px] text-blue-600 font-black uppercase tracking-widest mt-0.5 mb-3">Size: {product.size || 'N/A'}</p>
+                  
+                  {product.variantsList && product.variantsList.length > 0 ? (
+                    <div className="mt-3 mb-4 space-y-2">
+                      <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest ml-1">Select Size</p>
+                      <div className="flex flex-wrap gap-2">
+                        {product.variantsList.map((v, vIdx) => (
+                          <button
+                            key={vIdx}
+                            onClick={() => setSelectedSizes({...selectedSizes, [product.id]: vIdx})}
+                            className={`px-3 py-1.5 rounded-lg text-[10px] font-black transition-all border ${
+                              selectedSizes[product.id] === vIdx
+                              ? 'bg-blue-600 border-blue-600 text-white shadow-md'
+                              : 'bg-white border-slate-200 text-slate-600 hover:border-blue-400'
+                            }`}
+                          >
+                            {v.size}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  ) : (
+                    <p className="text-[10px] text-blue-600 font-black uppercase tracking-widest mt-0.5 mb-3">Size: {product.size || 'N/A'}</p>
+                  )}
                   
                   <div className="flex justify-between items-center pt-3 border-t border-slate-50">
-                    <span className="text-sm font-black text-slate-900">KSh {(product.selling || product.price).toLocaleString()}</span>
+                    <div>
+                      <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">Price</p>
+                      <span className="text-sm font-black text-slate-900">
+                        KSh {
+                          product.variantsList && selectedSizes[product.id] !== undefined
+                          ? product.variantsList[selectedSizes[product.id]].price.toLocaleString()
+                          : (product.selling || product.price).toLocaleString()
+                        }
+                      </span>
+                    </div>
                     <button 
                       onClick={() => addToCart(product)}
                       disabled={product.stock <= 0}
