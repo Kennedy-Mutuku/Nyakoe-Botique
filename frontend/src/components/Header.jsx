@@ -26,7 +26,7 @@ const Header = () => {
     { icon: <Receipt size={14} />, label: 'Expenses', path: '/admin/expenses' },
   ] : [
     { icon: <LayoutDashboard size={14} />, label: 'Dashboard', path: '/staff/dashboard' },
-    { icon: <Package size={14} />, label: 'Stock View', path: '/staff/inventory' },
+    { icon: <Package size={14} />, label: 'Stock Management', path: '/staff/inventory' },
     { icon: <Scissors size={14} />, label: 'Tailoring', path: '/staff/tailoring' },
     { icon: <Users size={14} />, label: 'Customers', path: '/staff/customers' },
   ];
