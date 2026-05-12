@@ -60,11 +60,13 @@ const Sidebar = () => {
         />
       )}
 
-      {/* Sidebar Container - Compact width & Tight vertical flow */}
+      {/* Sidebar Container - Floating Dropdown style for Mobile */}
       <div className={`
-        fixed left-0 top-[114px] h-[calc(100vh-114px)] bg-white border-r border-slate-100 flex flex-col z-40
-        transition-all duration-300 ease-in-out
-        ${isOpen ? 'translate-x-0 w-56' : '-translate-x-full lg:translate-x-0 lg:w-56 lg:visible invisible'}
+        fixed left-0 top-[114px] bg-white border-r border-slate-100 flex flex-col z-40
+        transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)]
+        ${isOpen 
+          ? 'translate-x-0 w-56 h-auto max-h-[calc(100vh-140px)] rounded-br-[2.5rem] shadow-2xl visible' 
+          : '-translate-x-full lg:translate-x-0 lg:w-56 lg:h-[calc(100vh-114px)] lg:visible invisible'}
       `}>
         <div className="p-5 border-b border-slate-50">
           <p className="text-[9px] font-black text-blue-600 uppercase tracking-[0.3em] opacity-80">Management</p>
